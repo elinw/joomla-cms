@@ -91,7 +91,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		  						<?php echo $this->form->getLabel('position'); ?>
 		  						</div>
 		  						<div class="controls">
-		  							<?php echo $this->loadTemplate('positions'); ?>
+		  							<?php echo $this->form->getInput('position'); ?>
 		  						</div>
 		  				</div>
 		  				<div class="control-group">
