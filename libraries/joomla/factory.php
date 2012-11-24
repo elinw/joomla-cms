@@ -226,6 +226,17 @@ abstract class JFactory
 			$instance = JUser::getInstance($id);
 		}
 
+		if ($instance->get('_authGroups') != JUserHelper::getUserGroups($instance->id))
+		{
+			$instance->groups = JUserHelper::getUserGroups($instance->id);
+			$instance->authlevels = JAccess::getAuthorisedViewLevels($instance->id) ;
+		}
+
+		if ($instance->params != JUserHelper::getUserParams($instance->id))
+		{
+			$instance->params = JUserHelper::getUserParams($instance->id);
+		}
+
 		return $instance;
 	}
 

@@ -201,7 +201,7 @@ abstract class JUserHelper
 			$userId	= $user->id;
 		}
 
-		// Get the dispatcher and load the user's plugins.
+		// Get the dispatcher and load the user plugins
 		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
@@ -554,9 +554,9 @@ abstract class JUserHelper
 	/**
 	 * Converts hexadecimal string to binary data.
 	 *
-	 * @param   string  $hex  Hex data.
+	 * @param   string  $hex  Hex data
 	 *
-	 * @return  string  Binary data.
+	 * @return  string  Binary data
 	 *
 	 * @since   11.1
 	 */
@@ -570,5 +570,22 @@ abstract class JUserHelper
 			$bin .= chr(array_shift($tmp));
 		}
 		return $bin;
+	}
+
+	/**
+	 * Method to get the parameters for a user
+	 *
+	 * @param   integer  $userId  The id of the user
+	 *
+	 * @return  array    List of groups
+	 *
+	 * @since   11.1
+	 */
+	public static function getUserParams($userId)
+	{
+		// Get the user object.
+		$user = JUser::getInstance((int) $userId);
+
+		return isset($user->params) ? $user->params : '{}';
 	}
 }
