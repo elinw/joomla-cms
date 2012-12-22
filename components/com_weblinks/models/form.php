@@ -65,5 +65,6 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->get('layout'));
+
 	}
 }
