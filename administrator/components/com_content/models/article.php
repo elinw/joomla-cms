@@ -287,6 +287,9 @@ class ContentModelArticle extends JModelAdmin
 			$item->urls = $registry->toArray();
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
+
+			$item->tags = new JTagsHelper;
+			$item->tags->getTagIds($item->id, 'com_content.article');
 		}
 
 		// Load associated content items
@@ -308,9 +311,6 @@ class ContentModelArticle extends JModelAdmin
 
 			}
 		}
-
-		require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-		$item->tags = TagsHelper::getTagIds($item->id, 'com_content.article');
 
 		return $item;
 	}

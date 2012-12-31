@@ -48,8 +48,10 @@ class ContentViewArticle extends JViewLegacy
 			return false;
 		}
 
+//$this->tagLayout      = new JLayoutFile('joomla.content.tags');
+
 		// Create a shortcut for $item.
-		$item = &$this->item;
+		$item = $this->item;
 
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
@@ -136,10 +138,11 @@ class ContentViewArticle extends JViewLegacy
 		else  {
 			$item->text = $item->introtext;
 		}
+		$item->tags = new JTagsHelper;
+		$item->tags->getItemTags('com_content.article.' . $this->item->id); 
 
-		//
 		// Process the content plugins.
-		//
+
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 

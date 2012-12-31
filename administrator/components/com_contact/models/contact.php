@@ -415,9 +415,9 @@ class ContactModelContact extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			$db = JFactory::getDbo();
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			$item->tags = TagsHelper::getTagIds($item->id, 'com_contact.contact');
 
+			$item->tags = new JTagsHelper;
+			$item->tags->getTagIds($item->id, 'com_contact.contact');
 		}
 
 		return $item;
@@ -536,6 +536,7 @@ class ContactModelContact extends JModelAdmin
 	}
 
 	/**
+
 	 * Prepare and sanitise the table prior to saving.
 	 *
 	 * @param   JTable	$table
@@ -581,6 +582,7 @@ class ContactModelContact extends JModelAdmin
 		$table->version++;
 
 	}
+
 
 	/**
 	 * A protected method to get a set of ordering conditions.
