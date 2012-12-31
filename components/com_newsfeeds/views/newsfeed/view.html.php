@@ -197,6 +197,9 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		$this->print = $print;
 
+		$item->tags = new JTagsHelper;
+		$item->tags->getItemTags('com_newsfeeds.newsfeed.' . $this->item->id); 
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
@@ -218,8 +221,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+<<<<<<< Upstream, based on master
 		if ($menu)
 		{
+=======
+
+		if ($menu) {
+>>>>>>> d2666a1 Work on front end tag display.
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		}
 		else
