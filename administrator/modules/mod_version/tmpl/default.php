@@ -10,5 +10,5 @@
 defined('_JEXEC') or die;
 
 if (!empty($version)) :
-echo '<p align="center">' . $version . '</p>';
+	echo '<p align="center">' . $version . '</p>';
 endif;

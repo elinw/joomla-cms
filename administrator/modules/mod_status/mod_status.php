@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-$config	= JFactory::getConfig();
+$config = JFactory::getConfig();
 $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
 $lang   = JFactory::getLanguage();
 $input  = JFactory::getApplication()->input;
 
 // Get the number of unread messages in your inbox.
-$query	= $db->getQuery(true);
+$query = $db->getQuery(true);
 $query->select('COUNT(*)');
 $query->from('#__messages');
-$query->where('state = 0 AND user_id_to = '.(int) $user->get('id'));
+$query->where('state = 0 AND user_id_to = ' . (int) $user->get('id'));
 
 $db->setQuery($query);
 $unread = (int) $db->loadResult();
@@ -47,7 +47,9 @@ else
 if ($unread)
 {
 	$inboxClass = 'unread-messages';
-} else {
+}
+else
+{
 	$inboxClass = 'no-unread-messages';
 }
 

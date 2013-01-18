@@ -18,17 +18,20 @@ defined('_JEXEC') or die;
  */
 class modFeedHelper
 {
+	/**
+	 * Get a feed.
+	 *
+	 * @param   JRegistry  $params  Parameters.
+	 *
+	 * @return JFeedReader|null|string
+	 */
 	static function getFeed($params)
 	{
-		// module params
-		$rssurl	= $params->get('rssurl', '');
+		// Module params
+		$rssurl	= $params->get('rssurl');
 
-		// get RSS parsed object
-		$cache_time = 0;
-		if ($params->get('cache'))
-		{
-			$cache_time  = $params->get('cache_time', 15) * 60;
-		}
+		$msg = '';
+		$rssDoc = null;
 
 		try
 		{
@@ -44,12 +47,17 @@ class modFeedHelper
 		{
 			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
+
 		if (empty($rssDoc))
 		{
 			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+		}
+
+		if ($msg)
+		{
 			return $msg;
 		}
-		$lists = array();
+
 		if ($rssDoc)
 		{
 			return $rssDoc;

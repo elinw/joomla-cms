@@ -43,7 +43,7 @@ class JAdminCssMenu extends JObject
 	 */
 	public function __construct()
 	{
-		$this->_root = new JMenuNode('ROOT');
+		$this->_root    = new JMenuNode('ROOT');
 		$this->_current = & $this->_root;
 	}
 
@@ -58,9 +58,10 @@ class JAdminCssMenu extends JObject
 	public function addChild(JMenuNode &$node, $setCurrent = false)
 	{
 		$this->_current->addChild($node);
+
 		if ($setCurrent)
 		{
-			$this->_current = &$node;
+			$this->_current = & $node;
 		}
 	}
 
@@ -71,7 +72,7 @@ class JAdminCssMenu extends JObject
 	 */
 	public function getParent()
 	{
-		$this->_current = &$this->_current->getParent();
+		$this->_current = & $this->_current->getParent();
 	}
 
 	/**
@@ -81,7 +82,7 @@ class JAdminCssMenu extends JObject
 	 */
 	public function reset()
 	{
-		$this->_current = &$this->_root;
+		$this->_current = & $this->_root;
 	}
 
 	public function addSeparator()
@@ -108,7 +109,8 @@ class JAdminCssMenu extends JObject
 		 */
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul ".$id." ".$class.">\n";
+			echo "<ul " . $id . " " . $class . ">\n";
+
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
@@ -131,6 +133,7 @@ class JAdminCssMenu extends JObject
 		 * Build the CSS class suffix
 		 */
 		$class = '';
+
 		if ($this->_current->hasChildren())
 		{
 			$class = ' class="dropdown"';
@@ -154,35 +157,38 @@ class JAdminCssMenu extends JObject
 		/*
 		 * Print the item
 		 */
-		echo "<li".$class.">";
+		echo "<li" . $class . ">";
 
 		/*
 		 * Print a link if it exists
 		 */
 
-		$linkClass = '';
-		$dataToggle = '';
+		$linkClass     = '';
+		$dataToggle    = '';
 		$dropdownCaret = '';
 
 		if ($this->_current->hasChildren())
+		{
+			$linkClass  = ' class="dropdown-toggle"';
+			$dataToggle = ' data-toggle="dropdown"';
+
+			if (!$this->_current->getParent()->hasParent())
 			{
-				$linkClass = ' class="dropdown-toggle"';
-				$dataToggle = ' data-toggle="dropdown"';
-				if(!$this->_current->getParent()->hasParent())
-				{
-					$dropdownCaret = ' <span class="caret"></span>';
-				}
+				$dropdownCaret = ' <span class="caret"></span>';
+			}
 		}
 
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title.$dropdownCaret."</a>";
-		} elseif ($this->_current->link != null && $this->_current->target == null)
+			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >" . $this->_current->title . $dropdownCaret . "</a>";
+		}
+		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
-			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\">".$this->_current->title.$dropdownCaret."</a>";
-		} elseif ($this->_current->title != null)
+			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\">" . $this->_current->title . $dropdownCaret . "</a>";
+		}
+		elseif ($this->_current->title != null)
 		{
-			echo "<a".$linkClass." ".$dataToggle.">".$this->_current->title.$dropdownCaret."</a>";
+			echo "<a" . $linkClass . " " . $dataToggle . ">" . $this->_current->title . $dropdownCaret . "</a>";
 		}
 		else
 		{
@@ -197,13 +203,16 @@ class JAdminCssMenu extends JObject
 			if ($this->_current->class)
 			{
 				$id = '';
+
 				if (!empty($this->_current->id))
 				{
-					$id = ' id="menu-'.strtolower($this->_current->id).'"';
+					$id = ' id="menu-' . strtolower($this->_current->id) . '"';
 				}
-				echo '<ul'.$id.' class="dropdown-menu menu-component">'."\n";
-			} else {
-				echo '<ul class="dropdown-menu">'."\n";
+				echo '<ul' . $id . ' class="dropdown-menu menu-component">' . "\n";
+			}
+			else
+			{
+				echo '<ul class="dropdown-menu">' . "\n";
 			}
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -219,10 +228,10 @@ class JAdminCssMenu extends JObject
 	 * Method to get the CSS class name for an icon identifier or create one if
 	 * a custom image path is passed as the identifier
 	 *
-	 * @access	public
-	 * @param   string	$identifier	Icon identification string
-	 * @return  string	CSS class name
+	 * @param   string  $identifier  Icon identification string
+	 *
 	 * @since   1.5
+	 * @return  string    CSS class name
 	 */
 	public function getIconClass($identifier)
 	{
@@ -243,9 +252,11 @@ class JAdminCssMenu extends JObject
 			if (substr($identifier, 0, 6) == 'class:')
 			{
 				// We were passed a class name
-				$class = substr($identifier, 6);
+				$class                = substr($identifier, 6);
 				$classes[$identifier] = "icon-16-$class";
-			} else {
+			}
+			else
+			{
 				if ($identifier == null)
 				{
 					return null;
@@ -254,13 +265,14 @@ class JAdminCssMenu extends JObject
 				$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 
-				$this->_css  .= "\n.icon-16-$class {\n" .
-						"\tbackground: url($identifier) no-repeat;\n" .
-						"}\n";
+				$this->_css .= "\n.icon-16-$class {\n" .
+					"\tbackground: url($identifier) no-repeat;\n" .
+					"}\n";
 
 				$classes[$identifier] = "icon-16-$class";
 			}
 		}
+
 		return $classes[$identifier];
 	}
 }
@@ -270,8 +282,8 @@ class JAdminCssMenu extends JObject
  *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
- * @since       1.5
  * @see         JAdminCssMenu
+ * @since       1.5
  */
 class JMenuNode extends JObject
 {
@@ -320,17 +332,18 @@ class JMenuNode extends JObject
 
 	public function __construct($title, $link = null, $class = null, $active = false, $target = null, $titleicon = null)
 	{
-		$this->title	= $titleicon ? $title.$titleicon : $title;
-		$this->link		= JFilterOutput::ampReplace($link);
-		$this->class	= $class;
-		$this->active	= $active;
+		$this->title  = $titleicon ? $title . $titleicon : $title;
+		$this->link   = JFilterOutput::ampReplace($link);
+		$this->class  = $class;
+		$this->active = $active;
 
 		$this->id = null;
+
 		if (!empty($link) && $link !== '#')
 		{
-			$uri = new JURI($link);
+			$uri    = new JURI($link);
 			$params = $uri->getQuery(true);
-			$parts = array();
+			$parts  = array();
 
 			foreach ($params as $name => $value)
 			{
@@ -340,7 +353,7 @@ class JMenuNode extends JObject
 			$this->id = implode('-', $parts);
 		}
 
-		$this->target	= $target;
+		$this->target = $target;
 	}
 
 	/**
@@ -362,13 +375,14 @@ class JMenuNode extends JObject
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param   JMenuNode   &$parent  The JMenuNode for parent to be set or null
+	 * @param   JMenuNode  &$parent  The JMenuNode for parent to be set or null
 	 *
 	 * @return  void
 	 */
 	public function setParent(JMenuNode &$parent = null)
 	{
 		$hash = spl_object_hash($this);
+
 		if (!is_null($this->_parent))
 		{
 			unset($this->_parent->children[$hash]);
