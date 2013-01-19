@@ -113,7 +113,7 @@ class TagsModelTags extends JModelList
 
 	/**
 	 * Method to create a query for a list of items.
-	 * 
+	 *
 	 * @return  string
 	 *
 	 * @since  3.1
@@ -220,5 +220,90 @@ class TagsModelTags extends JModelList
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
+	}
+	/**
+	 * Method override to check-in a record or an array of record
+	 *
+	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
+	 *
+	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
+	 *
+	 * @since   12.2
+	 */
+	public function checkin($pks = array())
+	{
+		$pks = (array) $pks;
+		$table = $this->getTable();
+		$count = 0;
+
+		if (empty($pks))
+		{
+			$pks = array((int) $this->getState($this->getName() . '.id'));
+		}
+
+		// Check in all items.
+		foreach ($pks as $pk)
+		{
+			if ($table->load($pk))
+			{
+
+				if ($table->checked_out > 0)
+				{
+					// Only attempt to check the row in if it exists.
+					if ($pk)
+					{
+						$user = JFactory::getUser();
+
+						// Get an instance of the row to checkin.
+						$table = $this->getTable();
+						if (!$table->load($pk))
+						{
+							$this->setError($table->getError());
+							return false;
+						}
+
+						// Check if this is the user having previously checked out the row.
+						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+						{
+							$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+							return false;
+						}
+
+						// Attempt to check the row in.
+						if (!$table->checkin($pk))
+						{
+							$this->setError($table->getError());
+							return false;
+						}
+					}
+
+					$count++;
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $type    The table name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JTable  A JTable object
+	 *
+	 * @since   3.1
+	 */
+	public function getTable($type = 'Tag', $prefix = 'TagsTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
 	}
 }
