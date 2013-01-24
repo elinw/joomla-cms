@@ -393,33 +393,33 @@ class ContactModelContact extends JModelAdmin
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
-		// Load associated contact items
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			// Load associated contact items
+			$app = JFactory::getApplication();
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
-		if ($assoc)
-		{
-			$item->associations = array();
-
-			if ($item->id != null)
+			if ($assoc)
 			{
-				$associations = ContactHelper::getAssociations($item->id);
+				$item->associations = array();
 
-				foreach ($associations as $tag => $association)
+				if ($item->id != null)
 				{
-					$item->associations[$tag] = $association->id;
-				}
+					$associations = ContactHelper::getAssociations($item->id);
 
+					foreach ($associations as $tag => $association)
+					{
+						$item->associations[$tag] = $association->id;
+					}
+
+				}
+			}
+			if ($item = parent::getItem($pk))
+			{
+				$db = JFactory::getDbo();
+
+				$item->tags = new JTagsHelper;
+				$item->tags->getTagIds($item->id, 'com_contact.contact');
 			}
 		}
-		if ($item = parent::getItem($pk))
-		{
-			$db = JFactory::getDbo();
-
-			$item->tags = new JTagsHelper;
-			$item->tags->getTagIds($item->id, 'com_contact.contact');
-		}
-
 		return $item;
 	}
 

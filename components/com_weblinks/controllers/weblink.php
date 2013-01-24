@@ -34,13 +34,9 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	public function add()
 	{
-<<<<<<< Upstream, based on master
+
 		if (!parent::add())
 		{
-=======
-
-		if (!parent::add()) {
->>>>>>> ca3d461 Adding a tags component
 			// Redirect to the return page.
 			$this->setRedirect($this->getReturnPage());
 		}
@@ -219,7 +215,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 		$task = $this->getTask();
 
-		$item = $model->getItem(); 
+		$item = $model->getItem();
 		$id = $item->get('id');
 		$tags = $validData['tags'];
 
@@ -249,7 +245,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 
 		$result = parent::save($key, $urlVar);
-		
+
 		// If ok, redirect to the return page.
 		if ($result)
 		{
