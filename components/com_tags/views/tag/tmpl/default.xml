@@ -17,6 +17,7 @@
 				description="COM_TAGS_FIELD_SELECT_TAG_DESC"
 				label="COM_TAGS_FIELD_TAG_LABEL"
 				required="true"
+				multiple="true"
 			/>
 		</fieldset>
 	</fields>
@@ -24,11 +25,29 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 
-<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+<fieldset name="basic" label="COM_TAGS_OPTIONS">
+
+			<field name="return_any_or_all" type="list"
+				label="COM_TAGS_SEARCH_TYPE_LABEL"
+				description="COM_TAGS_SEARCH_TYPE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">COM_TAGS_ALL</option>
+				<option value="1">COM_TAGS_ANY</option>
+			</field>
+
+			<field
+				name="maximum"
+				type="text"
+				default="200"
+				filter="integer"
+				label="COM_TAGS_LIST_MAX_LABEL"
+				description="COM_TAGS_LIST_MAX_DESC">
+			</field>
 
 			<field name="show_category_title" type="list"
-				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
+				description="COM_TAGS_SHOW_TAG_TITLE_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -36,8 +55,8 @@
 			</field>
 
 			<field name="show_description" type="list"
-				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+				description="COM_TAGS_SHOW_TAG_BODY_DESC"
+				label="COM_TAGS_SHOW_TAG_BODY_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -45,14 +64,14 @@
 			</field>
 
 			<field name="show_description_image" type="list"
-				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+				description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
+				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field name="show_tag_num_itemss" type="list"
+			<field name="show_tag_num_items" type="list"
 				label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
 				description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
 			>

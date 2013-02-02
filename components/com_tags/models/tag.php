@@ -20,7 +20,7 @@ class TagsModelTag extends JModelList
 {
 
 	/**
-	 * The tag that applies.
+	 * The tags that apply.
 	 *
 	 * @access  protected
 	 * @var     object
@@ -28,7 +28,7 @@ class TagsModelTag extends JModelList
 	protected $tag = null;
 
 	/**
-	 * The list of items associated with the tag.
+	 * The list of items associated with the tags.
 	 *
 	 * @access  protected
 	 * @var     array
@@ -36,7 +36,7 @@ class TagsModelTag extends JModelList
 	protected $items = null;
 
 	/**
-	 * Method to get a list of items for a tag.
+	 * Method to get a list of items for a list of tag.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
@@ -47,6 +47,8 @@ class TagsModelTag extends JModelList
 		// Invoke the parent getItems method to get the main list
 		$items = parent::getItems();
 
+		if ($items)
+		{
 			$contentTypes = new JTagsHelper;
 			$types = $contentTypes->getTypes('objectList');
 
@@ -67,7 +69,6 @@ class TagsModelTag extends JModelList
 				$fieldQuery[$type->table] = $type->fieldlist;
 
 				$tableArray[$type->table][0] = $type->fieldlist;
-
 			}
 
 			// Get the data from the content item source table.
@@ -96,6 +97,7 @@ class TagsModelTag extends JModelList
 					$linkArray[$linkPrefix][2] .= $item->content_id . ',';
 				}
 			}
+
 			if (empty($linkArray))
 			{
 				return false;
@@ -134,15 +136,15 @@ class TagsModelTag extends JModelList
 					$queryu->union($uquery);
 				}
 			}
-			if (!empty($queryu->union))
+
+			if ($queryu->union)
 			{
 				$unionString  = $queryu->union->__toString();
-				$queryStringu = $tablequeries[0] . $unionString . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC');
+				$queryStringu = $tablequeries[0] . $unionString . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 5);
 			}
 			else
 			{
-				// Need to make order by a variable.
-				$queryStringu = $tablequeries[0] . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC');
+				$queryStringu = $tablequeries[0] . ' ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 5);
 			}
 
 			// Initialize some variables.
@@ -150,10 +152,17 @@ class TagsModelTag extends JModelList
 
 			$queryf =  $dbf->getQuery(true);
 
+			// Until we have UNION ALL in the platform.
+			$queryStringu = str_replace('UNION ', 'UNION ALL ', $queryStringu);
 			$dbf->setQuery($queryStringu);
 			$itemsData = $dbf->loadObjectList();
 
-		return $itemsData;
+			return $itemsData;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -170,14 +179,19 @@ class TagsModelTag extends JModelList
 		// Need to decide on a model for access .. maybe just do an access IN groups condition
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$tagId = $this->getState('tag.id');
-		$tagTreeArray = implode(',', $this->getTagTreeArray($tagId));
+		$tagCount	= substr_count($tagId, ',') + 1;
+		$tagTreeArray = '';
 
+		if ($this->state->params->get('include_children') == 1)
+		{
+			$tagTreeArray = implode(',', $this->getTagTreeArray($tagId));
+		}
 		// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('*');
+		$query->select(array('*', ' COUNT(*) AS tagcount'));
 		$query->group($db->quoteName('a.item_name'));
 		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS a ');
 
@@ -188,7 +202,13 @@ class TagsModelTag extends JModelList
 		}
 		else
 		{
-			$query->where($db->quoteName('a.tag_id') . ' = ' . (int) $tagId);
+			$query->where($db->quoteName('a.tag_id') . ' IN (' .  $tagId . ')' );
+		}
+
+		// For AND search make sure the number matches, but if there is just one tag do not bother.
+		if ($this->state->params->get('return_any_or_all') == 0 && $tagCount > 1)
+		{
+			$query->having('tagcount = ' . $tagCount);
 		}
 		return $query;
 	}
@@ -205,8 +225,15 @@ class TagsModelTag extends JModelList
 		$app    = JFactory::getApplication('site');
 
 		// Load state from the request.
-		$pk = $app->input->getInt('id');
-		$this->setState('tag.id', $pk);
+		$pk = $app->input->getObject('id');
+		$pkString = '';
+		foreach ($pk as $id)
+		{
+			$pkString .= (int) $id . ',';
+		}
+		$pkString = rtrim($pkString, ',');
+
+		$this->setState('tag.id', $pkString);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);

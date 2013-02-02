@@ -45,10 +45,10 @@ class TagsViewTag extends JViewLegacy
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		/*if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
-		}
+		}*/
 
 		// Check whether access level allows access.
 		// TODO: SHould already be computed in $item->params->get('access-view')
@@ -59,7 +59,6 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		// Prepare the data.
-
 		$temp = new JRegistry;
 		$temp->loadString($item->params);
 		$item->params = clone($params);
@@ -77,7 +76,7 @@ class TagsViewTag extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		// Merge article params. If this is single-article view, menu params override article params
+		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
 		$this->params	= $this->state->get('params');
 		$active	= $app->getMenu()->getActive();
@@ -113,8 +112,8 @@ class TagsViewTag extends JViewLegacy
 			// Merge so that article params take priority
 			$temp->merge($item->params);
 			$item->params = $temp;
-			// Check for alternative layouts (since we are not in a single-article menu item)
-			// Single-article menu item layout takes priority over alt layout for an article
+			// Check for alternative layouts (since we are not in a single-tag menu item)
+			// Single-tag menu item layout takes priority over alt layout for an article
 			if ($layout = $item->params->get('tag_layout')) {
 				$this->setLayout($layout);
 			}
