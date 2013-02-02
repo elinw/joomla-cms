@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die;
 		{
 			foreach ($displayData->itemTags as $key=>$tag)
 			{
-				echo '<span class="tag-' . $key .'"><a href="index.php?option=com_tags&view=tag&id='. (int) $tag->tag_id .'" >' . $tag->title . ' </a></span>' ;
+				echo '<span class="tag-' . $key .'"><a href="index.php?option=com_tags&view=tag&id[0]='. (int) $tag->tag_id .'" >' . $tag->title . ' </a></span>' ;
 			}
 		} ?>
 </div>

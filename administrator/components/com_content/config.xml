@@ -247,6 +247,18 @@
 		/>
 
 		<field
+			id="show_tags"
+			name="show_tags"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+			description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="spacer2"
 			type="spacer"
 			hr="true"
@@ -446,18 +458,6 @@
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
-		</field>
-
-		<field
-			id="show_tags"
-			name="show_tags"
-			type="radio"
-			class="btn-group"
-			default="1"
-			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-			description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
