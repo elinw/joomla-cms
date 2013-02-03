@@ -71,7 +71,7 @@ INSERT INTO `#__content_types` (`type_id`, `title`, `alias`, `table`, `rules`, `
 (0, 'Contact', 'contact', '#__contact_details', '', '{"id":"id","title":"name","published":"published","alias":"alias","created_date":"created","modified_date":"modified","body":"address", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}'),
 (0, 'Newsfeed', 'newsfeed', '#__newsfeeds', '', '{"id":"id","title":"name","published":"published","alias":"alias","created_date":"created","modified_date":"modified","body":"description", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}'),
 (0, 'User', 'user', '#__users', '', '{"id":"id","title":"name","published":null,"alias":"username","created_date":"registerdate","modified_date":"null","body":"null", "hits":"hits","publish_up":"null","publish_down":"null","access":"null"}'),
-(0, 'Category', 'category', '#__categories', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}');
+(0, 'Category', 'category', '#__categories', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}'),
 (0, 'Tag', 'tag', '#__tags', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}');
 
 
