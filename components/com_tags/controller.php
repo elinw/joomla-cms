@@ -27,23 +27,23 @@ class TagsController extends JControllerLegacy
 	 * @return	JController		This object to support chaining.
 	 * @since	3.1
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = true, $urlparams = false)
 	{
-		$cachable	= true;	// Huh? Why not just put that in the constructor?
 		$user		= JFactory::getUser();
 
 		// Set the default view name and format from the Request.
-
-		$id    = $this->input->getInt('id');
+		$id = $this->input->getObject('id');
+		$id = (array) $id;
 		$vName = $this->input->get('view', 'tags');
 		$this->input->set('view', $vName);
 
-		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'tags')) {
+		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'tags'))
+		{
 			$cachable = false;
 		}
 
 		$safeurlparams = array(
-			'id'				=> 'INT',
+			'id'				=> 'ARRAY',
 			'limit'				=> 'UINT',
 			'limitstart'		=> 'UINT',
 			'filter_order'		=> 'CMD',

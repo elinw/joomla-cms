@@ -24,9 +24,7 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
-
-<fieldset name="basic" label="COM_TAGS_OPTIONS">
-
+	<fieldset name="basic" label="COM_TAGS_OPTIONS">
 			<field name="return_any_or_all" type="list"
 				label="COM_TAGS_SEARCH_TYPE_LABEL"
 				description="COM_TAGS_SEARCH_TYPE_DESC"
@@ -45,7 +43,7 @@
 				description="COM_TAGS_LIST_MAX_DESC">
 			</field>
 
-			<field name="show_category_title" type="list"
+			<field name="show_tag_title" type="list"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				description="COM_TAGS_SHOW_TAG_TITLE_DESC"
 			>
@@ -81,51 +79,53 @@
 			</field>
 		</fieldset>
 
-
-	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			<field name="spacer2" type="spacer" class="text"
-					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-			/>
-
-			<field	name="show_pagination_limit" type="list"
-			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			description="JGLOBAL_DISPLAY_SELECT_DESC">
-
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_headings" type="list"
-				description="JGLOBAL_SHOW_HEADINGS_DESC"
-				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+				<field name="spacer2" type="spacer" class="text"
+						label="JGLOBAL_SUBSLIDER_DRILL_TAGS_LABEL"
+				/>
+				<field name="show_body" type="list"
+					description="COM_TAGS_SHOW_ITEM_BODY_DESC"
+					label="COM_TAGS_SHOW_ITEM_BODY_LABEL"
+				>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field	name="show_pagination_limit" type="list"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+				description="JGLOBAL_DISPLAY_SELECT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+	
+				<field name="show_headings" type="list"
+					description="JGLOBAL_SHOW_HEADINGS_DESC"
+					label="JGLOBAL_SHOW_HEADINGS_LABEL"
+				>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+	
+				<field name="show_tag_description" type="list"
+				description="COM_TAGS_FIELD_CONFIG_TAGDESCRIPTION_DESC"
+				label="COM_TAGS_FIELD_CONFIG_TAGDESCRIPTION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field name="show_tag_description" type="list"
-
-			description="COM_TAGS_FIELD_CONFIG_TAGDESCRIPTION_DESC"
-			label="COM_TAGS_FIELD_CONFIG_TAGDESCRIPTION_LABEL"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field name="show_tag_hits" type="list"
-
-			description="COM_TAGS_FIELD_CONFIG_HITS_DESC"
-			label="JGLOBAL_HITS"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-
-		</field>
-
+	
+			<field name="show_tag_hits" type="list"
+				description="COM_TAGS_FIELD_CONFIG_HITS_DESC"
+				label="JGLOBAL_HITS"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+	
 			<field name="show_pagination" type="list"
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"
@@ -135,16 +135,15 @@
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
-
+	
 			<field name="show_pagination_results" type="list"
-
-			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			description="JGLOBAL_PAGINATION_RESULTS_DESC">
-
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				description="JGLOBAL_PAGINATION_RESULTS_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+			</field>
+	
 			<field name="orderby" type="list"
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
@@ -156,7 +155,7 @@
 				<option value="modified_date">JGLOBAL_MODIFIED_DATE</option>
 				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
 			</field>
-
+	
 			<field name="orderby_direction" type="list"
 				description="JGLOBAL_ORDER_DIRECTION_DESC"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
@@ -165,31 +164,29 @@
 				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
 				<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 			</field>
+	
+			<field name="include_children" type="list"
+				description="COM_TAGS_INCLUDE_CHILDREN_DESC"
+				label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
+				default="1"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">COM_TAGS_EXCLUDE</option>
+				<option value="1">COM_TAGS_INCLUDE</option>
+			</field>
+	
+		</fieldset>
 
-		<field name="include_children" type="list"
-			description="COM_TAGS_INCLUDE_CHILDREN_DESC"
-			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
-			default="1"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">COM_TAGS_EXCLUDE</option>
-			<option value="1">COM_TAGS_INCLUDE</option>
-		</field>
-
-	</fieldset>
-
-	<fieldset name="integration"
-	>
-
-		<field name="show_feed_link" type="list"
-			description="JGLOBAL_SHOW_FEED_LINK_DESC"
-			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-	</fieldset>
-</fields>
+		<fieldset name="integration">
+			<field name="show_feed_link" type="list"
+				description="JGLOBAL_SHOW_FEED_LINK_DESC"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+	
+		</fieldset>
+	</fields>
 </metadata>

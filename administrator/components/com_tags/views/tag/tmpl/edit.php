@@ -40,7 +40,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#general" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_DETAILS');?></a></li>
 				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_PUBLISHING');?></a></li>
-				<li><a href="#options" data-toggle="tab"><?php echo JText::_('CATEGORIES_FIELDSET_OPTIONS');?></a></li>
+				<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_OPTIONS');?></a></li>
 				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
 				<?php if ($this->assoc) : ?>
 					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>

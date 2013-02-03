@@ -44,7 +44,7 @@ class TagsViewTag extends JViewLegacy
 		$parent 	= $this->get('Parent');
 		$pagination	= $this->get('Pagination');
 
-		// Check for errors.
+		// Change to catch
 		/*if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
@@ -54,16 +54,20 @@ class TagsViewTag extends JViewLegacy
 		// TODO: SHould already be computed in $item->params->get('access-view')
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
-		if (!in_array($item->access, $groups)) {
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-		}
+		foreach ($item as $itemElement)
+		{
+			if (!in_array($itemElement->access, $groups))
+			{
+				unset($itemElement);
+			}
 
-		// Prepare the data.
-		$temp = new JRegistry;
-		$temp->loadString($item->params);
-		$item->params = clone($params);
-		$item->params->merge($temp);
-		$item->params = (array) json_decode($item->params);
+			// Prepare the data.
+			$temp = new JRegistry;
+			$temp->loadString($itemElement->params);
+			$itemElement->params = clone($params);
+			$itemElement->params->merge($temp);
+			$itemElement->params = (array) json_decode($itemElement->params);
+		}
 
 		$this->state      = &$state;
 		$this->items      = &$items;
@@ -85,8 +89,9 @@ class TagsViewTag extends JViewLegacy
 		// Check to see which parameters should take priority
 		if ($active) {
 			$currentLink = $active->link;
-			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id='.(string) $item->id))) {
+			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
+			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]='.(string) $item[0]->id)))
+			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$this->params->merge($temp);
@@ -95,7 +100,8 @@ class TagsViewTag extends JViewLegacy
 					$this->setLayout($active->query['layout']);
 				}
 			}
-			else {
+			else
+			{
 				// Current view is not a single article, so the article params take priority here
 				// Merge the menu item params with the article params so that the article params take priority
 				$temp->merge($item->params);
@@ -103,18 +109,21 @@ class TagsViewTag extends JViewLegacy
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $item->params->get('tag_layout')) {
+				if ($layout = $item->params->get('tag_layout'))
+				{
 					$this->setLayout($layout);
 				}
 			}
 		}
-		else {
+		else
+		{
 			// Merge so that article params take priority
-			$temp->merge($item->params);
-			$item->params = $temp;
+			$temp->merge($item[0]->params);
+			$item[0]->params = $temp;
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for an article
-			if ($layout = $item->params->get('tag_layout')) {
+			if ($layout = $item[0]->params->get('tag_layout'))
+			{
 				$this->setLayout($layout);
 			}
 		}
@@ -138,13 +147,13 @@ class TagsViewTag extends JViewLegacy
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if   ($menu)
+		if ($menu)
 		{
-			//$params->def('page_heading', $item->params->get('page_title', $menu->title));
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		}
 		else
 		{
-			//$params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
 		$id = (int) @$menu->query['id'];
@@ -154,11 +163,20 @@ class TagsViewTag extends JViewLegacy
 			$this->params->set('page_subheading', $item->title);
 		}
 
-			// If this is not a single article menu item, set the page title to the article title
-			if ($this->item->title) {
-				$title = $this->item->title;
+		// If this is not a single tag menu item, set the page title to the tag titles
+		$title = '';
+		foreach ($this->item as $i=> $itemElement)
+		{
+			if ($itemElement->title)
+			{
+				if ($i != 0)
+				{
+					$title .= ', ';
+				}
+				$title .= $itemElement->title;
 			}
-			$path = array(array('title' => $this->item->title, 'link' => ''));
+		}
+		$path = array(array('title' => $title, 'link' => ''));
 
 
 		if (empty($title))
@@ -176,43 +194,45 @@ class TagsViewTag extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		if ($this->item->metadesc)
+		foreach ($this->item as $j=> $itemElement)
 		{
-			$this->document->setDescription($this->item->metadesc);
-		}
-		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->item->metakey)
-		{
-			$this->document->setMetadata('keywords', $this->tag->metakey);
-		}
-		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
-
-		if ($app->getCfg('MetaAuthor') == '1')
-		{
-			$this->document->setMetaData('author', $this->item->created_user_id);
-		}
-
-		/* $mdata = $this->item->metadata->toArray();*/
-		/*foreach ($mdata as $k => $v)
-		{
-			if ($v)
+			if ($itemElement->metadesc)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setDescription($this->item->metadesc);
 			}
-		}*/
+			elseif ($itemElement->metadesc && $this->params->get('menu-meta_description'))
+			{
+				$this->document->setDescription($this->params->get('menu-meta_description'));
+			}
 
+			if ($itemElement->metakey)
+			{
+				$this->document->setMetadata('keywords', $this->tag->metakey);
+			}
+			elseif (!$itemElement->metakey && $this->params->get('menu-meta_keywords'))
+			{
+				$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			}
+
+			if ($this->params->get('robots'))
+			{
+				$this->document->setMetadata('robots', $this->params->get('robots'));
+			}
+
+			if ($app->getCfg('MetaAuthor') == '1')
+			{
+				$this->document->setMetaData('author', $itemElement->created_user_id);
+			}
+
+			/* $mdata = $this->item->metadata->toArray();*/
+			/*foreach ($mdata as $k => $v)
+			{
+				if ($v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
+			}*/
+		}
 
 		// TODO create tag feed document
 		// Add alternative feed link

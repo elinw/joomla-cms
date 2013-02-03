@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Create a shortcut for params.
-$params = &$this->item->params;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
@@ -41,9 +39,14 @@ $n = count($this->items);
 						<?php  echo '<a href="'. JRoute::_($item->urlprefix . $item->id) .'">'
 							. $item->title . '</a>';  ?>
 					<?php endif; ?>
-					<?php  if ($this->item->get('show_link_hits', 1)) : ?>
+					<?php  if ($this->state->get('show_link_hits', 1)) : ?>
 						<span class="list-hits badge badge-info pull-right">
 							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+						</span>
+					<?php endif; ?>
+					<?php  if ($this->state->get('show_item_body', 1)) : ?>
+						<span class="tag-body">
+							<?php echo $item->body; ?>
 						</span>
 					<?php endif; ?>
 
@@ -53,15 +56,15 @@ $n = count($this->items);
 		</ul>
 
 
-		<?php // if ($this->params->get('show_pagination')) : ?>
+		<?php if ($this->state->get('show_pagination')) : ?>
 		 <div class="pagination">
-			<?php // if ($this->params->def('show_pagination_results', 1)) : ?>
+			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 				<p class="counter">
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
-			<?php // endif; ?>
+			<?php endif; ?>
 				<?php echo $this->pagination->getPagesLinks(); ?>
 			</div>
-		<?php // endif; ?>
-	</form>
+		<?php endif; ?>
+
 <?php endif; ?>

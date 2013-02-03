@@ -184,7 +184,11 @@ class TagsModelTag extends JModelList
 
 		if ($this->state->params->get('include_children') == 1)
 		{
-			$tagTreeArray = implode(',', $this->getTagTreeArray($tagId));
+			$tagIdArray = explode(',', $tagId);
+			foreach ($tagIdArray as $tag)
+			{
+				$tagTreeArray = implode(',', $this->getTagTreeArray($tag));
+			}
 		}
 		// Create a new query object.
 		$db		= $this->getDbo();
@@ -210,6 +214,7 @@ class TagsModelTag extends JModelList
 		{
 			$query->having('tagcount = ' . $tagCount);
 		}
+
 		return $query;
 	}
 
@@ -250,7 +255,7 @@ class TagsModelTag extends JModelList
 	}
 
 	/**
-	 * Method to get tag data for the current tag
+	 * Method to get tag data for the current tag or tags
 	 *
 	 * @param   integer  An optional ID
 	 *
@@ -271,24 +276,31 @@ class TagsModelTag extends JModelList
 			// Get a level row instance.
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
-			// Attempt to load the row.
-			if ($table->load($id))
+			$idsArray = explode(',', $id);
+			// Attempt to load the rows into an array.
+			foreach ($idsArray as $id)
 			{
-				// Check published state.
-				if ($published = $this->getState('filter.published'))
+				try
 				{
-					if ($table->published != $published) {
-						return $this->item;
-					}
-				}
+					$table->load($id);
 
-				// Convert the JTable to a clean JObject.
-				$properties = $table->getProperties(1);
-				$this->item = JArrayHelper::toObject($properties, 'JObject');
-			}
-			elseif ($error = $table->getError())
-			{
-				$this->setError($error);
+					// Check published state.
+					if ($published = $this->getState('filter.published'))
+					{
+						if ($table->published != $published) {
+							return $this->item;
+						}
+					}
+
+					// Convert the JTable to a clean JObject.
+					$properties = $table->getProperties(1);
+					$this->item[] = JArrayHelper::toObject($properties, 'JObject');
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
 			}
 		}
 
@@ -298,7 +310,7 @@ class TagsModelTag extends JModelList
 	/**
 	 * Method to get an array of tag ids for the current tag and its children
 	 *
-	 * @param   integer $id  An optional ID
+	 * @param   integer  $id  An optional ID
 	 *
 	 * @return  object
 	 * @since   3.1
