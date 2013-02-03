@@ -76,10 +76,10 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 					<div class="control-group">
 						<div class="control-label">
-							<?php echo $this->form->getLabel('extension'); ?>
+							<?php echo $this->form->getLabel('images'); ?>
 						</div>
 						<div class="controls">
-							<?php echo $this->form->getInput('extension'); ?>
+							<?php echo $this->form->getInput('images'); ?>
 						</div>
 					</div>
 				</div>

@@ -86,6 +86,11 @@
 		buttons="true"
 		hide="readmore,pagebreak"/>
 
+		<field
+			name="images"
+			type="media"
+			label="COM_TAGS_FIELD_IMAGE_LABEL"
+			description="COM_TAGS_FIELD_IMAGE_DESC" />
 	<field
 		name="published"
 		type="list"
@@ -197,11 +202,6 @@
 				useglobal="true"
 				extension="com_tags" view="tag" labelclass="control-label" />
 
-			<field
-				name="image"
-				type="media"
-				label="COM_TAGS_FIELD_IMAGE_LABEL"
-				description="COM_TAGS_FIELD_IMAGE_DESC" />
 		</fieldset>
 	</fields>
 

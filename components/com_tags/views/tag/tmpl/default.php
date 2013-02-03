@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 ?>
-<div class="tag-category<?php echo $this->pageclass_sfx;?>">
+<div class="tag-category<?php echo $this->pageclass_sfx; ?>">
 <?php  if ($this->state->get('show_page_heading')) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -26,9 +26,9 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <?php endif; ?>
 <?php // We only show a tag description if there is a single tag. ?>
 <?php  if (count($this->item) == 1 && ($this->state->params->get('show_description', 1) || $this->state->params->get('show_description_image', 1))) : ?>
-	<div class="category-desc"><?php $this->state->params->get('show_description', 1); ?>
-	<?php  if ($this->state->params->get('show_description_image', 1)== 1 && $this->item[0]->params->image) :?>
-		<img src="<?php echo $this->item[0]->image;?>">
+	<div class="category-desc"><?php $this->state->params->get('show_description_image', 1); ?>
+	<?php  if ($this->state->params->get('show_description_image', 1)== 1 && $this->item[0]->images) :?>
+		<img src="<?php echo $this->item[0]->get('images');?>">
 	<?php endif; ?>
 	<?php if ($this->state->params->get('show_description') == 1 && $this->item[0]->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
