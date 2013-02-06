@@ -24,7 +24,7 @@
 		label="COM_TAGS_FIELD_PARENT_LABEL"
 		description="COM_TAGS_FIELD_PARENT_DESC"
 		class="span12 small">
-		<option value="">JNone</option>
+		<option value="1">JNone</option>
 		</field>
 
 	<field
