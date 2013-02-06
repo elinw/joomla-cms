@@ -137,6 +137,7 @@ class TagsModelTags extends JModelList
 			)
 		);
 		$query->from('#__tags AS a');
+		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
 		// Join over the language
 		$query->select('l.title AS language_title');

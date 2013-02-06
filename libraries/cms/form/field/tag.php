@@ -45,7 +45,7 @@ class JFormFieldTag extends JFormFieldList
 			}
 
 			if (is_string($this->value))
-			{ 
+			{
 				$this->value = explode(',', $this->value);
 			}
 		}
@@ -57,7 +57,7 @@ class JFormFieldTag extends JFormFieldList
 
 	/**
 	 * Method to get a list of tags
-	 * 
+	 *
 	 * @return	array	The field option objects.
 	 * @since	3.0
 	 */
@@ -67,7 +67,6 @@ class JFormFieldTag extends JFormFieldList
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
 		$name = (string) $this->element['name'];
 
-
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
@@ -76,14 +75,14 @@ class JFormFieldTag extends JFormFieldList
 		$query->join('LEFT', $db->quoteName('#__tags').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter language
-		if (!empty($this->element['language'])) {
-
+		if (!empty($this->element['language']))
+		{
 			$query->where('a.language = ' . $db->q($this->element['language']));
-
 		}
 
-		// Filter on the published state
+		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
+		// Filter on the published state
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);

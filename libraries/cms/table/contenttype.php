@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Tags table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @package     Joomla.CMS
+ * @subpackage  Table
+ * @since       3.1
  */
 class TableContenttypes extends JTable
 {
