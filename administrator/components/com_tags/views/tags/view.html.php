@@ -83,25 +83,32 @@ class TagsViewTags extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'modules.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('tag.add');
 		}
 
-		if ($canDo->get('core.edit')) {
-			JToolbarHelper::editList('tags.edit');
+		if ($canDo->get('core.edit'))
+		{
+			JToolbarHelper::editList('tag.edit');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('tags.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('tags.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::archiveList('tags.archive');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::checkin('tags.checkin');
-			}
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		}
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('tags.trash');
 		}
 		// Add a batch button
@@ -114,7 +121,8 @@ class TagsViewTags extends JViewLegacy
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_tags');
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS');

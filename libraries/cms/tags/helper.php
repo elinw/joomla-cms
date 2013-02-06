@@ -40,18 +40,21 @@ class JTagsHelper
 		$db->execute();
 
 		// Set the new tag maps.
-		// Have to break this up into individual queries for cross-database support.
-		foreach ($tags as $tag)
+		if (!empty($tags))
 		{
-			$query2 = $db->getQuery(true);
+			// Have to break this up into individual queries for cross-database support.
+			foreach ($tags as $tag)
+			{
+				$query2 = $db->getQuery(true);
 
-			$query2->insert($db->quoteName('#__contentitem_tag_map'));
-			$query2->columns(array($db->quoteName('item_name'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
+				$query2->insert($db->quoteName('#__contentitem_tag_map'));
+				$query2->columns(array($db->quoteName('item_name'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
-			$query2->clear('values');
-			$query2->values($db->quote($prefix . '.' . $id) . ', ' . $tag . ', ' . $query->currentTimestamp());
-			$db->setQuery($query2);
-			$db->execute();
+				$query2->clear('values');
+				$query2->values($db->quote($prefix . '.' . $id) . ', ' . $tag . ', ' . $query->currentTimestamp());
+				$db->setQuery($query2);
+				$db->execute();
+			}
 		}
 
 		return;
@@ -334,5 +337,22 @@ class JTagsHelper
 
 		return $types;
 	}
-
+	/**
+	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
+	 *
+	 * @param   integer  $tag_id      The tag_id (primary key) for the deleted tag.
+	 * @return  void
+	 * @since   3.1
+	 */
+	public function tagDeleteInstances($tag_id)
+	{
+		// Delete the old tag maps.
+		$db		= JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete();
+		$query->from($db->quoteName('#__contentitem_tag_map'));
+		$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag_id);
+		$db->setQuery($query);
+		$db->execute();
+	}
 }

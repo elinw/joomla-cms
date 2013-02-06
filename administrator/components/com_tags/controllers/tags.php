@@ -27,7 +27,7 @@ class TagsControllerTags extends JControllerAdmin
 	 * @return  JModelLegacy  The model.
 	 * @since   3.1
 	 */
-	public function getModel($name = 'Tags', $prefix = 'TagsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Tag', $prefix = 'TagsModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;

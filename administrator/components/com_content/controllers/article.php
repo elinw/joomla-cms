@@ -155,12 +155,13 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$task = $this->getTask();
 
-		$item = $model->getItem(); 
+		$item = $model->getItem();
 		$id = $item->id;
+
 		$tags = $validData['tags'];
 
 		// Store the tag data if the article data was saved.
-		if ($tags )
+		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTagsHelper;
 			$tagsHelper->tagItem($id, 'com_content.article', $tags);

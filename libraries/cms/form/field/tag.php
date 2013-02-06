@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,24 +16,24 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_categories
- * @since       1.6
+ * @since       3.1
  */
 class JFormFieldTag extends JFormFieldList
 {
 	/**
 	 * A flexible tag list that respects access controls
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var    string
+	 * @since  3.1
 	 */
 	public $type = 'Tag';
 
 	/**
 	 * Method to get the field input for a tag field.
 	 *
-	 * @return  string   The field input.
+	 * @return  string  The field input.
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	protected function getInput()
 	{
@@ -58,8 +58,8 @@ class JFormFieldTag extends JFormFieldList
 	/**
 	 * Method to get a list of tags
 	 *
-	 * @return	array	The field option objects.
-	 * @since	3.0
+	 * @return  array  The field option objects.
+	 * @since   3.1
 	 */
 	protected function getOptions()
 	{
