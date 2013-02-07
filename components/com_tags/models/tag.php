@@ -55,7 +55,7 @@ class TagsModelTag extends JModelList
 			$typesr= $this->getState('tag.typesr');
 			foreach ($types as $type)
 			{
-				if (!in_array($type->type_id, $typesr))
+				if (!empty($typesr) && !in_array($type->type_id, $typesr))
 				{
 					continue;
 				}
@@ -81,24 +81,27 @@ class TagsModelTag extends JModelList
 				$tagsHelper = new JTagsHelper;
 
 				$explodedItemName = $tagsHelper->explodeTagItemName($item->item_name);
-				$item->content_id = $explodedItemName[2];
-				$item->option = $explodedItemName[0];
-				$linkPrefix = 'index.php?option=' . $explodedItemName[0] . '&view=' . $explodedItemName[1] . '&id=' ;
-
-				// Keep track of the items we want from each table.
-				$item->table = $tableLookup[$explodedItemName[1]];
-
-				// For each view we build up an array of the base link, table, fields for the table, ids from rows in that table which have the tag.
-				// These are used to creat the query for that view.
-				if (empty($linkArray[$linkPrefix]))
+				if (array_key_exists($explodedItemName[1], $tableLookup))
 				{
-					$linkArray[$linkPrefix][0] = $item->table;
-					$linkArray[$linkPrefix][1] = $tableArray[$item->table][0];
-					$linkArray[$linkPrefix][2] = $item->content_id . ',';
-				}
-				else
-				{
-					$linkArray[$linkPrefix][2] .= $item->content_id . ',';
+					$item->content_id = $explodedItemName[2];
+					$item->option = $explodedItemName[0];
+					$linkPrefix = 'index.php?option=' . $explodedItemName[0] . '&view=' . $explodedItemName[1] . '&id=' ;
+
+					// Keep track of the items we want from each table.
+					$item->table = $tableLookup[$explodedItemName[1]];
+
+					// For each view we build up an array of the base link, table, fields for the table, ids from rows in that table which have the tag.
+					// These are used to creat the query for that view.
+					if (empty($linkArray[$linkPrefix]))
+					{
+						$linkArray[$linkPrefix][0] = $item->table;
+						$linkArray[$linkPrefix][1] = $tableArray[$item->table][0];
+						$linkArray[$linkPrefix][2] = $item->content_id . ',';
+					}
+					else
+					{
+						$linkArray[$linkPrefix][2] .= $item->content_id . ',';
+					}
 				}
 			}
 
@@ -234,6 +237,7 @@ class TagsModelTag extends JModelList
 
 		// Load state from the request.
 		$pk = $app->input->getObject('id');
+		$pk = (array) $pk;
 		$pkString = '';
 		foreach ($pk as $id)
 		{
@@ -244,9 +248,11 @@ class TagsModelTag extends JModelList
 		$this->setState('tag.id', $pkString);
 
 		$typesr = $app->input->getObject('types');
-		$typesr = (array) $typesr;
-		$this->setState('tag.typesr', $typesr);
-
+		if ($typesr)
+		{
+			$typesr = (array) $typesr;
+			$this->setState('tag.typesr', $typesr);
+		}
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);

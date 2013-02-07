@@ -11,11 +11,11 @@ defined('JPATH_BASE') or die;
 
 ?>
 <div class="tags">
-		<?php if (!empty($displayData->itemTags))
+		<?php if (!empty($displayData))
 		{
-			foreach ($displayData->itemTags as $key=>$tag)
+			foreach ($displayData as $tag)
 			{
-				echo '<span class="tag-' . $key .'"><a href="index.php?option=com_tags&view=tag&id[0]='. (int) $tag->tag_id .'" >' . $tag->title . ' </a></span>' ;
+				echo '<span class="tag-' . '' .'"><a href="index.php?option=com_tags&view=tag&id='. (int) $tag->tag_id .'" >' . $tag->title . ' </a></span>' ;
 			}
 		} ?>
 </div>
