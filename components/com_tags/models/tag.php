@@ -36,7 +36,7 @@ class TagsModelTag extends JModelList
 	protected $items = null;
 
 	/**
-	 * Method to get a list of items for a list of tag.
+	 * Method to get a list of items for a list of tags.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
@@ -52,9 +52,13 @@ class TagsModelTag extends JModelList
 			$contentTypes = new JTagsHelper;
 			$types = $contentTypes->getTypes('objectList');
 
+			$typesr= $this->getState('tag.typesr');
 			foreach ($types as $type)
 			{
-
+				if (!in_array($type->type_id, $typesr))
+				{
+					continue;
+				}
 				$tableLookup[$type->alias] = $type->table;
 
 				// We need to create the SELECT clause that correctly maps differently named fields to the common names.
@@ -111,7 +115,6 @@ class TagsModelTag extends JModelList
 			// Let's get the select query we need for each view and add it to the array.
 			foreach ($linkArray as $link => $values)
 			{
-
 				$idlist = (string) rtrim($values[2], ',');
 				$fieldlist = (string) rtrim($values[1], ',');
 
@@ -119,7 +122,7 @@ class TagsModelTag extends JModelList
 				if (!empty($idlist) && !empty($fieldlist))
 				{
 					$queryt->select($fieldlist . ',' . $db->quote($link) . ' AS ' . $db->quoteName('urlprefix'));
-					$queryt->from($db->quoteName($values[0]) . ' WHERE ' . $db->quoteName('id') . ' IN ( ' . $idlist . ' )');
+					$queryt->from($db->quoteName($values[0]) . ' WHERE ' . $db->quoteName('id') . ' IN ( ' . ltrim($idlist, ',') . ' )');
 
 					$queryString = $queryt->__toString();
 					$tablequeries[] = $queryString;
@@ -239,6 +242,11 @@ class TagsModelTag extends JModelList
 		$pkString = rtrim($pkString, ',');
 
 		$this->setState('tag.id', $pkString);
+
+		$typesr = $app->input->getObject('types');
+		$typesr = (array) $typesr;
+		$this->setState('tag.typesr', $typesr);
+
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);

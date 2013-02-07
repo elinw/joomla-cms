@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_tags
+ * @package     Joomla.CMS
+ * @subpackage  fields
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  com_categories
  * @since       3.1
  */
-class JFormFieldTag extends JFormFieldList
+class JFormFieldContenttype extends JFormFieldList
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -56,7 +56,7 @@ class JFormFieldTag extends JFormFieldList
 	}
 
 	/**
-	 * Method to get a list of tags
+	 * Method to get a list of content types
 	 *
 	 * @return  array  The field option objects.
 	 * @since   3.1
@@ -64,37 +64,15 @@ class JFormFieldTag extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published']? $this->element['published'] : array(0,1);
 		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level, a.published');
-		$query->from('#__tags AS a');
-		$query->join('LEFT', $db->quoteName('#__tags').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->select('a.type_id AS value, a.title AS text');
+		$query->from('#__content_types AS a');
 
-		// Filter language
-		if (!empty($this->element['language']))
-		{
-			$query->where('a.language = ' . $db->q($this->element['language']));
-		}
-
-		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
-
-		// Filter on the published state
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			JArrayHelper::toInteger($published);
-			$query->where('a.published IN (' . implode(',', $published) . ')');
-		}
-
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published');
-		$query->order('a.lft ASC');
+		$query->order('a.title ASC');
 
 		// Get the options.
 		$db->setQuery($query);
