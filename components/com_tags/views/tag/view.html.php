@@ -102,14 +102,14 @@ class TagsViewTag extends JViewLegacy
 			}
 			else
 			{
-				// Current view is not a single article, so the article params take priority here
-				// Merge the menu item params with the article params so that the article params take priority
-				$temp->merge($item->params);
-				$item->params = $temp;
+				// Current view is not tags, so the global params take priority since tags is not an item.
+				// Merge the menu item params with the global params so that the article params take priority
+				$temp->merge($this->state->params);
+				$this->state->params = $temp;
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $item->params->get('tag_layout'))
+				if ($layout = $this->state->params->get('tags_layout'))
 				{
 					$this->setLayout($layout);
 				}
