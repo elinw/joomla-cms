@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_tags
  * @since       3.1
  */
-class TagsModelTags extends JModelLegacy
+class TagsModelTags extends JModelList
 {
 	/**
 	 * Model context string.
@@ -34,43 +34,17 @@ class TagsModelTags extends JModelLegacy
 	 *
 	 * @since  3.1
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
-
-		// Get the parent id if defined.
-		$parentId = $app->input->getInt('id');
-		$this->setState('filter.parentId', $parentId);
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.published',	1);
-		$this->setState('filter.access',	true);
+		$this->setState('filter.published', 1);
+		$this->setState('filter.access', true);
 	}
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string   $id   A prefix for the store id.
-	 *
-	 * @return  string   A store id.
-	 *
-	 * @since   3.1
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.published');
-		$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.parentId');
-
-		return parent::getStoreId($id);
-	}
 
 	/**
 	 * Redefine the function and add some properties to make the styling more easy
@@ -81,7 +55,10 @@ class TagsModelTags extends JModelLegacy
 	 */
 	public function getItems()
 	{
-		if(!count($this->_items))
+		// Invoke the parent getItems method to get the main list
+		$items = parent::getItems();
+
+		if(!count($items))
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
@@ -95,6 +72,28 @@ class TagsModelTags extends JModelLegacy
 			$options = array();
 		}
 
-		return $this->_items;
+		return $items;
+	}
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return  string	An SQL query
+	 * @since   1.6
+	 */
+	protected function getListQuery()
+	{
+		$user	= JFactory::getUser();
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
+
+		// Create a new query object.
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+
+		// Select required fields from the tagss.
+		$query->select( 'a.*');
+		$query->from($db->quoteName('#__tags').' AS a');
+		$query->where('a.access IN (' . $groups . ')');
+
+		return $query;
 	}
 }

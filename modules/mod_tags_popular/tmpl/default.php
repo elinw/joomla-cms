@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 <ul >
 <?php foreach ($list as $item) :	?>
 <li>
-	<a href="<?php echo 'index.php?option=com_tags&view=tag&id=' . $item->tag_id; ?>">
-		<?php echo $item->title; ?></a>
+	<a href="<?php echo JRoute::_('index.php?option=com_tags&view=tag&id=' . $item->tag_id); ?>">
+		<?php echo htmlspecialchars($item->title); ?></a>
 </li>
 <?php endforeach; ?>
 </ul>

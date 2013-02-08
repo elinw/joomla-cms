@@ -35,8 +35,8 @@
 					first="1"
 					last="20"
 					step="1"
-					label="MOD_POPULAR_TAGS_MAX_LABEL"
-					description="MOD_POPULAR_TAGS_MAX_DESC">
+					label="MOD_TAGS_POPULAR_MAX_LABEL"
+					description="MOD_TAGS_POPULAR_MAX_DESC">
 				</field>
 				<field
 					name="timeframe"

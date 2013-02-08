@@ -16,19 +16,19 @@ defined('_JEXEC') or die;
 	<ul >
 	<?php foreach ($list as $item) :	?>
 		<li>
-			<a href="<?php echo  $item->itemUrl; ?>">
+			<a href="<?php echo JRoute::_($item->itemUrl); ?>">
 				<?php
 				if (!empty($item->itemData['title']))
 				{
-					echo $item->itemData['title'];
+					echo $this->escape($item->itemData['title']);
 				}
 				elseif (!empty($item->itemData['name']))
 				{
-					echo $item->itemData['name'];
+					echo $this->escape($item->itemData['name']);
 				}
 				else
 				{
-					echo $item->item_name;
+					echo $this->escape($item->item_name);
 				}
 				?></a>
 		</li>

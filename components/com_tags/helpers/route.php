@@ -35,10 +35,12 @@ abstract class TagsHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_tags&view=tag&id='. $id;
 
-		if ($item = self::_findItem($needles)) {
+		if ($item = self::_findItem($needles))
+		{
 			$link .= '&Itemid='.$item;
 		}
-		elseif ($item = self::_findItem()) {
+		elseif ($item = self::_findItem())
+		{
 			$link .= '&Itemid='.$item;
 		}
 
@@ -47,7 +49,6 @@ abstract class TagsHelperRoute
 
 	public static function getTagRoute($id)
 	{
-
 		if ($id < 1)
 		{
 			$link = '';
@@ -57,14 +58,12 @@ abstract class TagsHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link = 'index.php?Itemid='.$item;
+				$link = 'index.php?Itemid=' . $item;
 			}
 			else
 			{
 				//Create the link
-				$link = 'index.php?option=com_tags&view=tag&id='.$tag_id;
-
-
+				$link = 'index.php?option=com_tags&view=tag&id=' . $tag_id;
 			}
 		}
 

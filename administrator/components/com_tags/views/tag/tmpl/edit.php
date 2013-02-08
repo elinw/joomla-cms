@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,40 +50,47 @@ JHtml::_('formbehavior.chosen', 'select');
 			<div class="tab-content">
 				<!-- Begin Tabs -->
 				<div class="tab-pane active" id="general">
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('title'); ?>
+					<fieldset class="adminform">
+						<div class="control-group form-inline">
+							<?php echo $this->form->getLabel('title'); ?> <?php echo $this->form->getInput('title'); ?> <?php echo $this->form->getLabel('catid'); ?> <?php echo $this->form->getInput('catid'); ?>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('title'); ?>
+						<?php echo $this->form->getInput('description'); ?>
+					</fieldset>
+						<div class="row-fluid">
+							<div class="span6">
+								<h4><?php echo JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES');?></h4>
+								<div class="control-group">
+									<?php echo $this->form->getLabel('images'); ?>
+									<div class="controls">
+										<?php echo $this->form->getInput('images'); ?>
+									</div>
+								</div>
+								<?php foreach ($this->form->getGroup('images') as $field) : ?>
+									<div class="control-group">
+										<?php if (!$field->hidden) : ?>
+											<?php echo $field->label; ?>
+										<?php endif; ?>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
+									</div>
+								<?php endforeach; ?>
+							</div>
+							<div class="span6">
+								<?php foreach ($this->form->getGroup('urls') as $field) : ?>
+									<div class="control-group">
+										<?php if (!$field->hidden) : ?>
+												<?php echo $field->label; ?>
+										<?php endif; ?>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
+									</div>
+								<?php endforeach; ?>
+							</div>
 						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('alias'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('alias'); ?>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('description'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('description'); ?>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('images'); ?>
-						</div>
-					</div>
+
 				</div>
-				<!-- End tab general -->
 
 				<div class="tab-pane" id="publishing">
 					<div class="control-group">
