@@ -36,8 +36,8 @@ $n = count($this->items);
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<?php  echo '<a href="'. $item->urlprefix . $item->id .'">'
-						. $this->escape($item->title) . '</a>';  ?>
+					<?php  echo '<h3> <a href="'. JRoute::_($item->urlprefix . $item->id) .'">'
+						. $this->escape($item->title) . '</a> </h3>';  ?>
 				<?php endif; ?>
 				<?php  if ($this->state->get('show_link_hits', 1)) : ?>
 					<span class="list-hits badge badge-info pull-right">
@@ -54,7 +54,6 @@ $n = count($this->items);
 			<?php  endif;?>
 		<?php endforeach; ?>
 	</ul>
-
 
 	<?php if ($this->state->get('show_pagination')) : ?>
 	 <div class="pagination">

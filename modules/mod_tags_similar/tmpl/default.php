@@ -20,15 +20,15 @@ defined('_JEXEC') or die;
 				<?php
 				if (!empty($item->itemData['title']))
 				{
-					echo $this->escape($item->itemData['title']);
+					echo htmlspecialchars($item->itemData['title']);
 				}
 				elseif (!empty($item->itemData['name']))
 				{
-					echo $this->escape($item->itemData['name']);
+					echo htmlspecialchars($item->itemData['name']);
 				}
 				else
 				{
-					echo $this->escape($item->item_name);
+					echo htmlspecialchars($item->item_name);
 				}
 				?></a>
 		</li>

@@ -66,7 +66,7 @@ abstract class modTagssimilarHelper
 			$db->setQuery($query);
 			$results = $db->loadObjectList();
 
-			foreach ($results as $result)
+			foreach ($results as $i => $result)
 			{
 				// Get the data for the matching item. We have to get it  all because we don't know if it uses name or title.
 				$tagHelper = new JTagsHelper;
@@ -74,12 +74,20 @@ abstract class modTagssimilarHelper
 				$result->itemUrl = $tagHelper->getContentItemUrl($result->item_name, $explodedItemName);
 				$table = $tagsHelper->getTableName($result->item_name, $explodedItemName);
 
-				$queryi = $db->getQuery(true);
-				$queryi->select('*');
-				$queryi->from($table);
-				$queryi->where($db->qn('id') . '= ' . $explodedItemName[2]);
-				$db->setQuery($queryi);
-				$result->itemData = $db->loadAssoc();
+				if (!empty($explodedItemName[2]))
+				{
+					$queryi = $db->getQuery(true);
+					$queryi->select('*');
+					$queryi->from($table);
+					$queryi->where($db->qn('id') . '= ' . $explodedItemName[2]);
+					$db->setQuery($queryi);
+					$result->itemData = $db->loadAssoc();
+				}
+				else
+				{
+					unset($results[$i]);
+
+				}
 			}
 
 		return $results;
