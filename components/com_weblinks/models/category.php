@@ -82,15 +82,19 @@ class WeblinksModelCategory extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($items as $item)
 		{
 			if (!isset($this->_params))
 			{
 				$params = new JRegistry;
-				$params->loadString($items[$i]->params);
-				$items[$i]->params = $params;
+				$params->loadString($item->params);
+				$item->params = $params;
 			}
+			// Get the tags
+			$item->tags = new JTagsHelper;
+			$item->tags->getItemTags('com_weblinks.weblink.' . $item->id);//var_dump($item->tags);
 		}
+
 
 		return $items;
 	}

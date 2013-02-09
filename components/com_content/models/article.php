@@ -254,6 +254,7 @@ class ContentModelArticle extends JModelItem
 			$db = $this->getDbo();
 
 			$db->setQuery(
+
 					'UPDATE #__content' .
 					' SET hits = hits + 1' .
 					' WHERE id = '.(int) $pk
