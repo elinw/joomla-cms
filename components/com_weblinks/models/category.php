@@ -92,7 +92,7 @@ class WeblinksModelCategory extends JModelList
 			}
 			// Get the tags
 			$item->tags = new JTagsHelper;
-			$item->tags->getItemTags('com_weblinks.weblink.' . $item->id);//var_dump($item->tags);
+			$item->tags->getItemTags('com_weblinks.weblink.' . $item->id);
 		}
 
 
