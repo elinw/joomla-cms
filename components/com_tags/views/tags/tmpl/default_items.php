@@ -35,8 +35,8 @@ $n = count($this->items);
 						<?php if ($item->published == 0) : ?>
 							<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 						<?php else: ?>
-							<li class="cat-list-row<?php echo $i % 2; ?>" ><?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id));?>
-							<?php  echo '<h3> <a href="index.php?option=com_tags&view=tag&id='. $item->id  .'">'
+							<li class="cat-list-row<?php echo $i % 2; ?>" >
+							<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id))  .'">'
 								. $this->escape($item->title) . '</a> </h3>';  ?>
 						<?php endif; ?>
 						<?php  if ($this->state->get('show_link_hits', 1)) : ?>

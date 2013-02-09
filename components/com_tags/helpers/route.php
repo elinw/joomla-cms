@@ -55,15 +55,14 @@ abstract class TagsHelperRoute
 		}
 		else
 		{
-
-			if ($item = self::_findItem($needles))
+			if (!empty($needles) && $item = self::_findItem($needles))
 			{
 				$link = 'index.php?Itemid=' . $item;
 			}
 			else
 			{
 				//Create the link
-				$link = 'index.php?option=com_tags&view=tag&id=' . $tag_id;
+				$link = 'index.php?option=com_tags&view=tag&id=' . $id;
 			}
 		}
 

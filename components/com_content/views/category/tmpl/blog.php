@@ -28,7 +28,8 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 
 	<?php $this->category->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-	<?php echo $this->category->tagLayout->render($this->category->tags); ?>
+
+	<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
 
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 	<div class="category-desc">
@@ -82,12 +83,12 @@ JHtml::_('behavior.caption');
 				</div><!-- end item -->
 				<?php $counter++; ?>
 			</div><!-- end spann -->
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>			
+			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 		</div><!-- end row -->
 			<?php endif; ?>
 	<?php endforeach; ?>
 	<?php endif; ?>
-	
+
 	<?php if (!empty($this->link_items)) : ?>
 	<div class="items-more">
 	<?php echo $this->loadTemplate('links'); ?>

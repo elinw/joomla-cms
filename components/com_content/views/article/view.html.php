@@ -124,7 +124,6 @@ class ContentViewArticle extends JViewLegacy
 						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
 				return;
-
 		}
 
 		if ($item->params->get('show_intro', '1') == '1')
@@ -139,7 +138,7 @@ class ContentViewArticle extends JViewLegacy
 			$item->text = $item->introtext;
 		}
 		$item->tags = new JTagsHelper;
-		$item->tags->getItemTags('com_content.article.' . $this->item->id); 
+		$item->tags->getItemTags('com_content.article.' . $this->item->id);
 
 		// Process the content plugins.
 

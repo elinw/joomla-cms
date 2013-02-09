@@ -20,7 +20,6 @@ $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
 
-
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) : ?>
@@ -146,8 +145,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('show_tags') && !empty($this->item->tags->itemTags)) : ?>
+	<?php if ($params->get('show_tags') && !empty($this->item->tags)) : ?>
 		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 	<?php endif; ?>
 
