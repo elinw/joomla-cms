@@ -196,7 +196,6 @@ class TagsModelTag extends JModelAdmin
 		return $form;
 	}
 
-
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
@@ -313,8 +312,9 @@ class TagsModelTag extends JModelAdmin
 			return false;
 		}
 
-		$app = JFactory::getApplication();
-		$assoc = $this->getAssoc();
+		// We will have to discuss how to think about language and tags
+		// $app = JFactory::getApplication();
+		/*$assoc = $this->getAssociations();
 		if ($assoc)
 		{
 			// Adding self to the association
@@ -334,7 +334,7 @@ class TagsModelTag extends JModelAdmin
 				return false;
 			}
 
-		}
+		}*/
 
 		// Trigger the onContentAfterSave event.
 		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
