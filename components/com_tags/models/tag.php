@@ -146,11 +146,11 @@ class TagsModelTag extends JModelList
 			if ($queryu->union)
 			{
 				$unionString  = $queryu->union->__toString();
-				$queryStringu = $tablequeries[0] . $unionString . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 5);
+				$queryStringu = $tablequeries[0] . $unionString . 'ORDER BY' . $db->qn($this->state->params->get('tag_list_orderby', 'title')) . ' ' . $this->state->params->get('tag_list_orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 5);
 			}
 			else
 			{
-				$queryStringu = $tablequeries[0] . ' ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 5);
+				$queryStringu = $tablequeries[0] . ' ORDER BY' . $db->qn($this->state->params->get('tag_list_orderby', 'title')) . ' ' . $this->state->params->get('tag_list_orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 200);
 			}
 
 			// Initialize some variables.
@@ -205,7 +205,7 @@ class TagsModelTag extends JModelList
 		$query->group($db->quoteName('a.item_name'));
 		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS a ');
 
-		// Modify the query based on whether or not items with child tags should be included.
+		// Modify the query based on whether or not items with child tags should be returned.
 		if ($this->state->params->get('include_children') == 1)
 		{
 			$query->where($db->quoteName('a.tag_id') . ' IN (' . $tagTreeArray . ')');

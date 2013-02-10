@@ -39,14 +39,15 @@ $n = count($this->items);
 							<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id))  .'">'
 								. $this->escape($item->title) . '</a> </h3>';  ?>
 						<?php endif; ?>
-						<?php  if ($this->state->get('show_link_hits', 1)) : ?>
+						<?php  if ($this->state->get('all_tags_show_tag_hits', 1)) : ?>
 							<span class="list-hits badge badge-info pull-right">
 								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 							</span>
 						<?php endif; ?>
-						<?php  if ($this->state->get('show_item_image', 1) && !empty($item->images)) : ?>
+						<?php  if ($this->state->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
 						<?php  $images  = json_decode($item->images); ?>
 						<span class="tag-body">
+							<?php $image1 = new Jimage($images->image_intro); var_dump($image1); ?>
 							<?php $imgfloat = (empty($images->float_intro)) ? $this->state->get('float_intro') : $images->float_intro; ?>
 							<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
 							<?php if ($images->image_intro_caption):
@@ -55,7 +56,7 @@ $n = count($this->items);
 							src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
 						</span>
 						<?php endif; ?>
-						<?php  if ($this->state->get('show_item_body', 1)) : ?>
+						<?php  if ($this->state->get('all_tags_show_tag_description', 1)) : ?>
 							<span class="tag-body">
 								<?php echo $item->description; ?>
 							</span>

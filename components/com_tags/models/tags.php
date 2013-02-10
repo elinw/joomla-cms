@@ -36,6 +36,14 @@ class TagsModelTags extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
+		$app    = JFactory::getApplication('site');
+
+		// Load state from the request.
+		$pid = $app->input->getInt('parent_id');
+		$this->setState('tag.parent_id', $pid);
+
+		$offset = $app->input->get('limitstart', 0, 'uint');
+		$this->setState('list.offset', $offset);
 		$app = JFactory::getApplication();
 
 		$params = $app->getParams();
@@ -43,8 +51,13 @@ class TagsModelTags extends JModelList
 
 		$this->setState('filter.published', 1);
 		$this->setState('filter.access', true);
-	}
 
+		$user = JFactory::getUser();
+		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
+		{
+			$this->setState('filter.published', 1);
+		}
+	}
 
 	/**
 	 * Redefine the function and add some properties to make the styling more easy
@@ -84,6 +97,10 @@ class TagsModelTags extends JModelList
 	{
 		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$pid = $this->getState('tag.parent_id');
+		$orderby = $this->state->params->get('all_tags_orderby', 'title');
+		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
+		$limit = ' LIMIT 0,' . $this->state->params->get('maximum', 200);
 
 		// Create a new query object.
 		$db		= $this->getDbo();
@@ -91,8 +108,17 @@ class TagsModelTags extends JModelList
 
 		// Select required fields from the tagss.
 		$query->select( 'a.*');
+
+
 		$query->from($db->quoteName('#__tags').' AS a');
-		$query->where('a.access IN (' . $groups . ')');
+		$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+
+		if (!empty($pid))
+		{
+			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid );
+		}
+
+		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ' ' . $limit);
 
 		return $query;
 	}

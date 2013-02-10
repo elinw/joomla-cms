@@ -314,10 +314,9 @@ class TagsModelTag extends JModelAdmin
 		}
 
 		$app = JFactory::getApplication();
-		//$assoc = $this->getAssoc();
+		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
-
 			// Adding self to the association
 			$associations = $data['associations'];
 

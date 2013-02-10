@@ -39,12 +39,12 @@ $n = count($this->items);
 					<?php  echo '<h3> <a href="'. JRoute::_($item->urlprefix . $item->id) .'">'
 						. $this->escape($item->title) . '</a> </h3>';  ?>
 				<?php endif; ?>
-				<?php  if ($this->state->get('show_link_hits', 1)) : ?>
+				<?php  if ($this->params->get('show_item_hits', 1)) : ?>
 					<span class="list-hits badge badge-info pull-right">
 						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 					</span>
 				<?php endif; ?>
-				<?php  if ($this->state->get('show_item_body', 1)) : ?>
+				<?php  if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 					<span class="tag-body">
 						<?php echo $item->body; ?>
 					</span>
