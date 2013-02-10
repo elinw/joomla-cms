@@ -26,6 +26,45 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+ 03-February-2013 Jean-Marie Simonet
+ $ Updating installation lang file: he-IL
+
+ 02-February-2013 Jean-Marie Simonet
+ $ Updating installation lang file: et-EE, zh-CN
+ $ Updating installation lang file: fa-IR, nb-NO
+
+ 01-February-2013 Jean-Marie Simonet
+ $ Updating installation lang file: nl-NL
+
+31-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: ru-RU
+ # [#30043] *Correcting a few Hathor css issues
+ $ Updating installation lang file: bs-BA, he-IL
+ # Updating en-GB to 3.0.3
+ $ Updating installation lang file: sw-KE
+
+30-Jan-2013 Mark Dexter
+ # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
+ # [#29705] blank login page J3.x beez3.
+
+30-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: bg=BG, pt-BR, sy-IQ
+
+29-Jan-2013 Mark Dexter
+ ^ [#29776] com_media/plugin interaction. Thanks Elijah Madden.
+ # [#30007] Fix broken module installation in Postgresql because of NULL constraint. Thanks Elin.
+ + [#30006] Add totally new classes and methods from the platform. Thanks Elin.
+ # [#30000] Division by 0 problem in JCrypt. Thanks Elin.
+ # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese. 
+ # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto Segura.
+ # [#28714] Authentication - Gmail: Apply Username suffix does not allow user to login with suffix already applied. Thanks Janich Rasmussen.
+ # [#29345] MySQLi does not display SQL errors messages anymore. Thanks Jérôme Glatigny.
+ # [#29845] Joomla 3.0.2 Back-end Performance Issue with Item Associations (large #__associations table). Thanks Gary Mort.
+
+28-Jan-2013 Jean-Marie Simonet
+ # [#30026] *Reverting parts of tracker #29875 which breaks container-fluid class in Protostar- regression
+ #^ [#29997] Email validation fails with longer top level domains. Thanks Elin
+
 26-Jan-2013 Jean-Marie Simonet
  # [#30028] Ordering is not working in Beez3 article Category List. Thanks Roberto
  $ Updating installation lang file: be-BY, fi-FI, ko-KR, pl-PL
