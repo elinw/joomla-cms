@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @param   array  An array of URL arguments
  *
  * @return  array  The URL arguments to use to assemble the subsequent URL.
- * 
+ *
  * @since   3.1
  */
 function TagsBuildRoute(&$query)
@@ -140,19 +140,6 @@ function TagsParseRoute($segments)
 
 	foreach($segments as $segment)
 	{
-		foreach($tags as $tag)
-		{
-			if ($tag->slug == $segment)
-			{
-				$vars['id'] = $tag->id;
-				$vars['view'] = 'tag';
-				$tags = $tag->getChildren();
-				$found = 1;
-
-				break;
-			}
-
-
 		if ($found == 0)
 		{
 			$id = $segment;
@@ -162,10 +149,9 @@ function TagsParseRoute($segments)
 			$vars['view'] = 'tag';
 
 			break;
-		}
-
-		$found = 0;
 	}
+
+	$found = 0;
 
 	return $vars;
 }

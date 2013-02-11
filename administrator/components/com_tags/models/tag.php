@@ -129,6 +129,16 @@ class TagsModelTag extends JModelAdmin
 			$registry->loadString($result->metadata);
 			$result->metadata = $registry->toArray();
 
+			// Convert the images field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($result->images);
+			$result->images = $registry->toArray();
+
+			// Convert the urls field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($result->urls);
+			$result->urls = $registry->toArray();
+
 			// Convert the created and modified dates to local user time for display in the form.
 			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
 
