@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class TagsViewTag extends JViewLegacy
 		}
 		else
 		{
-			// Merge so that article params take priority
+			// Merge so that item params take priority
 			$temp->merge($item[0]->params);
 			$item[0]->params = $temp;
 			// Check for alternative layouts (since we are not in a single-tag menu item)

@@ -39,32 +39,34 @@ $n = count($this->items);
 							<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id))  .'">'
 								. $this->escape($item->title) . '</a> </h3>';  ?>
 						<?php endif; ?>
-						<?php  if ($this->state->get('all_tags_show_tag_hits', 1)) : ?>
+						<?php  if ($this->params->get('all_tags_show_tag_hits')) : ?>
 							<span class="list-hits badge badge-info pull-right">
 								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 							</span>
 						<?php endif; ?>
-						<?php  if ($this->state->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-						<?php  $images  = json_decode($item->images); ?>
-						<span class="tag-body">
-							<?php $image1 = new Jimage($images->image_intro); var_dump($image1); ?>
-							<?php $imgfloat = (empty($images->float_intro)) ? $this->state->get('float_intro') : $images->float_intro; ?>
-							<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
-							<?php if ($images->image_intro_caption):
-								echo 'class="caption"'.' title="' . htmlspecialchars($images->image_intro_caption) . '"';
-							endif; ?>
-							src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
-						</span>
-						<?php endif; ?>
+						<?php  if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
+							<?php  $images  = json_decode($item->images); ?>
+							<span class="tag-body">
+								<?php if (!empty($images->image_intro)): ?>
+									<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
+									<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+									<?php if ($images->image_intro_caption):
+										echo 'class="caption"'.' title="' . htmlspecialchars($images->image_intro_caption) . '"';
+								endif; ?>
+								src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
+							<?php endif; ?>
+							</span>
+							<?php endif; ?>
 						<?php  if ($this->state->get('all_tags_show_tag_description', 1)) : ?>
 							<span class="tag-body">
 								<?php echo $item->description; ?>
 							</span>
 						<?php endif; ?>
-							</li>
+						<div class="clearfix"></div>
 					<?php  endif;?></div>
 				<?php  endif;?>
-			<?php endforeach; ?>
+							</li>
+				<?php endforeach; ?>
 		</ul>
 
 	<?php  endif;?>

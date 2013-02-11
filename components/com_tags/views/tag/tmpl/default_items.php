@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_tags
+ * @subpackage  com_tagsxc v
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -39,6 +39,7 @@ $n = count($this->items);
 					<?php  echo '<h3> <a href="'. JRoute::_($item->urlprefix . $item->id) .'">'
 						. $this->escape($item->title) . '</a> </h3>';  ?>
 				<?php endif; ?>
+
 				<?php  if ($this->params->get('show_item_hits', 1)) : ?>
 					<span class="list-hits badge badge-info pull-right">
 						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
@@ -52,6 +53,7 @@ $n = count($this->items);
 
 				</li>
 			<?php  endif;?>
+			<div class="clearfix"></div>
 		<?php endforeach; ?>
 	</ul>
 

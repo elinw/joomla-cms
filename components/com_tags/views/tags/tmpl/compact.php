@@ -26,7 +26,7 @@ $descriptionImage = $this->params->get('all_tags_description_image');
 	<?php if ($this->params->get('all_tags_show_description') && !empty($description)):?>
 	<div><?php echo $description;?></div>
 	<?php endif;?>
-
+	<div class="clearfix"></div>
 	<?php echo $this->loadTemplate('items'); ?>
 
 </div>
