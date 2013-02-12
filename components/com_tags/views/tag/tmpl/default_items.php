@@ -47,7 +47,7 @@ $n = count($this->items);
 				<?php endif; ?>
 				<?php  if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 					<span class="tag-body">
-						<?php echo $item->body; ?>
+						<?php echo JHtmlString::truncate($item->body, $this->params->get('tag_list_item_maximum_characters')); ?>
 					</span>
 				<?php endif; ?>
 

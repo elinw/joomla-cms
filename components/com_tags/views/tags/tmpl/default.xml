@@ -65,7 +65,8 @@
 				type="list"
 				default="title"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
-				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
+				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
+			>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="title">JGLOBAL_TITLE</option>
 					<option value="hits">JGLOBAL_HITS</option>
@@ -89,8 +90,8 @@
 				default="200"
 				filter="integer"
 				label="COM_TAGS_LIST_MAX_LABEL"
-				description="COM_TAGS_LIST_MAX_DESC">
-			</field>
+				description="COM_TAGS_LIST_MAX_DESC"
+			/>
 
 			<field name="show_pagination" type="list"
 				description="JGLOBAL_PAGINATION_DESC"
@@ -126,6 +127,13 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+			<field
+				name="all_tags_tag_maximum_characters"
+				type="text"
+				filter="integer"
+				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
+				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+			/>
 
 			<field name="all_tags_show_tag_hits" type="list"
 				description="COM_TAGS_FIELD_CONFIG_HITS_DESC"

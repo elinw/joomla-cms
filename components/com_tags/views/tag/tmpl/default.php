@@ -28,8 +28,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <?php  if (count($this->item) == 1 && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 	<div class="category-desc">
 	<?php  $images  = json_decode($this->item[0]->images); ?>
-	<?php  if ($this->params->get('tag_list_show_tag_image', 1)== 1 && $images->image_intro) :?>
-		<img src="<?php echo $images->image_intro;?>">
+	<?php  if ($this->params->get('tag_list_show_tag_image', 1)== 1 && $images->image_fulltext) :?>
+		<img src="<?php echo $images->image_fulltext;?>">
 	<?php endif; ?><?php $this->params->get('tag_list_show_tag_description'); ?>
 	<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
