@@ -34,7 +34,7 @@ $n = count($this->items);
 					<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id))  .'">'
 						. $this->escape($item->title) . '</a> </h3>';  ?>
 				</div>
-			<?php  if  ( ($i == 0 && $n == 1) || $i == $n-2 || $bscolumns == 1 || $i + 1 == $bscolumns || ( $i+1 % $bscolumns  == 0))  :  ?>
+			<?php  if  ( ($i == 0 && $n == 1) || $i == $n-2 || $bscolumns == 1 || $i + 1 == $bscolumns || ( ($i+1) % $bscolumns  == 0))  :  ?>
 				</div>
 			<?php endif; ?>
 
