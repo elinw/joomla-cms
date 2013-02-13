@@ -31,7 +31,7 @@ $n = count($this->items);
 			<?php endif; ?>
 		<?php endif; ?>
 				<div class="span<?php echo $bsspans;?>">
-					<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id))  .'">'
+					<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':'. $item->alias))  .'">'
 						. $this->escape($item->title) . '</a> </h3>';  ?>
 				</div>
 			<?php  if  ( ($i == 0 && $n == 1) || $i == $n-2 || $bscolumns == 1 || $i + 1 == $bscolumns || ( ($i+1) % $bscolumns  == 0))  :  ?>

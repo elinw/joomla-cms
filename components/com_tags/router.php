@@ -22,13 +22,13 @@ function TagsBuildRoute(&$query)
 {
 	$segments = array();
 
-	// get a menu item based on Itemid or currently active
+	// Get a menu item based on Itemid or currently active
 	$app		= JFactory::getApplication();
 	$menu		= $app->getMenu();
 	$params		= JComponentHelper::getParams('com_tags');
 	$advanced	= $params->get('sef_advanced_link', 0);
 
-	// we need a menu item.  Either the one specified in the query, or the current active one if none specified
+	// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 	if (empty($query['Itemid'])) {
 		$menuItem = $menu->getActive();
 	}
@@ -56,7 +56,6 @@ function TagsBuildRoute(&$query)
 	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
 	{
 		unset($query['view']);
-		unset($query['catid']);
 		unset($query['id']);
 
 		return $segments;
@@ -104,9 +103,9 @@ function TagsBuildRoute(&$query)
 /**
  * Parse the segments of a URL.
  *
- * @param	array	The segments of the URL to parse.
+ * @param   array  The segments of the URL to parse.
  *
- * @return	array	The URL attributes to be used by the application.
+ * @return  array  The URL attributes to be used by the application.
  *
  * @since   3.1
  */
@@ -124,7 +123,7 @@ function TagsParseRoute($segments)
 	// Count route segments
 	$count = count($segments);
 
-	// Standard routing for weblinks.
+	// Standard routing for tags.
 	if (!isset($item))
 	{
 		$vars['view']	= $segments[0];
@@ -135,7 +134,6 @@ function TagsParseRoute($segments)
 	// From the tags view, we can only jump to a tag.
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
 
-	//$categories = $category->getChildren();
 	$found = 0;
 
 	foreach($segments as $segment)

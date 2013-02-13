@@ -30,7 +30,7 @@ abstract class modTagsPopularHelper
 
 		$query		= $db->getQuery(true);
 
-			$query->select(array($db->quoteName('tag_id'), $db->quoteName('item_name'), ' COUNT(*) AS count', 't.title', 't.access'));
+			$query->select(array($db->quoteName('tag_id'), $db->quoteName('item_name'), ' COUNT(*) AS count', 't.title', 't.access', 't.alias'));
 			$query->group($db->quoteName('tag_id'));
 			$query->from($db->quoteName('#__contentitem_tag_map'));
 			$query->where('t.access IN (' . $groups . ')');
