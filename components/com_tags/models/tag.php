@@ -150,7 +150,7 @@ class TagsModelTag extends JModelList
 			}
 			else
 			{
-				$queryStringu = $tablequeries[0] . ' ORDER BY' . $db->qn($this->state->params->get('tag_list_orderby', 'title')) . ' ' . $this->state->params->get('tag_list_orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 200);
+				$queryStringu = $tablequeries[0] . ' ORDER BY ' . $db->qn($this->state->params->get('tag_list_orderby', 'title')) . ' ' . $this->state->params->get('tag_list_orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 200);
 			}
 
 			// Initialize some variables.

@@ -106,7 +106,7 @@ class TagsModelTags extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
-		// Select required fields from the tagss.
+		// Select required fields from the tags.
 		$query->select( 'a.*');
 
 
