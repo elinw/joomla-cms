@@ -49,10 +49,7 @@ class JFormFieldTag extends JFormFieldList
 				$this->value = explode(',', $this->value);
 			}
 		}
-		else
-		{
-			$this->value = array();
-		}
+
 		$input = parent::getInput();
 
 		return $input;

@@ -36,7 +36,7 @@ $n = count($this->items);
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<?php  echo '<h3> <a href="'. JRoute::_($item->router . '(' . $item->id . ':' . $item->alias).')' .')">'
+					<?php  echo '<h3> <a href="'. JRoute::_($item->link) .'">'
 						. $this->escape($item->title) . '</a> </h3>';  ?>
 				<?php endif; ?>
 

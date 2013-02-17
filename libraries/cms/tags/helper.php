@@ -35,7 +35,8 @@ class JTagsHelper
 		$query = $db->getQuery(true);
 		$query->delete();
 		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('item_name') . ' = ' .  $db->quote($prefix . '.' . (int) $id));
+		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
+		$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -48,10 +49,10 @@ class JTagsHelper
 				$query2 = $db->getQuery(true);
 
 				$query2->insert($db->quoteName('#__contentitem_tag_map'));
-				$query2->columns(array($db->quoteName('item_name'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
+				$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
 				$query2->clear('values');
-				$query2->values($db->quote($prefix . '.' . $id) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp());
+				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp());
 				$db->setQuery($query2);
 				$db->execute();
 			}
@@ -83,8 +84,8 @@ class JTagsHelper
 
 		$query->from($db->quoteName('#__tags') . ' AS ' . $db->quoteName('t'));
 		$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS ' . $db->quoteName('m')  .
-			' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' . $db->quoteName('m.item_name') . ' = ' . $db->quote($prefix . '.' . $id));
-		//$query->where($db->quoteName('m.item_name') . ' = ' . $db->quote($prefix . '.' . $id));
+			' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix ) . ' AND ' . $db->quoteName('m.content_item_id') . ' = ' . $db->quote($id ));
+
 		$db->setQuery($query);
 
 		// Add the tags to the content data.
@@ -104,7 +105,7 @@ class JTagsHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getItemTags($contentItemName, $getTagData = true)
+	public function getItemTags($contentType, $id, $getTagData = true)
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
@@ -112,8 +113,9 @@ class JTagsHelper
 
 		$query->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') .'.*'));
 		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS m ');
-		$query->where($db->quoteName('m.item_name') . ' = ' . $db->quote($contentItemName),
-			$db->quoteName('t.published') . ' =  1' );
+		$query->where(array($db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
+				$db->quoteName('m.content_item_id') . ' = ' . $db->quote($id),
+			$db->quoteName('t.published') . ' =  1') );
 
 		if ($getTagData)
 		{
@@ -151,7 +153,7 @@ class JTagsHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('item_name'));
+		$query->select($db->quoteName('type_alias'), $db->quoteName('id'));
 		$query->from($db->quoteName('#__contentitem_tag_map'));
 		$query->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
 
@@ -162,8 +164,8 @@ class JTagsHelper
 		{
 			foreach ($this->tagItems as $item)
 			{
-				$item_id = $item->getContentItemId($item->item_name);
-				$table = $item->getTableName($item->item_name);
+				$item_id = $item->content_item_id;
+				$table = $item->getTableName($item->type_alias);
 
 				$query2 = $db->getQuery(true);
 				$query2->clear();
@@ -183,72 +185,55 @@ class JTagsHelper
 	/**
 	 * Returns content name from a tag map record as an array
 	 *
-	 * @param   string  $tagItemName  The tag item name to explode.
+	 * @param   string  $typeAlias  The tag item name to explode.
 	 *
-	 * @return  array   The exploded tag name. If name doe not exist an empty array is returned.
+	 * @return  array   The exploded type alias. If name doe not exist an empty array is returned.
 	 *
 	 * @since   3.1
 	 */
-	public function explodeTagItemName($tagItemName)
+	public function explodeTypeAlias($typeAlias)
 	{
-		return $explodedItemName = explode('.', $tagItemName);
+		return $explodedTypeAlias = explode('.', $typeAlias);
 	}
 
 	/**
-	 * Returns the type for a tag map record
+	 * Returns the component for a tag map record
 	 *
-	 * @param   string  $tagItemName  The tag item name.
+	 * @param   string  $typeAlias  The tag item name.
 	 *
-	 * @return  string  The content type name for the item.
-	 *
-	 * @since   3.1
-	 */
-	public function getTypeName($tagItemName, $explodedItemName = null)
-	{
-		if (!isset($explodedItemName))
-		{
-			$this->explodedItemName = $this->explodeTagItemName();
-		}
-
-		return $this->explodedItemName[0];
-	}
-
-	/**
-	 * Returns the content item id for a tag map record
-	 *
-	 * @param   string  $tagItemName  The tag item name.
-	 *
-	 * @return  integer  The content item id or null if not found.
+	 * @return  string  The content type title for the item.
 	 *
 	 * @since   3.1
 	 */
-	public function getContentItemId($tagItemName, $explodedItemName = array())
+	public function getTypeName($typeAlias, $explodedTypeAlias = null)
 	{
-		if (!isset($explodedItemName))
+		if (!isset($explodedTypeAlias))
 		{
-			$this->explodedItemName = self::explodeTagItemName($tagItemName);
+			$this->explodedTypeAlias = $this->explodeTypeAlias();
 		}
 
-		return $this->explodedItemName[2];
+		return $this->explodedTypeAlias[0];
 	}
 
 	/**
 	 * Returns the url segment for a tag map record.
 	 *
-	 * @param   string  $tagItemName  The tag item name.
+	 * @param   string   $typeAlias          The tag item name.
+	 * @param   array    $explodedTypeAlias  Exploded alias if it exists
+	 * @param   integer  $id                 Id of the item
 	 *
 	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
 	 *
 	 * @since   3.1
 	 */
-	public function getContentItemUrl($tagItemName, $explodedItemName = null)
+	public function getContentItemUrl($typeAlias, $explodedTypeAlias = null, $id)
 	{
-		if (!isset($explodedItemName))
+		if (!isset($explodedTypeAlias))
 		{
-			$explodedItemName = self::explodeTagItemName($tagItemName);
+			$explodedTypeAlias = self::explodedTypeAlias($tagAlias);
 		}
 
-		$this->url = 'index.php?option=' . $explodedItemName[0] . '&view=' .  $explodedItemName[1] . '&id=' . $explodedItemName[2];
+		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' .  $explodedTypeAlias[1] . '&id=' . $id;
 
 		return $this->url;
 	}
@@ -262,11 +247,11 @@ class JTagsHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getTagUrl($tagItemName, $explodedItemName = null)
+	public function getTagUrl($typeAlias, $explodedTypeAlias = null, $id)
 	{
-		if (!isset($explodedItemName))
+		if (!isset($explodedTypeAlias))
 		{
-			$explodedItemName = self::explodeTagItemName($tagItemName);
+			$explodedTypeAlias = self::explodeTypeAlias($tagItemName);
 		}
 
 		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
@@ -276,20 +261,16 @@ class JTagsHelper
 
 
 	/**
-	 * Method to get the table name for a type.
+	 * Method to get the table name for a type alias.
 	 *
-	 * @param   string  $tagItemName  Name of an item.
+	 * @param   string  $tagAlias  A type alias.
 	 *
-	 * @return  string  Name of the table for a tagged content item
+	 * @return  string  Name of the table for a type
 	 *
 	 * @since   3.1
 	 */
-	public function getTableName($tagItemName, $explodedItemName = null)
+	public function getTableName($tagItemAlias)
 	{
-		if (!isset($explodedItemName))
-		{
-			$explodedItemName = self::explodeTagItemName($tagItemName);
-		}
 
 		// Initialize some variables.
 		$db = JFactory::getDbo();
@@ -297,7 +278,7 @@ class JTagsHelper
 
 		$query->select($db->quoteName('table'));
 		$query->from($db->quoteName('#__content_types'));
-		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($explodedItemName . '.' .$explodedItemName[1]));
+		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($tagItemAlias));
 		$db->setQuery($query);
 		$this->table = $db->loadResult();
 

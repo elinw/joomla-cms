@@ -52,6 +52,11 @@ class TagsModelTag extends JModelList
 
 			foreach ($items as $item)
 			{
+				$tagsHelper = new JTagsHelper;
+
+				$explodedItemName = $tagsHelper->explodeTypeAlias($item->type_alias);
+				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->id .':'. $item->alias ;
+
 				// Get display date
 				switch ($this->state->params->get('list_show_date'))
 				{
@@ -91,22 +96,21 @@ class TagsModelTag extends JModelList
 		$db = JFactory::getDbo();
 		$queryt = $db->getQuery(true);
 
-			$contentTypes = new JTagsHelper;
-			$types = $contentTypes->getTypes('objectList');
+		$contentTypes = new JTagsHelper;
+		$types = $contentTypes->getTypes('objectList');
 
-			// Handle content types specified in the request, eliminate those not specified.
-			$typesr= $this->getState('tag.typesr');
+		// Handle content types specified in the request, eliminate those not specified.
+		$typesr= $this->getState('tag.typesr');
+		foreach ($types as  $i => &$type)
+		{
+			if (!empty($typesr) && !in_array($type->type_id, $typesr))
+			{
+				unset($types[$i]);
+			}
+		}
+
 			foreach ($types as $type)
 			{
-				if (!empty($typesr) && !in_array($type->type_id, $typesr))
-				{
-					continue;
-				}
-				else
-				{
-					$tableLookup[$type->alias] = $type->table;
-				}
-
 				$aliasExplode = explode('.', $type->alias);
 				$type->component = $aliasExplode[0];
 
@@ -151,10 +155,9 @@ class TagsModelTag extends JModelList
 						}
 					}
 					// Select required fields from the map table.
-					$queryt->select(array($db->qn('a.item_name'), $db->qn('a.content_item_id')));
-					$queryt->group($db->quoteName('a.item_name'));
+					$queryt->select(array($db->qn('a.type_alias'), $db->qn('a.content_item_id')));
+					$queryt->group(array($db->quoteName('a.type_alias'), $db->quoteName('a.content_item_id')));
 					$queryt->from($db->quoteName('#__contentitem_tag_map') . ' AS a ');
-					$aliaslike = $type->alias . '.%';
 
 					// Modify the query based on whether or not items with child tags should be returned.
 					if ($this->state->params->get('include_children') == 1)
@@ -162,7 +165,7 @@ class TagsModelTag extends JModelList
 						$queryt->join('inner', $db->quoteName($type->table) . ' AS CI' . ' ON ' . $db->qn('CI.id') . ' = '  . $db->qn('a.content_item_id')
 
 						. ' AND ' . $db->quoteName('a.tag_id') . ' IN (' . $tagTreeArray . ')'
-						. ' AND ' . $db->qn('a.item_name') . ' LIKE ' .  $db->q($aliaslike));
+						. ' AND ' . $db->qn('a.type_alias') . ' = ' .  $db->q($type->alias));
 
 					}
 					else
@@ -170,7 +173,7 @@ class TagsModelTag extends JModelList
 						$queryt->join('inner', $db->quoteName($type->table) . ' AS CI' . ' ON ' . $db->qn('CI.id') . ' = '  . $db->qn('a.content_item_id')
 
 						. ' AND ' . $db->quoteName('a.tag_id') . ' IN (' .  $tagId . ')'
-						. ' AND ' . $db->qn('a.item_name') . ' LIKE ' .  $db->q($aliaslike));
+						. ' AND ' . $db->qn('a.type_alias') . ' = ' .  $db->q($type->alias));
 					}
 
 					// For AND search make sure the number matches, but if there is just one tag do not bother.

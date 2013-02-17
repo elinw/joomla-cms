@@ -32,7 +32,7 @@ abstract class modTagssimilarHelper
 		$view		= $app->input->get('view');
 		$prefix		= $option . '.' . $view;
 		$id			= $app->input->getString('id');
-		$name		= $prefix . '.' . $id;
+
 
 		$tagsToMatch= $tagsHelper->getTagIds($id, $prefix);
 		if (!$tagsToMatch || is_null($tagsToMatch))
@@ -44,12 +44,12 @@ abstract class modTagssimilarHelper
 
 		$query		= $db->getQuery(true);
 
-			$query->select(array($db->quoteName('tag_id'), $db->quoteName('item_name'), ' COUNT(*) AS count', 't.title', 't.access'));
-			$query->group($db->quoteName('item_name'));
+			$query->select(array($db->quoteName('tag_id'), $db->quoteName('content_item_id'), $db->quoteName('type_alias'), ' COUNT(*) AS count', 't.title', 't.access'));
+			$query->group(array( $db->quoteName('content_item_id'), $db->quoteName('type_alias')));
 			$query->from($db->quoteName('#__contentitem_tag_map'));
 			$query->where('t.access IN (' . $groups . ')');
 			$query->where($db->quoteName('tag_id') . ' IN (' . $tagsToMatch . ')');
-			$query->where($db->quoteName('item_name') .  ' <> ' . $db->q($name));
+			$query->where($db->quoteName('coentent_item_id') .  ' <> ' . $db->q($id));
 
 			if ($matchtype == 'all' && $tagCount > 0)
 			{
@@ -70,16 +70,16 @@ abstract class modTagssimilarHelper
 			{
 				// Get the data for the matching item. We have to get it  all because we don't know if it uses name or title.
 				$tagHelper = new JTagsHelper;
-				$explodedItemName = $tagHelper->explodeTagItemName($result->item_name);
-				$result->itemUrl = $tagHelper->getContentItemUrl($result->item_name, $explodedItemName);
-				$table = $tagsHelper->getTableName($result->item_name, $explodedItemName);
+				$explodedTypeAlias = $tagHelper->explodeTypeAlias($result->type_alias);
+				$result->itemUrl = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->id);
+				$table = $tagsHelper->getTableName($result->type_alias);
 
-				if (!empty($explodedItemName[2]))
+				if (!empty($result->id))
 				{
 					$queryi = $db->getQuery(true);
 					$queryi->select('*');
 					$queryi->from($table);
-					$queryi->where($db->qn('id') . '= ' . $explodedItemName[2]);
+					$queryi->where($db->qn('id') . '= ' . $result->id);
 					$db->setQuery($queryi);
 					$result->itemData = $db->loadAssoc();
 				}
