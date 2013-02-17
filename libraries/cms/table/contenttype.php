@@ -46,7 +46,7 @@ class TableContenttypes extends JTable
 
 		if (empty($this->alias))
 		{
-			$this->alias = $this->title;
+			$this->alias = strtolower($this->title);
 		}
 
 		$this->alias = JApplication::stringURLSafe($this->alias);

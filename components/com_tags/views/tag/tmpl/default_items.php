@@ -29,14 +29,14 @@ $n = count($this->items);
 <?php else : ?>
 
 	<ul class="category list-striped list-condensed">
-		<?php foreach ($this->items as $item) : ?>
+		<?php foreach ($this->items as $i => $item) : ?>
 			<?php
 			if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 				<?php if ($item->published == 0) : ?>
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<?php  echo '<h3> <a href="'. JRoute::_($item->urlprefix . $item->id) .'">'
+					<?php  echo '<h3> <a href="'. JRoute::_($item->router . '(' . $item->id . ':' . $item->alias).')' .')">'
 						. $this->escape($item->title) . '</a> </h3>';  ?>
 				<?php endif; ?>
 

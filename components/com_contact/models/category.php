@@ -156,6 +156,7 @@ class ContactModelCategory extends JModelList
 
 		// Filter by state
 		$state = $this->getState('filter.published');
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = '.(int) $state);

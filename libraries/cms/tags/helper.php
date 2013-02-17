@@ -48,10 +48,10 @@ class JTagsHelper
 				$query2 = $db->getQuery(true);
 
 				$query2->insert($db->quoteName('#__contentitem_tag_map'));
-				$query2->columns(array($db->quoteName('item_name'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
+				$query2->columns(array($db->quoteName('item_name'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
 				$query2->clear('values');
-				$query2->values($db->quote($prefix . '.' . $id) . ', ' . $tag . ', ' . $query->currentTimestamp());
+				$query2->values($db->quote($prefix . '.' . $id) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp());
 				$db->setQuery($query2);
 				$db->execute();
 			}
@@ -81,10 +81,10 @@ class JTagsHelper
 		$query->clear();
 		$query->select($db->quoteName('t.id') );
 
-		$query->from($db->quoteName('#__tags') . ' AS t');
-		$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m ' .
-			' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id'));
-		$query->where($db->quoteName('m.item_name') . ' = ' . $db->quote($prefix . '.' . $id));
+		$query->from($db->quoteName('#__tags') . ' AS ' . $db->quoteName('t'));
+		$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS ' . $db->quoteName('m')  .
+			' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' . $db->quoteName('m.item_name') . ' = ' . $db->quote($prefix . '.' . $id));
+		//$query->where($db->quoteName('m.item_name') . ' = ' . $db->quote($prefix . '.' . $id));
 		$db->setQuery($query);
 
 		// Add the tags to the content data.
@@ -297,7 +297,7 @@ class JTagsHelper
 
 		$query->select($db->quoteName('table'));
 		$query->from($db->quoteName('#__content_types'));
-		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($explodedItemName[1]));
+		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($explodedItemName . '.' .$explodedItemName[1]));
 		$db->setQuery($query);
 		$this->table = $db->loadResult();
 

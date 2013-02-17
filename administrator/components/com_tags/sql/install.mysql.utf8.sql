@@ -58,26 +58,31 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
   `table` varchar(255) NOT NULL DEFAULT '',
   `rules` text NOT NULL,
    `field_mappings` text NOT NULL,
-  PRIMARY KEY (`type_id`)
+   `router` varchar(255) NOT NULL  DEFAULT '',
+  PRIMARY KEY (`type_id`),
+  KEY `idx_alias` (`alias`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__content_types`
 --
 
-INSERT INTO `#__content_types` (`type_id`, `title`, `alias`, `table`, `rules`, `field_mappings`) VALUES
-(0, 'Article', 'article', '#__content', '', '{"id":"id","title":"title","published":"state","alias":"alias","created_date":"created","modified_data":"modified","body":"introtext", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}'),
-(0, 'Weblink', 'weblink', '#__weblinks', '', '{"id":"id","title":"title","published":"state","alias":"alias","created_date":"created","modified_data":"modified","body":"description", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}'),
-(0, 'Contact', 'contact', '#__contact_details', '', '{"id":"id","title":"name","published":"published","alias":"alias","created_date":"created","modified_date":"modified","body":"address", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}'),
-(0, 'Newsfeed', 'newsfeed', '#__newsfeeds', '', '{"id":"id","title":"name","published":"published","alias":"alias","created_date":"created","modified_date":"modified","body":"description", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}'),
-(0, 'User', 'user', '#__users', '', '{"id":"id","title":"name","published":null,"alias":"username","created_date":"registerdate","modified_date":"null","body":"null", "hits":"hits","publish_up":"null","publish_down":"null","access":"null"}'),
-(0, 'Category', 'category', '#__categories', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}'),
-(0, 'Tag', 'tag', '#__tags', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}');
-
+INSERT INTO `#__content_types` (`type_id`, `title`, `alias`, `table`, `rules`, `field_mappings`,`router`) VALUES
+(0, 'Article', 'com_content.article', '#__content', '', '{"id":"id","title":"title","published":"state","alias":"alias","created_date":"created","modified_date":"modified","body":"introtext", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}','ContentHelperRoute'),
+(0, 'Weblink', 'com_weblinks.weblink', '#__weblinks', '', '{"id":"id","title":"title","published":"state","alias":"alias","created_date":"created","modified_date":"modified","body":"description", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}','WeblinksHelperRoute'),
+(0, 'Contact', 'com_contact.contact', '#__contact_details', '', '{"id":"id","title":"name","published":"published","alias":"alias","created_date":"created","modified_date":"modified","body":"address", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}','ContactHelperRoute'),
+(0, 'Newsfeed', 'com_newsfeeds.newsfeed', '#__newsfeeds', '', '{"id":"id","title":"name","published":"published","alias":"alias","created_date":"created","modified_date":"modified","body":"description", "hits":"hits","publish_up":"publish_up","publish_down":"publish_down","access":"access"}','NewsfeedsHelperRoute'),
+(0, 'User', 'com_users.user', '#__users', '', '{"id":"id","title":"name","published":null,"alias":"username","created_date":"registerdate","modified_date":"null","body":"null", "hits":"hits","publish_up":"null","publish_down":"null","access":"null"}','UsersHelperRoute'),
+(0, 'Category', 'com_category.category', '#__categories', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}',''),
+(0, 'Tag', 'com_tags.tag', '#__tags', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}','TagsHelperRoute');
 
 
 CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
-  `item_name` varchar(50) NOT NULL,
-  `tag_id` int(11) NOT NULL,
-  `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
+  `item_name` varchar(50) NOT NULL COMMENT 'Unique dot separated name',
+  `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
+  `tag_id` int(11) NOT NULL COMMENT 'ID from the tag table',
+  `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ CONSTRAINT uc_ItemnameTagid UNIQUE (item_name, tag_id),
+ KEY idx_tag_name (tag_id, item_name),
+ KEY idx_date_id (tag_date, tag_id)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';

@@ -26,10 +26,10 @@ class JFormFieldContenttype extends JFormFieldList
 	 * @var    string
 	 * @since  3.1
 	 */
-	public $type = 'Tag';
+	public $type = 'Contenttype';
 
 	/**
-	 * Method to get the field input for a tag field.
+	 * Method to get the field input for a list of content types.
 	 *
 	 * @return  string  The field input.
 	 *
@@ -37,7 +37,7 @@ class JFormFieldContenttype extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		if (!is_array($this->value) && !empty($this->value))
+		if (!is_array($this->value))
 		{
 			if (is_object($this->value))
 			{

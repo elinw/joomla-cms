@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<layout title="com_tags_tag_view_default_title" option="com_tags_tag_view_default_option">
+	<layout title="com_tags_tag_view_list_title" option="com_tags_tag_view_list_option">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_TAG"
 		/>
 		<message>
-			<![CDATA[com_tags_tag_view_default_desc]]>
+			<![CDATA[com_tags_tag_view_list_desc]]>
 		</message>
 	</layout>
 
@@ -23,12 +23,9 @@
 				description="COM_TAGS_FIELD_TYPE_DESC"
 				label="COM_TAGS_FIELD_TYPE_LABEL"
 				multiple="true"
-			>
-			
-			</field>
+			/>
 		</fieldset>
 	</fields>
-
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 	<fieldset name="basic" label="COM_TAGS_OPTIONS">
@@ -86,7 +83,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
 			<field
 				name="maximum"
 				type="text"
@@ -127,36 +123,11 @@
 				<option value="0">COM_TAGS_EXCLUDE</option>
 				<option value="1">COM_TAGS_INCLUDE</option>
 			</field>	
-
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			<field name="spacer2" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_TAG_LIST_LABEL"
-			/>
-			<field name="tag_list_show_item_image" type="list"
-				description="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_DESC"
-				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="tag_list_show_item_description" type="list"
-				description="COM_TAGS_TAG_LIST_SHOW_TAG_DESCRIPTION_DESC"
-				label="COM_TAGS_TAG_LIST_SHOW_TAG_DESCRIPTION_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-			<field
-				name="tag_list_item_maximum_characters"
-				type="text"
-				filter="integer"
-				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
-				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 			/>
 
 			<field	name="show_pagination_limit" type="list"
@@ -168,6 +139,15 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_headings" type="list"
+				description="JGLOBAL_SHOW_HEADINGS_DESC"
+				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		
 			<field name="show_item_hits" type="list"
 				description="COM_TAGS_TAG_LIST_ITEM_HITS_DESC"
 				label="JGLOBAL_HITS"
@@ -194,7 +174,22 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 			</field>
+			<field name="list_show_date" type="list"
+				description="JGLOBAL_SHOW_DATE_DESC"
+				label="JGLOBAL_SHOW_DATE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
+				<option value="published">JPUBLISHED</option>
+			</field>
 
+			<field name="date_format" type="text"
+				description="JGLOBAL_DATE_FORMAT_DESC"
+				label="JGLOBAL_DATE_FORMAT_LABEL"
+				size="15"
+			/>
 
 		</fieldset>
 
