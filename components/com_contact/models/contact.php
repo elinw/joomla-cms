@@ -101,7 +101,7 @@ class ContactModelContact extends JModelForm
 	 *
 	 * @return mixed Object or null
 	 */
-	public function getItem($pk = null)
+	public function &getItem($pk = null)
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
