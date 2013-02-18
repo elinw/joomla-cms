@@ -75,6 +75,11 @@ class JTagsHelper
 
 	public function getTagIds($id, $prefix)
 	{
+		if (is_array($id))
+		{
+			$id=implode(',', $id);
+		}
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -82,9 +87,11 @@ class JTagsHelper
 		$query->clear();
 		$query->select($db->quoteName('t.id') );
 
-		$query->from($db->quoteName('#__tags') . ' AS ' . $db->quoteName('t'));
-		$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS ' . $db->quoteName('m')  .
-			' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix ) . ' AND ' . $db->quoteName('m.content_item_id') . ' = ' . $db->quote($id ));
+		$query->from($db->quoteName('#__tags') . ' AS t ');
+		$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'  .
+			' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' .
+					$db->quoteName('m.type_alias') . ' = ' .
+					$db->quote($prefix ) . ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id .')'  );
 
 		$db->setQuery($query);
 
@@ -107,6 +114,10 @@ class JTagsHelper
 	 */
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
+		if (is_array($id))
+		{
+			$id=implode($id);
+		}
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -285,23 +296,42 @@ class JTagsHelper
 		return $this->table;
 	}
 	/**
-	 * Method to get a list of types.
+	 * Method to get a list of types with associated data.
 	 *
-	 * @param   string  $arrayType  Optionally specify that the returned list consist of objects, associative arrays, or arrays.
-	 *                              Options are: rowList, assocList, and objectList
+	 * @param   string   $arrayType     Optionally specify that the returned list consist of objects, associative arrays, or arrays.
+	 *                                  Options are: rowList, assocList, and objectList
+	 * @param   array    $selectTypes   Optional array of type ids to limit the results to. Often from a request.
+	 * @param   boolean  $useAlias      If true, the alias is used to match, if false the type_id is used.
 	 *
 	 * @return  array   Array of of types
 	 *
 	 * @since   3.1
 	 */
-	public static function getTypes($arrayType = 'objectList')
+	public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true)
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-
 		$query->select('*');
+
+		if (!empty($selectTypes))
+		{
+			if (is_array($selectTypes))
+			{
+				$selectTypes = implode(',', $selectTypes);
+			}
+			if ($useAlias)
+			{
+				$query->where($db->qn('alias') . ' IN (' . $selectTypes . ')') ;
+			}
+			else
+			{
+				$query->where($db->qn('type_id') . ' IN (' . $selectTypes . ')') ;
+			}
+		}
+
 		$query->from($db->quoteName('#__content_types'));
+
 		$db->setQuery($query);
 		if (empty($arrayType) || $arrayType == 'objectList')
 		{

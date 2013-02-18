@@ -58,7 +58,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</fieldset>
 						<div class="row-fluid">
 							<div class="span6">
-								<h4><?php echo JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES');?></h4>
+								<h4><?php echo JText::_('COM_TAGS_FIELDSET_URLS_AND_IMAGES');?></h4>
 								<div class="control-group">
 									<?php echo $this->form->getLabel('images'); ?>
 									<div class="controls">

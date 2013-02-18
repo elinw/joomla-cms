@@ -17,6 +17,7 @@ JHtml::_('behavior.framework');
 $user = JFactory::getUser();
 
 // Check if user is allowed to add/edit based on tags permissions.
+// Do we really have to make it so people can see unpublished tags???
 $canEdit = $user->authorise('core.edit', 'com_tags');
 $canCreate = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
@@ -34,12 +35,11 @@ $n = count($this->items);
 			if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 				<?php if ($item->published == 0) : ?>
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-				<?php else: ?>
+				<?php else: ?><?php $r = $item->router;?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<?php  echo '<h3> <a href="'. JRoute::_($item->link) .'">'
-						. $this->escape($item->title) . '</a> </h3>';  ?>
-				<?php endif; ?>
-
+					<?php  echo '<h3> <a href="' . JRoute::_( $item->link) .'">'
+						 . $this->escape($item->title) . '</a> </h3>';  ?>
+					<?php endif; ?>
 				<?php  if ($this->params->get('show_item_hits', 1)) : ?>
 					<span class="list-hits badge badge-info pull-right">
 						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>

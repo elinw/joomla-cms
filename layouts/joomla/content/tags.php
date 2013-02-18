@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
 			JLoader::register('TagsHelperRoute', JPATH_BASE.'/components/com_tags/helpers/route.php');
 			foreach ($displayData as $tag)
 			{
-				echo '<span class="tag-' . '' .'"><a href="' . JRoute::_(TagsHelperRoute::getTagRoute($tag->tag_id)).'" >' . $this->escape($tag->title) . '</a></span>&nbsp;' . ' ' ;
+				echo '<span class="tag-' . $tag->tag_id . '' .'"><a href="' . JRoute::_(TagsHelperRoute::getTagRoute($tag->tag_id)).'" >' . $this->escape($tag->title) . '</a></span>&nbsp;' . ' ' ;
 			}
 		} ?>
 </div>
