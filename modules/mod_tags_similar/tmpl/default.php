@@ -12,23 +12,23 @@ defined('_JEXEC') or die;
 ?>
 <div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
 <?php if ($list)
-{ ?>
+{  ?>
 	<ul >
-	<?php foreach ($list as $item) :	?>
+	<?php foreach ($list as $i => $item) : ?>
 		<li>
-			<a href="<?php echo JRoute::_($item->itemUrl); ?>">
+			<a href="<?php echo JRoute::_($item->itemData[$i]['itemUrl']); ?>">
 				<?php
-				if (!empty($item->itemData['title']))
+				if (!empty($item->itemData[$i]['title']))
 				{
-					echo htmlspecialchars($item->itemData['title']);
+					echo htmlspecialchars($item->itemData[0]['title']);
 				}
-				elseif (!empty($item->itemData['name']))
+				elseif (!empty($item->itemData[$i]['name']))
 				{
-					echo htmlspecialchars($item->itemData['name']);
+					echo htmlspecialchars($item->itemData[$i]['name']);
 				}
 				else
 				{
-					echo htmlspecialchars($item->item_name);
+					echo htmlspecialchars($item->itemData[$i]['item_name']);
 				}
 				?></a>
 		</li>

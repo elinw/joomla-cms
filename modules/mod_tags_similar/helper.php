@@ -33,62 +33,82 @@ abstract class modTagssimilarHelper
 		$prefix		= $option . '.' . $view;
 		$id			= $app->input->getString('id');
 
-
-		$tagsToMatch= $tagsHelper->getTagIds($id, $prefix);
-		if (!$tagsToMatch || is_null($tagsToMatch))
+		// Strip off any slug data.
+		if (substr_count($id, ':') > 0)
 		{
-			return $results = false;
+				$idexplode = explode(':', $id);
+				$id = $idexplode[0];
 		}
 
-		$tagCount	= substr_count($tagsToMatch, ',') + 1;
+		// For now assume com_tags does not have tags.
+		// This module does not apply to list views in general at this point.
+		if ($option != 'com_tags' && $view != 'category')
+		{
+			$tagsToMatch= $tagsHelper->getTagIds($id, $prefix);
+			if (!$tagsToMatch || is_null($tagsToMatch))
+			{
+				return $results = false;
+			}
 
-		$query		= $db->getQuery(true);
+			$tagCount	= substr_count($tagsToMatch, ',') + 1;
 
-			$query->select(array($db->quoteName('tag_id'), $db->quoteName('content_item_id'), $db->quoteName('type_alias'), ' COUNT(*) AS count', 't.title', 't.access'));
-			$query->group(array( $db->quoteName('content_item_id'), $db->quoteName('type_alias')));
+			$query		= $db->getQuery(true);
+
+			$query->select(array($db->quoteName('tag_id'), $db->quoteName('content_item_id'), $db->quoteName('type_alias'),
+						$query->concatenate(array('type_alias','content_item_id'),'.') . ' AS ' . $db->qn('uniquename') ,
+						' COUNT(DISTINCT '. $db->qn('tag_id') .') AS ' . $db->qn('count'), $db->qn('t.access')));
+			$query->group($db->qn('tag_id'));
 			$query->from($db->quoteName('#__contentitem_tag_map'));
-			$query->where('t.access IN (' . $groups . ')');
-			$query->where($db->quoteName('tag_id') . ' IN (' . $tagsToMatch . ')');
-			$query->where($db->quoteName('coentent_item_id') .  ' <> ' . $db->q($id));
+			$query->having('t.access IN (' . $groups . ')');
+			$query->having($db->quoteName('tag_id') . ' IN (' . $tagsToMatch . ')');
+			$query->having($db->q($prefix . '.' . $id ) .  ' <> ' . $db->quoteName('uniquename'));
 
-			if ($matchtype == 'all' && $tagCount > 0)
-			{
-				$query->having('count = ' . $tagCount  );
-			}
-			elseif ($matchtype == 'half'  && $tagCount > 0)
-			{
-				$tagCountHalf = ceil($tagCount/2);
-				$query->having('count >= ' . $tagCountHalf );
-			}
-
-			$query->join('LEFT','#__tags AS t ON tag_id=t.id');
-			$query->order('count DESC LIMIT 0,' . $maximum);
-			$db->setQuery($query);
-			$results = $db->loadObjectList();
-
-			foreach ($results as $i => $result)
-			{
-				// Get the data for the matching item. We have to get it  all because we don't know if it uses name or title.
-				$tagHelper = new JTagsHelper;
-				$explodedTypeAlias = $tagHelper->explodeTypeAlias($result->type_alias);
-				$result->itemUrl = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->id);
-				$table = $tagsHelper->getTableName($result->type_alias);
-
-				if (!empty($result->id))
+				if ($matchtype == 'all' && $tagCount > 0)
 				{
-					$queryi = $db->getQuery(true);
-					$queryi->select('*');
-					$queryi->from($table);
-					$queryi->where($db->qn('id') . '= ' . $result->id);
-					$db->setQuery($queryi);
-					$result->itemData = $db->loadAssoc();
+					$query->having('count = ' . $tagCount  );
 				}
-				else
+				elseif ($matchtype == 'half'  && $tagCount > 0)
 				{
-					unset($results[$i]);
+					$tagCountHalf = ceil($tagCount/2);
+					$query->having('count >= ' . $tagCountHalf );
 				}
+
+				$query->join('LEFT', $db->qn('#__tags', 't') .  ' ON ' . $db->qn('tag_id') . ' = ' . $db->qn('t.id'));
+				$query->order('count DESC LIMIT 0,' . $maximum);
+				$db->setQuery($query);
+				$results = $db->loadObjectList();
+
+				foreach ($results as $i => $result)
+				{
+					// Get the data for the matching item. We have to get it  all because we don't know if it uses name or title.
+					$tagHelper = new JTagsHelper;
+
+					//$explodedTypeAlias = $tagHelper->explodeTypeAlias($result->type_alias);
+					//$itemUrl = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->content_item_id);
+					$table = $tagHelper->getTableName($result->type_alias);
+
+					if (!empty($result->content_item_id))
+					{
+						$queryi = $db->getQuery(true);
+						$queryi->select('*');
+						$queryi->from($table);
+						$queryi->where($db->qn('id') . ' = ' . $result->content_item_id);
+						$db->setQuery($queryi);
+						$result->itemData[$i] = $db->loadAssoc();
+						$explodedTypeAlias = $tagHelper->explodeTypeAlias($result->type_alias);
+						$result->itemData[$i]['itemUrl'] = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->content_item_id);
+					}
+					else
+					{
+						unset($results[$i]);
+					}
+				}
+				return $results;
 			}
 
-		return $results;
+		else
+		{
+			return;
+		}
 	}
 }
