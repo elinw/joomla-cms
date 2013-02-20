@@ -186,14 +186,15 @@ class UsersControllerProfile extends UsersController
 	{
 		$task = $this->getTask();
 
-		$item = $model->getItem();
+		$item = $model->getData();
 		$id = $item->get('id');
 		$tags = $validData['tags'];
 
 		if ($tags)
 		{
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			TagsHelper::tagItem($id, 'com_users.user', $tags);
+			$item->tags = new JTagsHelper;
+			$item->tags->getTagIds($item->id, 'com_users.user');
+
 		}
 	}
 

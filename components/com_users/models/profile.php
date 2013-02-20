@@ -274,8 +274,8 @@ class UsersModelProfile extends JModelForm
 			return false;
 		}
 
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			$user->tags = TagsHelper::getTagIds($result->id, 'com_users.user');
+		$user->tags = new JTagsHelper;
+		$user->tags->getTagIds($user->id, 'com_users.user');
 
 		return $user->id;
 	}

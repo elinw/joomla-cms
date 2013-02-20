@@ -62,6 +62,77 @@ class JTagsHelper
 	}
 
 	/**
+	 * Method to add  tags associated to a list of items. Generally used for batch processing.
+	 *
+	 * @param   integer  $ids     The id (primary key) of the item to be tagged.
+	 * @param   string   $prefix  Dot separated string with the option and view for a url.
+	 * @params  array    $tag     Tag to be applied. Note that his method handles single tags only.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	public function tagItems( $tag, $ids, $contexts)
+	{
+		foreach ($contexts as $context)
+		{var_dump($contexts);
+			$prefix =  str_replace(strrchr($context,'.'),'',$context);
+			$pk = ltrim(strrchr($context,'.'), '.');
+			// Check whether the tag is present already.
+			$db		= JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->delete();
+			$query->from($db->quoteName('#__contentitem_tag_map'));
+			$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
+			$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $pk);
+			$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag);
+			$db->setQuery($query);echo $query->dump();
+			$result = $db->loadResult();
+
+			// If the tag isn't there already add it.
+			if (empty($result))
+			{
+					$query2 = $db->getQuery(true);
+
+					$query2->insert($db->quoteName('#__contentitem_tag_map'));
+					$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
+
+					$query2->clear('values');
+					$query2->values($db->quote($prefix) . ', ' . $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
+					$db->setQuery($query2);
+					$db->execute();
+			}
+		}
+
+		return;
+	}
+
+	/**
+	 * Method to remove  tags associated with a list of items. Generally used for batch processing.
+	 *
+	 * @param   integer  $ids     The id (primary key) of the item to be tagged.
+	 * @param   string   $prefix  Dot separated string with the option and view for a url.
+	 * @params  array    $tag     Tag to be applied. Note that his method handles single tags only.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	public function unTagItems($ids, $prefix, $tag)
+	{
+		foreach ($ids as $id)
+
+		$db		= JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete('#__contentitem_tag_map');
+		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
+		$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $id);
+		$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag);
+		$db->setQuery($query);
+		$db->execute();
+
+		return;
+	}
+
+	/**
 	 * Method to get a list of tags for a given item.
 	 * Normally used for displaying a list of tags within a layout
 	 *

@@ -45,16 +45,14 @@ class TagsModelTag extends JModelList
 	public function getItems()
 	{
 		// Invoke the parent getItems method to get the main list
-		$items = parent::getItems() ;
+		$items = parent::getItems();
 
 		if (!empty($items))
 		{
 
 			foreach ($items as $item)
 			{
-				$tagsHelper = new JTagsHelper;
-
-				$explodedTypeAlias = $tagsHelper->explodeTypeAlias($item->type_alias);
+				$explodedTypeAlias = explode('.', $item->type_alias);
 				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->id .':'. $item->alias ;
 
 				// Get display date
@@ -92,8 +90,7 @@ class TagsModelTag extends JModelList
 	 */
 	protected function getListQuery()
 	{
-
-		$typesr= $this->getState('tag.typesr');
+		$typesr = $this->getState('tag.typesr');
 		if (!empty($typesr))
 		{
 			$typesrlist= implode(',', $typesr);
@@ -108,38 +105,41 @@ class TagsModelTag extends JModelList
 		{
 			$typeAliases .= "'" . $type['alias'] . "'" . ',';
 		}
+
 		$typeAliases = rtrim($typeAliases, ',');
 
 		$tagId = '';
 		$tagId = $this->getState('tag.id');
 
-			// Quick check to cut out types with no results.
-			$db2 = JFactory::getDbo();
-			$queryt2 = $db2->getQuery(true);
-			$queryt2->select($db2->qn('type_alias'));
-			$queryt2->from($db2->qn('#__contentitem_tag_map'));
-			$queryt2->where($db2->qn('tag_id') . ' IN (' . $tagId . ')');
-			if (!empty($typeAliases))
-			{
-				$queryt2->where('type_alias' . ' IN (' . $typeAliases .')');
-			}
-			$queryt2->group(array($db2->qn('type_alias')));
-			$db2->setQuery($queryt2);
-			$types = $db2->loadObjectList();
+		// Quick check to cut out types with no results.
+		$db2 = JFactory::getDbo();
+		$queryt2 = $db2->getQuery(true);
+		$queryt2->select($db2->qn('type_alias'));
+		$queryt2->from($db2->qn('#__contentitem_tag_map'));
+		$queryt2->where($db2->qn('tag_id') . ' IN (' . $tagId . ')');
+		if (!empty($typeAliases))
+		{
+			$queryt2->where('type_alias' . ' IN (' . $typeAliases .')');
+		}
+		$queryt2->group(array($db2->qn('type_alias')));
+		$db2->setQuery($queryt2);
+		$types = $db2->loadObjectList();
 
+		// If we get no types, return.
+		if (empty($types))
+		{
+			return null;
+		}
 
-			// If we get no types, return.
-			if (empty($types))
-			{
-				return null;
-			}
-			$typeAliases = '';
-			foreach ($types as $type)
-			{
-				$typeAliases .= "'" . $type->type_alias . "',";
-			}
-			$typeAliases = rtrim($typeAliases, ',');
-			$typesobject = $contentTypes->getTypes('objectList', $typeAliases);
+		$typeAliases = '';
+
+		foreach ($types as $type)
+		{
+			$typeAliases .= "'" . $type->type_alias . "',";
+		}
+
+		$typeAliases = rtrim($typeAliases, ',');
+		$typesobject = $contentTypes->getTypes('objectList', $typeAliases);
 
 		// Start a fresh DBo.
 		$db = JFactory::getDbo();
@@ -158,7 +158,6 @@ class TagsModelTag extends JModelList
 			{
 				if ($specific != 'null')
 				{
-					//$newstring = $db->qn('CI.' . rtrim($specific)) . ' AS ' . $db->qn($common) . ',';
 					$newstring = $db->qn('CI.' . rtrim($specific), $common) . ',';
 
 				}
@@ -172,9 +171,9 @@ class TagsModelTag extends JModelList
 
 			$type->fieldlist = rtrim($type->fieldlist, ',');
 
-			// Let's get the select query we need for each view and add it to the array.
-
+			// Get the select query we need for each view and add it to the array.
 			$queryt->clear();
+
 			if (!empty($type->fieldlist))
 			{
 				$user	= JFactory::getUser();
@@ -193,6 +192,7 @@ class TagsModelTag extends JModelList
 						$tagTreeArray = implode(',', $this->getTagTreeArray($tag));
 					}
 				}
+
 				// Select required fields from the map table.
 				$queryt->select(array($db->qn('a.type_alias'), $db->qn('a.content_item_id')));
 				$queryt->group(array($db->quoteName('a.type_alias'), $db->quoteName('a.content_item_id')));
@@ -202,24 +202,21 @@ class TagsModelTag extends JModelList
 				if ($this->state->params->get('include_children') == 1)
 				{
 					$queryt->join('inner', $db->quoteName($type->table,'CI') . ' ON ' . $db->qn('CI.id') . ' = '  . $db->qn('a.content_item_id')
-
 					. ' AND ' . $db->quoteName('a.tag_id') . ' IN (' . $tagTreeArray . ')'
 					. ' AND ' . $db->qn('a.type_alias') . ' = ' .  $db->q($type->alias));
-
 				}
 				else
 				{
-					$queryt->join('inner', $db->quoteName($type->table) . ' AS ' . $db->qn('CI') . ' ON ' . $db->qn('CI.id') . ' = '  . $db->qn('a.content_item_id')
-
-					. ' AND ' . $db->quoteName('a.tag_id') . ' IN (' .  $tagId . ')'
-					. ' AND ' . $db->qn('a.type_alias') . ' = ' .  $db->q($type->alias));
+					$queryt->join('inner', $db->quoteName($type->table) . ' AS ' . $db->qn('CI')
+						. ' ON ' . $db->qn('CI.id') . ' = '  . $db->qn('a.content_item_id')
+						. ' AND ' . $db->quoteName('a.tag_id') . ' IN (' .  $tagId . ')'
+						. ' AND ' . $db->qn('a.type_alias') . ' = ' .  $db->q($type->alias));
 				}
 
 				// For AND search make sure the number matches, but if there is just one tag do not bother.
 				if ($this->state->params->get('return_any_or_all') == 0 && $tagCount > 1)
 				{
 					$queryt->having($db->qn('ntags') . ' = ' . $tagCount );
-
 				}
 
 				$queryt->select($type->fieldlist . ', ' . $db->q($type->router) . ' AS ' . $db->quoteName('router') . ', ' . $db->q($type->component) . ' AS ' . $db->qn('component') . ', COUNT(DISTINCT ' . $db->qn('a.tag_id') . ') AS ' . $db->qn('ntags'));
@@ -228,7 +225,6 @@ class TagsModelTag extends JModelList
 				$tablequeries[] = $queryString;
 			}
 		}
-
 
 		// Now we want to put the queries for each table together using Union.
 		$queryu = $db->getQuery(true);
@@ -251,7 +247,6 @@ class TagsModelTag extends JModelList
 			$queryStringu = $tablequeries[0] . ' ORDER BY ' . $db->qn($this->state->params->get('tag_list_orderby', 'title')) . ' ' . $this->state->params->get('tag_list_orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 200);
 		}
 
-
 		// Until we have UNION ALL in the platform do this to avoid an unneeded sort.
 		$queryStringu = str_replace('UNION ', 'UNION ALL ', $queryStringu);
 
@@ -273,6 +268,7 @@ class TagsModelTag extends JModelList
 		$pk = $app->input->getObject('id');
 		$pk = (array) $pk;
 		$pkString = '';
+
 		foreach ($pk as $id)
 		{
 			$pkString .= (int) $id . ',';
@@ -369,39 +365,40 @@ class TagsModelTag extends JModelList
 	 */
 	public function getTagTreeArray($id = null)
 	{
-			if (empty($id))
-			{
-				$id = $this->getState('tag.id');
-			}
+		if (empty($id))
+		{
+			$id = $this->getState('tag.id');
+		}
 
-			// Get a level row instance.
-			$table = JTable::getInstance('Tag', 'TagsTable');
+		// Get a level row instance.
+		$table = JTable::getInstance('Tag', 'TagsTable');
 
-			if ($table->isLeaf($id))
+		if ($table->isLeaf($id))
+		{
+			$this->tagTreeArray[] = $id;
+			return $this->tagTreeArray;
+		}
+		$tagTree = $table->getTree($id);
+
+		// Attempt to load the tree
+		if ($tagTree)
+		{
+			foreach ($tagTree as $tag)
 			{
-				$this->tagTreeArray[] = $id;
-				return $this->tagTreeArray;
-			}
-			$tagTree = $table->getTree($id);
-			// Attempt to load the tree
-			if ($tagTree)
-			{
-				foreach ($tagTree as $tag)
+				// Check published state.
+				if ($published = $this->getState('filter.published'))
 				{
-					// Check published state.
-					if ($published = $this->getState('filter.published'))
+					if ($tag->published == $published)
 					{
-						if ($tag->published == $published)
-						{
-							$this->tagTreeArray[] = $tag->id;
-						}
+						$this->tagTreeArray[] = $tag->id;
 					}
 				}
 			}
-			elseif ($error = $table->getError())
-			{
-				$this->setError($error);
-			}
+		}
+		elseif ($error = $table->getError())
+		{
+			$this->setError($error);
+		}
 
 		return $this->tagTreeArray;
 	}
