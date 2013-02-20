@@ -29,7 +29,7 @@ var Installation = new Class({
 			alert(Joomla.JText._('INSTL_PROCESS_BUSY', 'Process is in progress. Please wait...'));
 			return false;
 		}
-
+		
 		var req = new Request.JSON({
 			url: this.baseUrl,
 			data: form,
@@ -155,7 +155,7 @@ var Installation = new Class({
 		var taskSpinner = tr.getElement('div.spinner');
 
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=Install' + task,
+			url: this.baseUrl + '?task=setup.install_' + task,
 			data: form,
 			format: 'json',
 			onRequest: function() {
@@ -196,7 +196,7 @@ var Installation = new Class({
 	detectFtpRoot: function(el) {
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=detectftproot',
+			url: this.baseUrl + '?task=setup.detectFtpRoot',
 			data: document.id(el.form),
 			format: 'json',
 			onRequest: function() {
@@ -229,7 +229,7 @@ var Installation = new Class({
 		// make the ajax call
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=verifyftpsettings',
+			url: this.baseUrl + '?task=setup.verifyFtpSettings',
 			data: document.id(el.form),
 			format: 'json',
 			onRequest: function() {
@@ -270,7 +270,7 @@ var Installation = new Class({
 			document.id(languages).fade('out');
 		}
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=removefolder',
+			url: this.baseUrl + '?task=setup.removeFolder',
 			data: document.id(el.form),
 			format: 'json',
 			onRequest: function() {

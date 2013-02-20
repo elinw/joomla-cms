@@ -125,13 +125,13 @@ $info    = $this->item->params->get('info_block_position', 0);
 				<?php endif; ?>
 			<?php endif; ?>
 	</dl>
-	<?php endif; ?>
 
 	<?php if ($this->params->get('show_tags',1)) : ?>
 		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 	<?php endif; ?>
 
+	<?php endif; ?>
 	<?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 		<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
 		<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
