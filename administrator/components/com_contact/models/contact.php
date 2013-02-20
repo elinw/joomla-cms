@@ -94,6 +94,16 @@ class ContactModelContact extends JModelAdmin
 			$done = true;
 		}
 
+		if (!empty($commands['tag']))
+		{
+			if (!$this->batchTag($commands['tag'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
 		if (strlen($commands['user_id']) > 0)
 		{
 			if (!$this->batchUser($commands['user_id'], $pks, $contexts))
@@ -280,9 +290,28 @@ class ContactModelContact extends JModelAdmin
 	}
 
 	/**
+	 * Batch tag a list of item.
+	 *
+	 * @param   integer  $value     The value of the new tag.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  void.
+	 *
+	 * @since   3.1
+	 */
+	protected function batchTag($value, $pks, $contexts)
+	{
+		$tagsHelper = new JTagsHelper();
+		$tagsHelper->tagItems($value, $pks, $contexts);
+
+		return true;
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	$record	A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
