@@ -23,12 +23,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <h2>
 	<?php echo JHtml::_('content.prepare', $this->document->title, '', 'com_tag.tag'); ?>
 </h2>
-
-<?php if ($this->params->get('show_tags',1)) : ?>
-	<?php $this->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-	<?php echo $this->tagLayout->render($this->tags->itemTags); ?>
-<?php endif; ?>
-
 <?php endif; ?>
 <?php // We only show a tag description if there is a single tag. ?>
 <?php  if (count($this->item) == 1 && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
