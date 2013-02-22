@@ -91,8 +91,8 @@ class WeblinksModelCategory extends JModelList
 				$item->params = $params;
 			}
 			// Get the tags
-			$item->tags = new JTagsHelper;
-			$item->tags->getItemTags('com_weblinks.weblink' , $item->id);
+			$item->tags = new JTags;
+			$item->tags->getItemTags('com_weblinks.category' , $item->id);
 		}
 
 

@@ -79,7 +79,7 @@ class WeblinksModelForm extends WeblinksModelWeblink
 	{
 		if ($item = parent::getItem($pk))
 		{
-			$item->tags = new JTagsHelper;
+			$item->tags = new JTags;
 			$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
 		}
 		return $item;

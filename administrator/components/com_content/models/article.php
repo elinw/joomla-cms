@@ -288,7 +288,7 @@ class ContentModelArticle extends JModelAdmin
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 
-			$item->tags = new JTagsHelper;
+			$item->tags = new JTags;
 			$item->tags->getTagIds($item->id, 'com_content.article');
 		}
 

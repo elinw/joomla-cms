@@ -27,7 +27,7 @@ abstract class modTagssimilarHelper
 		$date		= JFactory::getDate();
 		$matchtype 	= $params->get('matchtype', 'all');
 		$maximum 	= $params->get('maximum', 5);
-		$tagsHelper  = new JTagsHelper;
+		$tagsHelper  = new JTags;
 		$option		= $app->input->get('option');
 		$view		= $app->input->get('view');
 		$prefix		= $option . '.' . $view;
@@ -81,7 +81,7 @@ abstract class modTagssimilarHelper
 				foreach ($results as $i => $result)
 				{
 					// Get the data for the matching item. We have to get it  all because we don't know if it uses name or title.
-					$tagHelper = new JTagsHelper;
+					$tagHelper = new JTags;
 
 					//$explodedTypeAlias = $tagHelper->explodeTypeAlias($result->type_alias);
 					//$itemUrl = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->content_item_id);

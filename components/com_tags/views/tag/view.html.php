@@ -30,7 +30,6 @@ class TagsViewTag extends JViewLegacy
 
 	protected $params;
 
-
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();

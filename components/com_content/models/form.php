@@ -127,7 +127,7 @@ class ContentModelForm extends ContentModelArticle
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
 
-		$value->tags = new JTagsHelper;
+		$value->tags = new JTags;
 		$value->tags->getTagIds($value->id, 'com_content.article');
 
 		return $value;

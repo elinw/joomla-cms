@@ -122,7 +122,7 @@ class UsersControllerUser extends JControllerForm
 
 		if ($tags)
 		{
-			$tagsHelper = new JTagsHelper;
+			$tagsHelper = new JTags;
 			$tagsHelper->tagItem($id, 'com_users.user', $tags);
 		}
 	}

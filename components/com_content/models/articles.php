@@ -629,7 +629,7 @@ class ContentModelArticles extends JModelList
 			}
 
 			// Get the tags
-			$item->tags = new JTagsHelper;
+			$item->tags = new JTags;
 			$item->tags->getItemTags('com_content.article' , $item->id);
 
 		}

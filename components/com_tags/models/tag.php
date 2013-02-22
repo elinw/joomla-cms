@@ -95,7 +95,7 @@ class TagsModelTag extends JModelList
 		{
 			$typesrlist= implode(',', $typesr);
 		}
-		$contentTypes = new JTagsHelper;
+		$contentTypes = new JTags;
 
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       3.1
  */
-class JTagsHelper
+class JTags
 {
 
 	/**

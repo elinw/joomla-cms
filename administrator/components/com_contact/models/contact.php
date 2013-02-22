@@ -302,7 +302,7 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		$tagsHelper = new JTagsHelper();
+		$tagsHelper = new JTags();
 		$tagsHelper->tagItems($value, $pks, $contexts);
 
 		return true;
@@ -445,7 +445,7 @@ class ContactModelContact extends JModelAdmin
 			{
 				$db = JFactory::getDbo();
 
-				$item->tags = new JTagsHelper;
+				$item->tags = new JTags;
 				$item->tags->getTagIds($item->id, 'com_contact.contact');
 			}
 		}

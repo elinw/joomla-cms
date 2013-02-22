@@ -410,7 +410,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			}
 		}
 
-		$item->tags = new JTagsHelper;
+		$item->tags = new JTags;
 		$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
 		return $item;

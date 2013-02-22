@@ -190,12 +190,13 @@ class CategoriesControllerCategory extends JControllerForm
 		$publish_up = '';
 		$publish_down = '';
 		$title = $item->title;
+		$language = $item->language;
 
 		$tags = $validData['tags'];
 
 		if ($tags)
 		{
-			$tagsHelper = new JTagsHelper;
+			$tagsHelper = new JTags;
 			$tagsHelper->tagItem($id, $item->get('extension') . '.category', $tags);
 		}
 	}

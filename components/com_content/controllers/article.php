@@ -262,27 +262,23 @@ class ContentControllerArticle extends JControllerForm
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 		$task = $this->getTask();
-		$state = $model->get('state');
-		$state = (array) $state;
-		$id = $state['form.id'];
+
+		$item = $model->getItem();
+		$id = $item->id;
+		$created_date = $item->created;
+		$modified_date = $item->modified;
+		$publish_up = $item->publish_up;
+		$publish_down = $item->publish_down;
+		$title = $item->title;
+		$language = $item->language;
 
 		$tags = $validData['tags'];
 
-		if (empty($id))
-		{
-			$id = $validData['id'];
-		}
-
 		// Store the tag data if the article data was saved.
-		if ($tags )
+		if ($tags[0] != '')
 		{
-			$tagsHelper = new JTagsHelper;
-			$tagsHelper->tagItem($id, 'com_content.article', $tags);
-		}
-
-		if ($task == 'save')
-		{
-			$this->setRedirect(JRoute::_('index.php?option=com_content&view=category&id='.$validData['catid'], false));
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_content.article', $tags, $created_date, $modified_date, $publish_up, $publish_down, $title);
 		}
 	}
 

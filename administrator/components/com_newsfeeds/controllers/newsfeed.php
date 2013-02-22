@@ -125,13 +125,14 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		$publish_up = $item->publish_up;
 		$publish_down = $item->publish_down;
 		$title = $item->name;
+		$language = $item->language;
 
 		$tags = $validData['tags'];
 
 		// Store the tag data if the news data was saved.
 		if ($tags )
 		{
-			$tagsHelper = new JTagsHelper;
+			$tagsHelper = new JTags;
 			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $tags);
 		}
 
