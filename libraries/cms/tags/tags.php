@@ -74,7 +74,7 @@ class JTags
 	public function tagItems( $tag, $ids, $contexts)
 	{
 		foreach ($contexts as $context)
-		{var_dump($contexts);
+		{
 			$prefix =  str_replace(strrchr($context,'.'),'',$context);
 			$pk = ltrim(strrchr($context,'.'), '.');
 			// Check whether the tag is present already.
