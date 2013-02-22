@@ -52,7 +52,7 @@ class JTags
 				$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
 				$query2->clear('values');
-				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp(), $created_date, $modified_date, $publish_up, $publish_down, $title);
+				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp(), $created_date, $modified_date, $publish_up, $publish_down, $title, $language);
 				$db->setQuery($query2);
 				$db->execute();
 			}
