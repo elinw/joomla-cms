@@ -82,6 +82,11 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
   `tag_id` int(11) NOT NULL COMMENT 'ID from the tag table',
   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `title` varchar(255) NOT NULL DEFAULT '',
  CONSTRAINT uc_ItemnameTagid UNIQUE (type_alias, content_item_id, tag_id),
  KEY idx_tag_name (tag_id, type_alias),
  KEY idx_date_id (tag_date, tag_id)

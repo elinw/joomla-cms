@@ -185,6 +185,12 @@ class CategoriesControllerCategory extends JControllerForm
 
 		$item = $model->getItem();
 		$id = $item->get('id');
+		$created_date = $item->create_timed;
+		$modified_date = $item->modified_time;
+		$publish_up = '';
+		$publish_down = '';
+		$title = $item->title;
+
 		$tags = $validData['tags'];
 
 		if ($tags)

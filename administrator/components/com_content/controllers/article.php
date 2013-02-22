@@ -157,6 +157,11 @@ class ContentControllerArticle extends JControllerForm
 
 		$item = $model->getItem();
 		$id = $item->id;
+		$created_date = $item->created;
+		$modified_date = $item->modified;
+		$publish_up = $item->publish_up;
+		$publish_down = $item->publish_down;
+		$title = $item->title;
 
 		$tags = $validData['tags'];
 
@@ -164,7 +169,7 @@ class ContentControllerArticle extends JControllerForm
 		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTagsHelper;
-			$tagsHelper->tagItem($id, 'com_content.article', $tags);
+			$tagsHelper->tagItem($id, 'com_content.article', $tags, $created_date, $modified_date, $publish_up, $publish_down, $title);
 		}
 	}
 

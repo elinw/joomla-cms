@@ -116,8 +116,14 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 		$task = $this->getTask();
 
-		$item = $model->getItem(); 
+		$item = $model->getItem();
 		$id = $item->get('id');
+		$created_date = $item->created;
+		$modified_date = $item->modified;
+		$publish_up = $item->publish_up;
+		$publish_down = $item->publish_down;
+		$title = $item->title;
+
 		$tags = $validData['tags'];
 
 		// Store the tag data if the weblink data was saved.
