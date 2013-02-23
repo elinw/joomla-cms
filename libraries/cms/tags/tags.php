@@ -52,10 +52,17 @@ class JTags
 				$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
 				$query2->clear('values');
-				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp(), $created_date, $modified_date, $publish_up, $publish_down, $title, $language);
+				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp());
 				$db->setQuery($query2);
 				$db->execute();
 			}
+
+			/*$query3 = $db->getQuery(true);
+			$query3->insert($db->quoteName('#__core_content'));
+			$query3->columns(array());
+			$query3->values();
+			$db->setQuery($query3);
+			$db->execute();*/
 		}
 
 		return;
@@ -146,6 +153,11 @@ class JTags
 
 	public function getTagIds($id, $prefix)
 	{
+		if (empty($item->id))
+		{
+			return;
+		}
+
 		if (is_array($id))
 		{
 			$id=implode(',', $id);
