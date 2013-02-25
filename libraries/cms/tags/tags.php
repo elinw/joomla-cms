@@ -153,7 +153,7 @@ class JTags
 
 	public function getTagIds($id, $prefix)
 	{
-		if (empty($item->id))
+		if (empty($id))
 		{
 			return;
 		}
