@@ -39,7 +39,7 @@ class JFormFieldTag extends JFormFieldList
 	{
 		if (!is_array($this->value) && !empty($this->value))
 		{
-			if (is_object($this->value))
+			if (is_object($this->value) && isset($this->value->tags))
 			{
 				$this->value = $this->value->tags;
 			}
@@ -51,6 +51,11 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		$input = parent::getInput();
+				
+		if (!empty($this->value))
+		{
+			$input .= '<input type="hidden" name="jform[tags][old]" value="' . implode(',', $this->value) . '" />';
+		}
 
 		return $input;
 	}
