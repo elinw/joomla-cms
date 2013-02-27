@@ -127,11 +127,32 @@ class ContactControllerContact extends JControllerForm
 		$language = $item->language;
 
 		$tags = $validData['tags'];
+		$tagsCount = count($tags);
 
-		if ($tags)
+		// Unset old tags, not rise error on save.
+		$oldTags = $tags['old'];
+		unset ($tags['old']);
+
+		if ($tagsCount > 1)
 		{
 			$tagsHelper = new JTags;
 			$tagsHelper->tagItem($id, 'com_contact.contact', $tags);
 		}
-	}
-}
+		elseif ($tagsCount == 1 && !empty($oldTags))
+		{
+			// Special case when all tags are unset
+			$tagsHelper = new JTags;			
+			if (strpos($oldTags, ','))
+			{
+				$oldTags = explode(',', $oldTags); 			
+				foreach ($oldTags as $tag)
+				{
+					$tagsHelper->unTagItems(array($id), 'com_contact.contact', $tag);
+				}			
+			}
+			else 
+			{
+				
+				$tagsHelper->unTagItems(array($id), 'com_contact.contact',$oldTags);
+			}
+		}
