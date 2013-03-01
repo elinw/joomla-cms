@@ -103,7 +103,8 @@ class TagsModelTag extends JModelList
 		$ntagsr =  substr_count($tagId, ',') + 1;
 
 		// If we want to include children we have to adjust the list of tags.
-		if ($this->state->params->get('include_children') == 1)
+		$includeChildren = $this->state->params->get('include_children');
+		if ($includeChildren == 1)
 		{
 			$tagIdArray = explode(',', $tagId);
 			$tagTreeList = '';
@@ -127,6 +128,13 @@ class TagsModelTag extends JModelList
 		$query->from('#__contentitem_tag_map AS m');
 		$query->join('INNER', '#__core_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id');
 		$query->join('INNER', '#__content_types AS ct ON ct.alias = m.type_alias');
+
+		// Join over the users for the author and email
+		$query->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author");
+		$query->select("ua.email AS author_email");
+
+		$query->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id');
+
 		$query->where('m.tag_id IN (' . $tagId . ')');
 
 		$contentTypes = new JTags;
@@ -149,7 +157,7 @@ class TagsModelTag extends JModelList
 		$query->group('m.type_alias, m.content_item_id, m.core_content_id');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
-		if ($ntagsr > 1  && $this->getState('params')->get('return_any_or_all', 1) != 1 )
+		if ($ntagsr > 1  && $this->getState('params')->get('return_any_or_all', 1) != 1 && $includeChildren != 1)
 		{
 			// The number of results should equal the number of tags requested.
 			$query->having("COUNT('m.tag_id') = " . $ntagsr);
