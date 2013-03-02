@@ -103,6 +103,7 @@ class TagsModelTag extends JModelList
 		$ntagsr =  substr_count($tagId, ',') + 1;
 
 		// If we want to include children we have to adjust the list of tags.
+		// We do not search child tags when the match all option is selected.
 		$includeChildren = $this->state->params->get('include_children');
 		if ($includeChildren == 1)
 		{
@@ -316,11 +317,7 @@ class TagsModelTag extends JModelList
 		{
 			foreach ($tagTree as $tag)
 			{
-				// Check published state.
-					// if ($tag->state == 1)
-					//{
 						$tagTreeArray[] = $tag->id;
-					//}
 			}
 			return $tagTreeArray;
 		}
