@@ -325,5 +325,7 @@ class TagsModelTag extends JModelList
 		{
 			$this->setError($error);
 		}
+
+
 	}
 }
