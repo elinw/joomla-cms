@@ -43,15 +43,7 @@
 			<language tag="en-GB">language/en-GB.com_tags.ini
 			</language>
 		</languages>
-		<menu img="class:tags">com_tags</menu>
-		<submenu>
-			<!--
-				Note that all & must be escaped to &amp; for the file to be valid
-				XML and be parsed by the installer
-			-->
-			<menu link="option=com_tags" view="tags" img="class:tags"
-				alt="Tags/Tags">com_tags_tags</menu>
-		</submenu>
+		<menu link="option=com_tags" img="class:tags">com_tags</menu>
 
 	</administration>
 </extension>
