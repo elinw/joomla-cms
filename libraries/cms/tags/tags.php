@@ -41,9 +41,10 @@ class JTags
 		 	$contenttype->load($typeId);
 		 	$map = json_decode($contenttype->field_mappings, true);
 
-		 	foreach ($map['common'][0] as $i=>$field)
+		 	foreach ($map['common'][0] as $i => $field)
 		 	{
-		 		if ($field)
+
+		 		if ($field && $field != 'null')
 		 		{
 		 			$fieldMap[$i] = $item->$field;
 		 		}
@@ -169,6 +170,7 @@ class JTags
 			}
 
 			$db		= JFactory::getDbo();
+
 			// Have to break this up into individual queries for cross-database support.
 			foreach ($tags as $tag)
 			{
@@ -196,14 +198,10 @@ class JTags
 	 * @return  void
 	 * @since   3.1
 	 */
-	public function tagItems( $tag, $ids, $contexts)
+	public function tagItems($tag, $ids, $contexts)
 	{
-		foreach ($contexts as $context)
-		{
-			$prefix =  str_replace(strrchr($context,'.'), '', $context);
-			$pk = ltrim(strrchr($context,'.'), '.');
 
-			// Check whether the tag is present already.
+/*			// Check whether the tag is present already.
 			$db		= JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->delete();
@@ -214,9 +212,9 @@ class JTags
 			$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag);
 			//$db->setQuery($query);
 			//$result = $db->loadResult();
-			$query->execute();
+			$query->execute();*/
 
-			$tagItem();
+	//		self::tagItem($id, $prefix, null, $tags, $isNew);
 /*					$query2 = $db->getQuery(true);
 
 					$query2->insert($db->quoteName('#__contentitem_tag_map'));
@@ -227,7 +225,7 @@ class JTags
 					$db->setQuery($query2);
 					$db->execute();
 			}*/
-		}
+		//}
 
 		return;
 	}
