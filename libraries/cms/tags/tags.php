@@ -43,6 +43,7 @@ class JTags
 
 		 	foreach ($map['common'][0] as $i => $field)
 		 	{
+
 		 		if ($field && $field != 'null')
 		 		{
 		 			$fieldMap[$i] = $item->$field;
