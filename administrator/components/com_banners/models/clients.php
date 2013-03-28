@@ -22,7 +22,7 @@ class BannersModelClients extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -151,7 +151,7 @@ class BannersModelClients extends JModelList
 			}
 		}
 		$ordering_o = $this->getState('list.ordering', 'ordering');
-		if($ordering_o == 'nbanners')
+		if ($ordering_o == 'nbanners')
 			$ordering_o = 'COUNT(b.id)';
 		// Add the list ordering clause.
 		$query->order($db->escape($ordering_o).' '.$db->escape($this->getState('list.direction', 'ASC')));

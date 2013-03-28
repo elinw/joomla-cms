@@ -432,8 +432,13 @@ final class JSite extends JApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if(is_object($this->template))
+		if (is_object($this->template))
 		{
+			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+			{
+				throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+			}
+
 			if ($params)
 			{
 				return $this->template;
@@ -482,6 +487,7 @@ final class JSite extends JApplication
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
+
 			foreach ($templates as &$template)
 			{
 				$registry = new JRegistry;
@@ -514,15 +520,27 @@ final class JSite extends JApplication
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
-			$template->template = 'beez3';
-			if (!file_exists(JPATH_THEMES . '/beez3/index.php'))
+			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+
+			// try to find data for 'beez3' template
+			$original_tmpl = $template->template;
+
+			foreach( $templates as $tmpl )
 			{
-				$template->template = '';
+				if( $tmpl->template == 'beez3' )
+				{
+					$template = $tmpl;
+					break;
+				}
+			}
+
+			// check, the data were found and if template really exists
+			if ( !file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 			}
 		}
 
-		// Cache the result
 		$this->template = $template;
 		if ($params)
 		{
@@ -665,7 +683,7 @@ final class JSite extends JApplication
 	 * @param   boolean	True if the enqueued messages are passed to the redirection, false else.
 	 * @return  none; calls exit().
 	 * @since   1.5
-	 * @see		JApplication::enqueueMessage()
+	 * @see     JApplication::enqueueMessage()
 	 */
 	public function redirect($url, $msg='', $msgType='message', $moved = false, $persistMsg = true)
 	{

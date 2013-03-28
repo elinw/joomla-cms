@@ -33,7 +33,7 @@ class WeblinksTableWeblink extends JTable
 	 *
 	 * @param   array  Named array
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see		JTable:bind
+	 * @see     JTable:bind
 	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')
@@ -112,7 +112,8 @@ class WeblinksTableWeblink extends JTable
 			$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
-		// Attempt to store the user data.
+
+		// Attempt to store the data.
 		return parent::store($updateNulls);
 	}
 
@@ -173,6 +174,7 @@ class WeblinksTableWeblink extends JTable
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
+
 			foreach ($keys as $key)
 			{
 				if (trim($key)) {  // ignore blank keywords

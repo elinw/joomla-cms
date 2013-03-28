@@ -154,17 +154,6 @@ class ContactTableContact extends JTable
 
 			return false;
 		}
-				/** check for existing name */
-		$query = 'SELECT id FROM #__contact_details WHERE name = '.$this->_db->Quote($this->name).' AND catid = '.(int) $this->catid;
-		$this->_db->setQuery($query);
-
-		$xid = (int) $this->_db->loadResult();
-		if ($xid && $xid != (int) $this->id)
-		{
-			$this->setError(JText::_('COM_CONTACT_WARNING_SAME_NAME'));
-
-			return false;
-		}
 
 		if (empty($this->alias))
 		{
@@ -202,7 +191,8 @@ class ContactTableContact extends JTable
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
-			foreach ($keys as $key)
+
+			foreach($keys as $key)
 			{
 				if (trim($key)) {  // ignore blank keywords
 					$clean_keys[] = trim($key);

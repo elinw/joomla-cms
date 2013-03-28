@@ -20,8 +20,9 @@ class ContactModelContacts extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -64,7 +65,11 @@ class ContactModelContacts extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -99,6 +104,9 @@ class ContactModelContacts extends JModelList
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
+
+		$tag = $this->getUserStateFromRequest($this->context.'.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
 
 		// List state information.
 		parent::populateState('a.name', 'asc');
@@ -243,6 +251,16 @@ class ContactModelContacts extends JModelList
 		if ($language = $this->getState('filter.language'))
 		{
 			$query->where('a.language = '.$db->quote($language));
+		}
+
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+		if (is_numeric($tagId))
+		{
+		$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+		$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+			. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' .  $db->quoteName('a.id')
+			. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact'));
 		}
 
 		// Add the list ordering clause.

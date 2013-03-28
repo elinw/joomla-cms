@@ -22,7 +22,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -64,6 +64,11 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -93,6 +98,9 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
+
+		$tag = $this->getUserStateFromRequest($this->context.'.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_newsfeeds');
@@ -226,6 +234,18 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		{
 			$query->where('a.language = ' . $db->quote($language));
 		}
+
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+		if (is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' .  $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed'))
+					;
+		}
+
 
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering');

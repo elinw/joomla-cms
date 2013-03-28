@@ -20,10 +20,8 @@ JHtml::_('bootstrap.tooltip');
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 
-// If Right-to-Left
-if ($this->direction == 'rtl') :
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-endif;
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -60,10 +58,10 @@ $debug  = (boolean) $config->get('debug');
 	<style type="text/css">
 		/* Responsive Styles */
 		@media (max-width: 480px) {
-			.view-login .container{
+			.view-login .container {
 				margin-top: -170px;
 			}
-			.btn{
+			.btn {
 				font-size: 13px;
 				padding: 4px 10px 4px;
 			}

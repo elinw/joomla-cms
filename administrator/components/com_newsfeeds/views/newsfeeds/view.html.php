@@ -55,11 +55,13 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
+		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'), 0, 'com_newsfeeds');
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
+
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('newsfeed.add');
@@ -125,6 +127,12 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
+
+		JHtmlSidebar::addFilter(
+		'-' . JText::_('JSELECT') . ' ' . JText::_('JTAG') . '-',
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
 		);
 	}
 

@@ -20,9 +20,10 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @since   1.6
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
@@ -64,7 +65,11 @@ class ContentModelArticles extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -105,6 +110,9 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
+
+		$tag = $this->getUserStateFromRequest($this->context.'.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
 
 		// List state information.
 		parent::populateState('a.title', 'asc');
@@ -273,6 +281,17 @@ class ContentModelArticles extends JModelList
 			$query->where('a.language = '.$db->quote($language));
 		}
 
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+		if (is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' .  $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'))
+					;
+		}
+
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'a.title');
 		$orderDirn	= $this->state->get('list.direction', 'asc');
@@ -281,9 +300,9 @@ class ContentModelArticles extends JModelList
 			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
 		//sqlsrv change
-		if($orderCol == 'language')
+		if ($orderCol == 'language')
 			$orderCol = 'l.title';
-		if($orderCol == 'access_level')
+		if ($orderCol == 'access_level')
 			$orderCol = 'ag.title';
 		$query->order($db->escape($orderCol.' '.$orderDirn));
 

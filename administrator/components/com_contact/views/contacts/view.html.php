@@ -64,9 +64,10 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/contact.php';
-		$canDo	= ContactHelper::getActions($this->state->get('filter.category_id'));
+		require_once JPATH_COMPONENT . '/helpers/contact.php';
+		$canDo	= ContactHelper::getActions($this->state->get('filter.category_id'), 0, 'com_contact');
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
@@ -142,6 +143,13 @@ class ContactViewContacts extends JViewLegacy
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
+
+		JHtmlSidebar::addFilter(
+		'-' . JText::_('JSELECT') . ' ' . JText::_('JTAG') . '-',
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+		);
+
 	}
 
 	/**

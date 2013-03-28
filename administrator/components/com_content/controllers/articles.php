@@ -24,7 +24,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 * @param   array  $config	An optional associative array of configuration settings.
 
 	 * @return  ContentControllerArticles
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -134,4 +134,27 @@ class ContentControllerArticles extends JControllerAdmin
 		// Close the application
 		JFactory::getApplication()->close();
 	}
+	/**
+	 * Function that allows child controller access to model data
+	 * after the item has been deleted.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   integer       $ids    The array of ids for items being deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+		// If an item has been tagged we need to untag it and delete it from #__core_content.
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+
+		$tags = new JTags;
+		$tags->deleteTagData($ids, 'com_content.article');
+
+	}
+
 }

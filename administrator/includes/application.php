@@ -187,8 +187,8 @@ class JAdministrator extends JApplication
 		// Safety check for when configuration.php root_user is in use.
 		$config		= JFactory::getConfig();
 		$rootUser	= $config->get('root_user');
-		if (property_exists('JConfig', 'root_user') &&
-			(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+		if (property_exists('JConfig', 'root_user')
+			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
 		{
 			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
@@ -216,7 +216,7 @@ class JAdministrator extends JApplication
 	 * @param   array  Array('remember' => boolean)
 	 *
 	 * @return  boolean True on success.
-	 * @see		JApplication::login
+	 * @see     JApplication::login
 	 * @since   1.5
 	 */
 	public function login($credentials, $options = array())
@@ -283,10 +283,17 @@ class JAdministrator extends JApplication
 
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
+				$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 				$template->params = new JRegistry;
 				$template->template = 'isis';
 			}
 		}
+
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		{
+			throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+		}
+
 		if ($params)
 		{
 			return $template;

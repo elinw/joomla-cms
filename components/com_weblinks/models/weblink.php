@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+
 /**
  * Weblinks Component Model for a Weblink record
  *
@@ -53,7 +55,7 @@ class WeblinksModelWeblink extends JModelItem
 	 *
 	 * @return  mixed  Object on success, false on failure.
 	 */
-	public function &getItem($id = null)
+	public function getItem($id = null)
 	{
 		if ($this->_item === null)
 		{
@@ -93,11 +95,25 @@ class WeblinksModelWeblink extends JModelItem
 	}
 
 	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param	type	The table type to instantiate
+	 * @param	string	A prefix for the table class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	 * @since	1.6
+	 */
+	public function getTable($type = 'Weblink', $prefix = 'WeblinksTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	/**
 	 * Method to increment the hit counter for the weblink
 	 *
-	 * @param   integer  Optional ID of the weblink.
+	 * @param   integer  $id  Optional ID of the weblink.
+	 *
 	 * @return  boolean  True on success
-	 * @since   1.5
 	 */
 	public function hit($id = null)
 	{

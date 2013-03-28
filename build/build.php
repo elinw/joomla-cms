@@ -28,11 +28,11 @@ umask(022);
 
 // Set version for each build
 // Version is first 2 digits (like '1.7', '2.5', or '3.0')
-$version = '3.0';
+$version = '3.1';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '2';
+$release = '0_beta2';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -75,39 +75,25 @@ echo "Create list of changed files from git repository.\n";
 // Note: If we add new top-level directories or files, be sure to include them here.
 $filesArray = array(
 		"administrator/index.php\n" => true,
-
 		"cache/index.html\n" => true,
-
 		"cli/index.html\n" => true,
-
 		"components/index.html\n" => true,
-
 		"images/index.html\n" => true,
-
 		"includes/index.html\n" => true,
-
 		"language/index.html\n" => true,
 		"layouts/index.html\n" => true,
 		"libraries/index.html\n" => true,
-
 		"logs/index.html\n" => true,
-
 		"media/index.html\n" => true,
-
 		"modules/index.html\n" => true,
-
 		"plugins/index.html\n" => true,
-
 		"templates/index.html\n" => true,
-
 		"tmp/index.html\n" => true,
-
 		"htaccess.txt\n" => true,
 		"index.php\n" => true,
 		"LICENSE.txt\n" => true,
 		"README.txt\n" => true,
-		"robots.txt\n" => true,
-
+		"robots.txt.dist\n" => true,
 		"web.config.txt\n" => true,
 		"joomla.xml\n" => true,
 );
@@ -128,7 +114,7 @@ for($num=$release-1; $num >= 0; $num--) {
 	// Loop through and add all files except: tests, installation, build, .git, or docs
 	foreach ($files AS $file)
 	{
-		if(substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
+		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
 		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' )
 		{
 			// Don't add deleted files to the list
@@ -151,21 +137,20 @@ for($num=$release-1; $num >= 0; $num--) {
 	file_put_contents('diffconvert/'.$version.'.'.$num.'-deleted', $deletedFiles);
 
 	// Only create archives for 0 and most recent versions. Skip other update versions.
-
 	if ($num != 0 && ($num != $release - 1))
 	{
 		echo "Skipping create archive for version $version.$num\n";
 
 		continue;
-
 	}
 
+	$fromName = $num == 0 ? 'x' : $num;
 	// Create the diff archive packages using the file name list.
-	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
-	system('tar --create --gzip  --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.tar.gz  --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('tar --create --gzip  --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.gz  --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
 
 	chdir(''.$full);
-	system('zip ../packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.zip -@ < ../diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('zip ../packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.zip -@ < ../diffconvert/'.$version.'.'.$num . '> /dev/null');
 	chdir('..');
 }
 

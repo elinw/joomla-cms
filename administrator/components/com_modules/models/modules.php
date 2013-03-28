@@ -22,7 +22,7 @@ class ModulesModelModules extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -80,7 +80,7 @@ class ModulesModelModules extends JModelList
 
 		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int', false);
 		$previousId = $app->getUserState($this->context.'.filter.client_id_previous', null);
-		if($previousId != $clientId || $previousId === null){
+		if ($previousId != $clientId || $previousId === null){
 			$this->getUserStateFromRequest($this->context.'.filter.client_id_previous', 'filter_client_id_previous', 0, 'int', true);
 			$app->setUserState($this->context.'.filter.client_id_previous', $clientId);
 		}
@@ -180,6 +180,7 @@ class ModulesModelModules extends JModelList
 	{
 		$lang = JFactory::getLanguage();
 		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
+
 		foreach ($items as $item)
 		{
 			$extension = $item->module;

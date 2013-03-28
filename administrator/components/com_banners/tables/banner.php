@@ -44,7 +44,7 @@ class BannersTableBanner extends JTable
 	 * Overloaded check function
 	 *
 	 * @return  boolean
-	 * @see		JTable::check
+	 * @see     JTable::check
 	 * @since   1.5
 	 */
 	public function check()
@@ -95,12 +95,12 @@ class BannersTableBanner extends JTable
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 
-			if((int) $registry->get('width', 0) < 0){
+			if ((int) $registry->get('width', 0) < 0){
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 				return false;
 			}
 
-			if((int) $registry->get('height', 0) < 0){
+			if ((int) $registry->get('height', 0) < 0){
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 				return false;
 			}
@@ -242,7 +242,7 @@ class BannersTableBanner extends JTable
 		foreach ($pks as $pk)
 		{
 			// Load the banner
-			if(!$table->load($pk))
+			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
 			}
@@ -310,7 +310,7 @@ class BannersTableBanner extends JTable
 		foreach ($pks as $pk)
 		{
 			// Load the banner
-			if(!$table->load($pk))
+			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
 			}

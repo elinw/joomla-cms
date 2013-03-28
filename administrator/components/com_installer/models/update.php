@@ -25,7 +25,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -145,6 +145,9 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0)
 	{
+		// Purge the updates list
+		$this->purge();
+
 		$updater = JUpdater::getInstance();
 		$results = $updater->findUpdates($eid, $cache_timeout);
 		return true;
