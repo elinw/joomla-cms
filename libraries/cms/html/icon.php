@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,25 +15,25 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_content
  * @since       1.5
- * @deprecated  3.1   Use JHtmlIcon from the html package instead.
  */
 abstract class JHtmlIcon
 {
 	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
-	 * @param   object     $category  The category information
-	 * @param   JRegistry  $params    The item parameters
-	 * @param   array      $attribs   Optional attributes for the link
-	 * @param   boolean    $legacy    True to use legacy images, false to use icomoon based graphic
+	 * @param   object     $category     The category information
+	 * @param   JRegistry  $params       The item parameters
+	 * @param   array      $attribs      Optional attributes for the link
+	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
+	 * @param   array      $urlSegments  Segments of the form url, defaults to those for com_content articles
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 */
-	public static function create($category, $params, $attribs = array(), $legacy = false)
+	public static function create($category, $params, $attribs = array(), $legacy = false, $urlSegments = array('com_content', 'article', 'a_id' ))
 	{
 		$uri = JURI::getInstance();
 
-		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
+		$url = 'index.php?option='. $urlSegments[0] . '&task='.$urlSegments[1]. '.add&return=' . base64_encode($uri) . '&' . $urlSegments[2] .'=0&catid=' . $category->id;
 
 		if ($params->get('show_icons'))
 		{
@@ -120,15 +120,16 @@ abstract class JHtmlIcon
 	 * This icon will not display in a popup window, nor if the article is trashed.
 	 * Edit access checks must be performed in the calling code.
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object     $article      The article information
+	 * @param   JRegistry  $params       The item parameters
+	 * @param   array      $attribs      Optional attributes for the link
+	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
+	 * @param   array      $urlSegments  Url segments for the edit form
 	 *
-	 * @return  string	The HTML for the article edit icon.
-	 * @since   1.6
+	 * @return	string	The HTML for the article edit icon.
+	 * @since	1.6
 	 */
-	public static function edit($article, $params, $attribs = array(), $legacy = false)
+	public static function edit($article, $params, $attribs = array(), $legacy = false,  $urlSegments = array('com_content', 'article', 'a_id' ))
 	{
 		$user = JFactory::getUser();
 		$uri  = JURI::getInstance();
@@ -158,7 +159,7 @@ abstract class JHtmlIcon
 			return '<span class="hasTip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $button . '</span>';
 		}
 
-		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
+		$url = 'index.php?option=' . $urlSegments[0] . '&task=' . $urlSegments[1] . '.edit&'. $urlSegments[2] . '=' . $article->id . '&return=' . base64_encode($uri);
 
 		if ($article->state == 0)
 		{
@@ -255,7 +256,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = $text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = $text = '<span class="icon-print"></i>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
 			}
 		}
 		else
