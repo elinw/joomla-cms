@@ -327,8 +327,11 @@ function ContentParseRoute($segments)
 		}
 		else
 		{
+			if ($cat_id > 0)
+			{
 			$vars['view'] = 'category';
 			$vars['id'] = $cat_id;
+			}
 		}
 
 		return $vars;
