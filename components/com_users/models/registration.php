@@ -560,14 +560,13 @@ class UsersModelRegistration extends JModelForm
 				foreach ($sendEmail as $userid)
 				{
 					// Build the query to add the messages
+					$values = array($db->quote($userid), $db->quote($userid), $db->quote($jdate->toSql()), $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')), $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])));
 					$query = $db->getQuery(true);
-					$query->insert($db->quoteName('#__messages'));
-					$query->set($db->quoteName('user_id_from') . '=' . $db->quote($userid) . ',' .
-						    $db->quoteName('user_id_to') . '=' . $db->quote($userid) .',' .
-						    $db->quoteName('date_time') . '=' . $db->quote($jdate->toSql()) . ',' .
-						    $db->quoteName('subject') . '=' . $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')) . ',' .
-						    $db->quoteName('message') . '=' . $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])));
+					$query->insert($db->quoteName('#__messages'))
+						  ->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
+						  ->values(implode(',', $values));
 					$db->setQuery($query);
+
 					try
 					{
 						$db->execute();
