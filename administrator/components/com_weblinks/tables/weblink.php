@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class WeblinksTableWeblink extends JTable
 {
+
+	/**
+	 * Indicator that the tags have been changed
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
 	/**
 	 * Constructor
 	 *
@@ -25,6 +34,7 @@ class WeblinksTableWeblink extends JTable
 	 */
 	public function __construct(&$db)
 	{
+		$this->tagsHelper = new JHelperTags();
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 
@@ -114,20 +124,10 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		$tagsHelper = new JHelperTags;
-		$tagsHelper->typeAlias = 'com_weblinks.weblink';
-		$tagsHelper->preStoreProcess($this);
-
-		$return = parent::store($updateNulls);
-
-		if ($return == false)
-		{
-			return false;
-		}
-
-		$tagsHelper->postStoreProcess($this);
-
-		return $return;
+		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 	/**
@@ -198,6 +198,23 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to delete a row from the database table by primary key value.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 
 	/**
