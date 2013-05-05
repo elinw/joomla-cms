@@ -131,6 +131,7 @@ class JHtmlIcon
 
 	static function print_popup($article, $params, $attribs = array())
 	{
+
 			$app = JFactory::getApplication();
 			$input = $app->input;
 			$request = $input->request;
