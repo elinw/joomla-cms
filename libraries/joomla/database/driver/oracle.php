@@ -362,7 +362,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		}
 		else
 		{
-			$tables = $this->loadResultArray();
+			$tables = $this->loadColumn();
 		}
 
 		return $tables;
