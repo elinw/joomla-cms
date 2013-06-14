@@ -491,21 +491,51 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect.');
 		$this->assertAttributeEquals(null, 'message', $this->class, 'Checks the message.');
 		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type.');
+	}
 
+	/**
+	 * Test JControllerLegacy::setRedirect
+	 *
+	 * @since   11.3
+	 *
+	 * @return  void
+	 */
+	public function testSetRedirect2()
+	{
 		// Set the URL and message
 		$this->class->setRedirect('index.php?option=com_foobar', 'Hello World');
 
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (2).');
 		$this->assertAttributeEquals('Hello World', 'message', $this->class, 'Checks the message (2).');
 		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type (2).');
+	}
 
+	/**
+	 * Test JControllerLegacy::setRedirect
+	 *
+	 * @since   11.3
+	 *
+	 * @return  void
+	 */
+	public function testSetRedirect3()
+	{
 		// URL, message and message type
 		$this->class->setRedirect('index.php?option=com_foobar', 'Morning Universe', 'notice');
 
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (3).');
 		$this->assertAttributeEquals('Morning Universe', 'message', $this->class, 'Checks the message (3).');
 		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (3).');
+	}
 
+	/**
+	 * Test JControllerLegacy::setRedirect
+	 *
+	 * @since   11.3
+	 *
+	 * @return  void
+	 */
+	public function testSetRedirect4()
+	{
 		// With previously set message
 		// URL
 		$this->class->setMessage('Hi all');
@@ -514,7 +544,17 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (4).');
 		$this->assertAttributeEquals('Hi all', 'message', $this->class, 'Checks the message (4).');
 		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type (4).');
+	}
 
+	/**
+	* Test JControllerLegacy::setRedirect
+	*
+	* @since   11.3
+	*
+	* @return  void
+	*/
+	public function testSetRedirect5()
+	{
 		// URL and message
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all');
@@ -522,7 +562,17 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (5).');
 		$this->assertAttributeEquals('Bye all', 'message', $this->class, 'Checks the message (5).');
 		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type (5).');
+	}
 
+	/**
+	* Test JControllerLegacy::setRedirect
+	*
+	* @since   11.3
+	*
+	* @return  void
+	*/
+	public function testSetRedirect6()
+	{
 		// URL, message and message type
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all', 'notice');
@@ -530,7 +580,17 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (6).');
 		$this->assertAttributeEquals('Bye all', 'message', $this->class, 'Checks the message (6).');
 		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (6).');
+	}
 
+	/**
+	* Test JControllerLegacy::setRedirect
+	*
+	* @since   11.3
+	*
+	* @return  void
+	*/
+	public function testSetRedirect7()
+	{
 		// URL and message type
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', null, 'notice');
@@ -539,6 +599,17 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('Hi all', 'message', $this->class, 'Checks the message (7).');
 		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (7).');
 
+	}
+
+	/**
+	* Test JControllerLegacy::setRedirect
+	*
+	* @since   11.3
+	*
+	* @return  void
+	*/
+	public function testSetRedirect8()
+	{
 		// With previously set message and message type
 		// URL
 		$this->class->setMessage('Hello folks', 'notice');
@@ -547,7 +618,17 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (8).');
 		$this->assertAttributeEquals('Hello folks', 'message', $this->class, 'Checks the message (8).');
 		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (8).');
+	}
 
+	/**
+	* Test JControllerLegacy::setRedirect
+	*
+	* @since   11.3
+	*
+	* @return  void
+	*/
+	public function testSetRedirect9()
+	{
 		// URL and message
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, Folks');
@@ -555,7 +636,17 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (9).');
 		$this->assertAttributeEquals('Bye, Folks', 'message', $this->class, 'Checks the message (9).');
 		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (9).');
+	}
 
+	/**
+	* Test JControllerLegacy::setRedirect
+	*
+	* @since   11.3
+	*
+	* @return  void
+	*/
+	public function testSetRedirect10()
+	{
 		// URL, message and message type
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, folks', 'notice');
@@ -563,13 +654,23 @@ class JControllerLegacyTest extends TestCase
 		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (10).');
 		$this->assertAttributeEquals('Bye, folks', 'message', $this->class, 'Checks the message (10).');
 		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (10).');
+	}
 
+	/**
+	* Test JControllerLegacy::setRedirect
+	*
+	* @since   11.3
+	*
+	* @return  void
+	*/
+	public function testSetRedirect11()
+	{
 		// URL and message type
 		$this->class->setMessage('Folks?', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', null, 'question');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (10).');
-		$this->assertAttributeEquals('Folks?', 'message', $this->class, 'Checks the message (10).');
-		$this->assertAttributeEquals('question', 'messageType', $this->class, 'Checks the message type (10).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (11).');
+		$this->assertAttributeEquals('Folks?', 'message', $this->class, 'Checks the message (11).');
+		$this->assertAttributeEquals('question', 'messageType', $this->class, 'Checks the message type (11).');
 	}
 }
