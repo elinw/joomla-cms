@@ -331,10 +331,16 @@ class JTableUser extends JTable
 				$this->_db->execute();
 			}
 		}
-var_dump($this->tagsHelper);die;
+
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+
+		$jinput = JFactory::getApplication()->input;
+
+		$tagsInput = $jinput->getArray(array('jform'=> array('tags' => 'array')));
+		$newTags = $tagsInput['jform']['tags'];
+
+		return $result && $this->tagsHelper->postStoreProcess($this, $newTags);
 	}
 
 	/**

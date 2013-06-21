@@ -132,6 +132,13 @@ class UsersModelProfile extends JModelForm
 				$this->setError($dispatcher->getError());
 				$this->data = false;
 			}
+
+			if (!empty($this->data->id))
+			{
+				$db = JFactory::getDbo();
+				$this->tags = new JHelperTags;
+				$this->tags->getTagIds($this->data->id, 'com_users.user');
+			}
 		}
 
 		return $this->data;
@@ -258,6 +265,11 @@ class UsersModelProfile extends JModelForm
 		// Unset the sendEmail so it does not get overwritten
 		unset($data['sendEmail']);
 
+		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		{
+			$user->newTags = $data['tags'];
+		}
+
 		// Bind the data.
 		if (!$user->bind($data))
 		{
@@ -271,15 +283,16 @@ class UsersModelProfile extends JModelForm
 		// Null the user groups so they don't get overwritten
 		$user->groups = null;
 
+		$user->tags = new JHelperTags;
+
+		$user->oldTags = $user->tags->getTagIds($user->id, 'com_users.user');
+
 		// Store the data.
 		if (!$user->save())
 		{
 			$this->setError($user->getError());
 			return false;
 		}
-
-		$user->tags = new JHelperTags;
-		$user->tags->getTagIds($user->id, 'com_users.user');
 
 		return $user->id;
 	}

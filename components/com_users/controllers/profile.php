@@ -186,16 +186,6 @@ class UsersControllerProfile extends UsersController
 	{
 		$task = $this->getTask();
 
-		$item = $model->getData();
-		$id = $item->get('id');
-		$tags = $validData['tags'];
-
-		if ($tags)
-		{
-			$item->tags = new JHelperTags;
-			$item->tags->getTagIds($item->id, 'com_users.user');
-			$item->metadata['tags'] = $item->tags;
-		}
 	}
 
 }

@@ -137,7 +137,6 @@ class ContentModelForm extends ContentModelArticle
 		{
 			$value->tags = new JHelperTags;
 			$value->tags->getTagIds($value->id, 'com_content.article');
-			$value->metadata['tags'] = $value->tags;
 		}
 
 		return $value;
