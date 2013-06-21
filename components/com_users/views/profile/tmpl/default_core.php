@@ -15,12 +15,13 @@ defined('_JEXEC') or die;
 	<legend>
 		<?php echo JText::_('COM_USERS_PROFILE_CORE_LEGEND'); ?>
 	</legend>
+
 	<dl class="dl-horizontal">
 		<dt>
-			<?php echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>
+			<?php  echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo $this->data->name; ?>
+			<?php  echo $this->data->name; ?>
 		</dd>
 		<dt>
 			<?php echo JText::_('COM_USERS_PROFILE_USERNAME_LABEL'); ?>
@@ -51,4 +52,5 @@ defined('_JEXEC') or die;
 		<?php } ?>
 
 	</dl>
+
 </fieldset>

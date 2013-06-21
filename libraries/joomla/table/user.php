@@ -25,6 +25,13 @@ class JTableUser extends JTable
 	 * @since  11.1
 	 */
 	public $groups;
+	/**
+	 * Indicator that the tags have been changed
+	 *
+	 * @var    JHelperTags
+	 * @since  3.2
+	 */
+	protected $tagsHelper = null;
 
 	/**
 	 * Constructor
@@ -40,6 +47,9 @@ class JTableUser extends JTable
 		// Initialise.
 		$this->id = 0;
 		$this->sendEmail = 0;
+		$this->tagsHelper = new JHelperTags;
+		$this->tagsHelper->typeAlias = 'com_users.user';
+
 	}
 
 	/**
@@ -321,8 +331,10 @@ class JTableUser extends JTable
 				$this->_db->execute();
 			}
 		}
-
-		return true;
+var_dump($this->tagsHelper);die;
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
+		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
 	}
 
 	/**
@@ -372,6 +384,8 @@ class JTableUser extends JTable
 			->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
+
+		$this->tagsHelper->deleteTagData($this, $pk);
 
 		return true;
 	}
