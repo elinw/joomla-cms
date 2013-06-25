@@ -44,17 +44,13 @@ abstract class ModulesHelper
 		else {
 			$assetName = 'com_modules.module.'.(int) $moduleId;
 		}
-		
+
 		$actions = JAccess::getActions('com_modules');
 
-<<<<<<< HEAD
+
 		foreach ($actions as $action)
 		{
 			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
-=======
-		foreach ($actions as $action) {
-			$result->set($action->name, $user->authorise($action->name, $assetName));
->>>>>>> Adding advanced ACL support for com_modules
 		}
 
 		return $result;

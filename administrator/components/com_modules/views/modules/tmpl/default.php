@@ -84,7 +84,7 @@ $sortFields = $this->getSortFields();
 				</select>
 			</div>
 		</div>
-<<<<<<< HEAD
+
 		<div class="clearfix"> </div>
 		<table class="table table-striped" id="articleList">
 			<thead>
@@ -149,7 +149,7 @@ $sortFields = $this->getSortFields();
 							<i class="icon-menu"></i>
 						</span>
 						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order" />
-=======
+
 	</fieldset>
 	<div class="clr"> </div>
 
