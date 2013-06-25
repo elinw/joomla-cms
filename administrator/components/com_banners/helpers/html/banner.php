@@ -51,11 +51,10 @@ abstract class JHtmlBanner
 	public static function clientlist()
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('id As value, name As text');
-		$query->from('#__banner_clients AS a');
-		$query->order('a.name');
+		$query	= $db->getQuery(true)
+			->select('id As value, name As text')
+			->from('#__banner_clients AS a')
+			->order('a.name');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -94,7 +93,7 @@ abstract class JHtmlBanner
 				'COM_BANNERS_BANNERS_PINNED',
 				'COM_BANNERS_BANNERS_HTML_PIN_BANNER',
 				'COM_BANNERS_BANNERS_PINNED',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -103,7 +102,7 @@ abstract class JHtmlBanner
 				'COM_BANNERS_BANNERS_UNPINNED',
 				'COM_BANNERS_BANNERS_HTML_UNPIN_BANNER',
 				'COM_BANNERS_BANNERS_UNPINNED',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),

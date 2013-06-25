@@ -33,15 +33,16 @@ abstract class JToolbarHelper
 	{
 		// Strip the extension.
 		$icons = explode(' ', $icon);
-		foreach ($icons as &$icon)
+		foreach ($icons as $i => $icon)
 		{
-			$icon = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
+			$icons[$i] = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
 		}
 
 		$html = '<div class="pagetitle ' . htmlspecialchars(implode(' ', $icons)) . '"><h2>' . $title . '</h2></div>';
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
+		JFactory::getDocument()->setTitle($app->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
 	}
 
 	/**
@@ -190,7 +191,7 @@ abstract class JToolbarHelper
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a default button.
-		$bar->appendButton('Standard', 'star', $alt, $task, true);
+		$bar->appendButton('Standard', 'default', $alt, $task, true);
 	}
 
 	/**

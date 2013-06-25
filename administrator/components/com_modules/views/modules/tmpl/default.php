@@ -26,6 +26,7 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
@@ -72,8 +73,14 @@ $sortFields = $this->getSortFields();
 				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
 				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
-					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
-					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
+					<option value="asc" <?php if ($listDirn == 'asc'):
+					 echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');
+					endif; ?></option>
+
+					<option value="desc" <?php if ($listDirn == 'desc'):
+							echo 'selected="selected"';
+							endif; ?>>
+					<?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
 				</select>
 			</div>
 			<div class="btn-group pull-right">
@@ -135,7 +142,8 @@ $sortFields = $this->getSortFields();
 				$canEdit    = $user->authorise('core.edit',       'com_modules');
 				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 				$canChange  = $user->authorise('core.edit.state', 'com_modules') && $canCheckin;
-			?>
+				endforeach;
+				?>
 				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position?>">
 					<td class="order nowrap center hidden-phone">
 					<?php if ($canChange) :
@@ -149,7 +157,7 @@ $sortFields = $this->getSortFields();
 							<i class="icon-menu"></i>
 						</span>
 						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order" />
-
+					<?php endif; ?>
 	</fieldset>
 	<div class="clr"> </div>
 
@@ -162,19 +170,19 @@ $sortFields = $this->getSortFields();
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
-                <th width="5%">
+				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="15%" class="left">
 					<?php echo JHtml::_('grid.sort',  'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
-                <th width="10%">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'modules.saveorder'); ?>
 					<?php endif; ?>
 				</th>
-                <th width="10%" class="left" >
+				<th width="10%" class="left" >
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
@@ -217,7 +225,6 @@ $sortFields = $this->getSortFields();
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.(int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
->>>>>>> Adding advanced ACL support for com_modules
 					<?php else : ?>
 						<span class="sortable-handler inactive" >
 							<i class="icon-menu"></i>

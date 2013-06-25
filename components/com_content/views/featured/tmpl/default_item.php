@@ -36,7 +36,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php endif; ?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
-	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" role="button"> <span class="icon-cog"></span><span class="caret"></span> </a>
+	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" role="button"> <span class="icon-cog"></span> <span class="caret"></span> </a>
 		<ul class="dropdown-menu">
 		<?php if ($params->get('show_print_icon')) : ?>
 			<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params); ?> </li>
@@ -217,6 +217,12 @@ $info    = $this->item->params->get('info_block_position', 0);
 			</dd>
 		<?php endif; ?>
 	</dl>
+
+	<?php if ($this->params->get('show_tags', 1)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	<?php endif; ?>
+
 <?php endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
@@ -228,7 +234,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
 		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
-		$link = new JURI($link1);
+		$link = new JUri($link1);
 		$link->setVar('return', base64_encode($returnURL));
 	endif; ?>
 

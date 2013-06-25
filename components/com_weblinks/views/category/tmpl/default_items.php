@@ -19,7 +19,7 @@ JHtml::_('behavior.framework');
 // Get the user object.
 $user = JFactory::getUser();
 // Check if user is allowed to add/edit based on weblinks permissinos.
-$canEdit = $user->authorise('core.edit', 'com_weblinks');
+$canEdit = $user->authorise('core.edit', 'com_weblinks.category.'.$this->category->id);
 $canCreate = $user->authorise('core.create', 'com_weblinks');
 $canEditState = $user->authorise('core.edit.state', 'com_weblinks');
 
@@ -73,12 +73,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</span>
 					<?php endif; ?>
 
-					<strong class="list-title">
-						<?php if ($this->params->get('icons') == 0) : ?>
+					<div class="list-title">
+						<?php if ($this->params->get('icons', 1) == 0) : ?>
 							 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
-						<?php elseif ($this->params->get('icons') == 1) : ?>
+						<?php elseif ($this->params->get('icons', 1) == 1) : ?>
 							<?php if (!$this->params->get('link_icons')) : ?>
-								<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), null, true); ?>
+								<?php echo JHtml::_('image', 'system/weblink.png', JText::_('COM_WEBLINKS_LINK'), null, true); ?>
 							<?php else: ?>
 								<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
 							<?php endif; ?>
@@ -114,9 +114,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									break;
 								case 3:
 									// open in a modal window
-									JHtml::_('behavior.modal', 'a.modal'); ?>
-									<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
-										<?php echo $this->escape($item->title). ' </a>';
+									JHtml::_('behavior.modal', 'a.modal');
+									echo '<a class="modal" href="'.$link.'"  rel="{handler: \'iframe\', size: {x:'.$this->escape($width).', y:'.$this->escape($height).'}}">'.
+										$this->escape($item->title). ' </a>';
 									break;
 
 								default:
@@ -126,7 +126,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									break;
 							}
 						?>
-						</strong>
+						</div>
+						<?php $tagsData = $item->tags->getItemTags('com_weblinks.weblink', $item->id); ?>
+						<?php if ($this->params->get('show_tags', 1)) : ?>
+							<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+							<?php echo $this->item->tagLayout->render($tagsData); ?>
+						<?php endif; ?>
+
 						<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>
 							<?php echo $item->description; ?>
 						<?php endif; ?>

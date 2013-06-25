@@ -145,6 +145,12 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		</div>
 	<?php endif; ?>
 
+	<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	<?php endif; ?>
+
 	<?php if (!$params->get('show_intro')) : echo $this->item->event->afterDisplayTitle; endif; ?>
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
@@ -252,13 +258,13 @@ if (!empty($this->item->pagination) && $this->item->pagination && $this->item->p
 	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ($params->get('urls_position') == '1'))) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php //optional teaser intro text for guests ?>
+	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :
 		$link1 = JRoute::_('index.php?option=com_users&view=login');
-		$link = new JURI($link1);?>
+		$link = new JUri($link1);?>
 	<p class="readmore">
 		<a href="<?php echo $link; ?>">
 		<?php $attribs = json_decode($this->item->attribs); ?>

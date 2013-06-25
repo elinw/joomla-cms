@@ -15,6 +15,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app = JFactory::getApplication();
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 
 // Get Params Fieldsets
@@ -39,40 +40,6 @@ $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate form-horizontal">
-	<fieldset>
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS'); ?></a></li>
-			<li><a href="#options" data-toggle="tab"><?php echo JText::_('JOPTIONS'); ?></a></li>
-
-			<?php if ($hasContent) : ?>
-				<li><a href="#custom" data-toggle="tab"><?php echo JText::_('COM_MODULES_CUSTOM_OUTPUT'); ?></a></li>
-			<?php endif; ?>
-
-			<li><?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?></li>
-
-			<?php if ($this->canDo->get('core.admin')): ?>
-				<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
-					<div class="button2-left"><div class="blank">
-						<button type="button" onclick="document.location.href='#access-rules';">
-							<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?>
-						</button>
-					</div></div>
-				</li>
-			<?php endif; ?>
-
-			<li><?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?></li>
-
-			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
-			<li><?php echo $this->form->getLabel('publish_up'); ?>
-			<?php echo $this->form->getInput('publish_up'); ?></li>
-
-			<li><?php echo $this->form->getLabel('publish_down'); ?>
-			<?php echo $this->form->getInput('publish_down'); ?></li>
-
-			<?php endif; ?>
-		</ul>
 
 		<div class="tab-content">
 			<div class="tab-pane active" id="details">
@@ -205,22 +172,18 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<?php echo $this->loadTemplate('assignment'); ?>
 				</div>
 			<?php endif; ?>
-		</div>
+			</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php if ($this->canDo->get('core.admin')): ?>
-		<div class="width-100 fltlft">
-			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+			<?php if ($this->canDo->get('core.admin')) : ?>
+			<div class="tab-pane" id="options">
+								<fieldset>
+						<?php echo $this->form->getInput('rules'); ?>
+					</fieldset>
 
-				<?php echo JHtml::_('sliders.panel', JText::_('COM_MODULES_FIELDSET_RULES'), 'access-rules'); ?>
-				<fieldset class="panelform">
-					<?php echo $this->form->getLabel('rules'); ?>
-					<?php echo $this->form->getInput('rules'); ?>
-				</fieldset>
+			<?php endif; ?>
+		<div>
 
-			<?php echo JHtml::_('sliders.end'); ?>
-		</div>
-	<?php endif; ?>
-	<div>
 
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>

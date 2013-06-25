@@ -19,17 +19,12 @@ defined('_JEXEC') or die;
 class PlgButtonPagebreak extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Display the button
@@ -44,6 +39,7 @@ class PlgButtonPagebreak extends JPlugin
 
 		$button = new JObject;
 		$button->modal = true;
+		$button->class = 'btn';
 		$button->link  = $link;
 		$button->text  = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
 		$button->name  = 'copy';

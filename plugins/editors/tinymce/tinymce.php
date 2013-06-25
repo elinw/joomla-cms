@@ -24,18 +24,12 @@ class PlgEditorTinymce extends JPlugin
 	protected $_basePath = 'media/editors/tinymce/jscripts/tiny_mce';
 
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param  object  $subject  The object to observe
-	 * @param  array   $config   An array that holds the plugin configuration
-	 *
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Initialises the Editor.
@@ -92,12 +86,11 @@ class PlgEditorTinymce extends JPlugin
 		/*
 		 * Lets get the default template for the site application
 		 */
-		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-
-		$query->select('template');
-		$query->from('#__template_styles');
-		$query->where('client_id=0 AND home=' . $db->quote('1'));
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true)
+			->select('template')
+			->from('#__template_styles')
+			->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
 		$template = $db->loadResult();
@@ -116,7 +109,7 @@ class PlgEditorTinymce extends JPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
+				$content_css = 'content_css : "'. JUri::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
@@ -135,8 +128,6 @@ class PlgEditorTinymce extends JPlugin
 				// if no editor.css file in templates folder, check system template folder
 				if (!file_exists($templates_path . '/' . $template . '/css/editor.css'))
 				{
-					$template = 'system';
-
 					// if no editor.css file in system folder, show alert
 					if (!file_exists($templates_path . '/system/css/editor.css'))
 					{
@@ -144,12 +135,12 @@ class PlgEditorTinymce extends JPlugin
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JURI::root() .'templates/system/css/editor.css",';
+						$content_css = 'content_css : "' . JUri::root() .'templates/system/css/editor.css",';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JURI::root() .'templates/'. $template . '/css/editor.css",';
+					$content_css = 'content_css : "' . JUri::root() .'templates/'. $template . '/css/editor.css",';
 				}
 			}
 		}
@@ -190,7 +181,6 @@ class PlgEditorTinymce extends JPlugin
 		$html_width			= $this->params->def('html_width', '750');
 		$resizing			= $this->params->def('resizing', 'true');
 		$resize_horizontal	= $this->params->def('resize_horizontal', 'false');
-		$element_path = '';
 
 		if ($this->params->get('element_path', 1))
 		{
@@ -499,7 +489,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().$this->_basePath.
+						JUri::root().$this->_basePath.
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -522,14 +512,14 @@ class PlgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					// Layout
 					$content_css
-					document_base_url : \"". JURI::root() ."\"
+					document_base_url : \"". JUri::root() ."\"
 				});
 				</script>";
 				break;
 
 			case 1: /* Advanced mode*/
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().$this->_basePath.
+						JUri::root().$this->_basePath.
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -552,7 +542,7 @@ class PlgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JURI::root() ."\",
+					document_base_url : \"". JUri::root() ."\",
 					// Layout
 					$content_css
 					// Advanced theme
@@ -569,7 +559,7 @@ class PlgEditorTinymce extends JPlugin
 
 			case 2: /* Extended mode*/
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().$this->_basePath.
+						JUri::root().$this->_basePath.
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -594,9 +584,9 @@ class PlgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JURI::root() ."\",
+					document_base_url : \"". JUri::root() ."\",
 					//Templates
-					template_external_list_url :  \"". JURI::root() ."media/editors/tinymce/templates/template_list.js\",
+					template_external_list_url :  \"". JUri::root() ."media/editors/tinymce/templates/template_list.js\",
 					// Layout
 					$content_css
 					// Advanced theme
@@ -785,11 +775,12 @@ class PlgEditorTinymce extends JPlugin
 				 */
 				if ( $button->get('name') )
 				{
-					$modal		= ($button->get('modal')) ? ' class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
-					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : 'onclick="IeCursorFix(); return false;"';
+					$class		= ($button->get('class')) ? $button->get('class') : null;
+					$class		.= ($button->get('modal')) ? ' modal-button' : null;
+					$href		= ($button->get('link')) ? ' href="'.JUri::base().$button->get('link').'"' : null;
+					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : ' onclick="IeCursorFix(); return false;"';
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= '<a' . $modal . ' title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
+					$return .= '<a class="' . $class . '" title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
 						. '"><i class="icon-' . $button->get('name'). '"></i> ' . $button->get('text') . "</a>\n";
 				}
 			}

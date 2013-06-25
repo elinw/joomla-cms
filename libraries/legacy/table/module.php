@@ -31,7 +31,7 @@ class JTableModule extends JTable
 
 		$this->access = (int) JFactory::getConfig()->get('access');
 	}
-	
+
 	/**
 	 * Method to compute the default name of the asset.
 	 * The default name is in the form table_name.id
@@ -46,7 +46,7 @@ class JTableModule extends JTable
 		$k = $this->_tbl_key;
 		return 'com_modules.module.' . (int) $this->$k;
 	}
-	
+
 	/**
 	 * Method to return the title to use for the asset table.
 	 *
@@ -58,7 +58,7 @@ class JTableModule extends JTable
 	{
 		return $this->title;
 	}
-	
+
 		/**
 	 * Method to get the parent asset id for the record
 	 *
@@ -75,21 +75,21 @@ class JTableModule extends JTable
 		$assetId = null;
 
 		// This is a module that needs to parent with the extension.
-        if ($assetId === null)
-        {
-            // Build the query to get the asset id of the parent component.
-            $query = $this->_db->getQuery(true);
-            $query->select($this->_db->quoteName('id'));
-            $query->from($this->_db->quoteName('#__assets'));
-            $query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote('com_modules'));
+		if ($assetId === null)
+		{
+			// Build the query to get the asset id of the parent component.
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('id'));
+			$query->from($this->_db->quoteName('#__assets'));
+			$query->where($this->_db->quoteName('name') . ' = ' .$this->_db->quote('com_modules'));
 
-            // Get the asset id from the database.
-            $this->_db->setQuery($query);
-            if ($result = $this->_db->loadResult())
-            {
-                $assetId = (int) $result;
-            }
-        }
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
+			{
+				$assetId = (int) $result;
+			}
+		}
 
 		// Return the asset id.
 		if ($assetId)
@@ -150,7 +150,7 @@ class JTableModule extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
-		
+
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
@@ -159,5 +159,19 @@ class JTableModule extends JTable
 		}
 
 		return parent::bind($array, $ignore);
+	}
+
+	/**
+	 * Overrides JTable::store to set modified data and user id.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function store($updateNulls = false)
+	{
+		$result = parent::store($updateNulls);
 	}
 }

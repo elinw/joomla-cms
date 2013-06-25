@@ -178,7 +178,11 @@ class UsersModelProfile extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		return $this->getData();
+		$data = $this->getData();
+
+		$this->preprocessData('com_users.profile', $data);
+
+		return $data;
 	}
 
 	/**
@@ -239,7 +243,7 @@ class UsersModelProfile extends JModelForm
 		$user = new JUser($userId);
 
 		// Prepare the data for the user object.
-		$data['email']		= $data['email1'];
+		$data['email']		= JStringPunycode::emailToPunycode($data['email1']);
 		$data['password']	= $data['password1'];
 
 		// Unset the username if it should not be overwritten
@@ -257,7 +261,7 @@ class UsersModelProfile extends JModelForm
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(JText::sprintf('USERS PROFILE BIND FAILED', $user->getError()));
+			$this->setError(JText::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
 			return false;
 		}
 
@@ -273,6 +277,9 @@ class UsersModelProfile extends JModelForm
 			$this->setError($user->getError());
 			return false;
 		}
+
+		$user->tags = new JHelperTags;
+		$user->tags->getTagIds($user->id, 'com_users.user');
 
 		return $user->id;
 	}

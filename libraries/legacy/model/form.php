@@ -156,6 +156,8 @@ abstract class JModelForm extends JModelLegacy
 		// Get the form.
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		JForm::addFormPath(JPATH_COMPONENT . '/model/form');
+		JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 		try
 		{
@@ -201,6 +203,32 @@ abstract class JModelForm extends JModelLegacy
 	protected function loadFormData()
 	{
 		return array();
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the data.
+	 *
+	 * @param   string  $context  The context identifier.
+	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function preprocessData($context, &$data)
+	{
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+
+		// Trigger the data preparation event.
+		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
+
+		// Check for errors encountered while preparing the data.
+		if (count($results) > 0 && in_array(false, $results, true))
+		{
+			$this->setError($dispatcher->getError());
+		}
 	}
 
 	/**

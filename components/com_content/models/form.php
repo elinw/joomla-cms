@@ -57,6 +57,7 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function getItem($itemId = null)
 	{
+
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
@@ -82,7 +83,7 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$asset	= 'com_content.article.'.$value->id;
+		$asset	= 'com_content.article.'. $value->id;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))
@@ -115,7 +116,8 @@ class ContentModelForm extends ContentModelArticle
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
-			else {
+			else
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
 			}
 		}
@@ -124,6 +126,18 @@ class ContentModelForm extends ContentModelArticle
 		if (!empty($value->fulltext))
 		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
+		}
+
+		// Convert the metadata field to an array.
+		$registry = new JRegistry;
+		$registry->loadString($value->metadata);
+		$value->metadata = $registry->toArray();
+
+		if ($itemId)
+		{
+			$value->tags = new JHelperTags;
+			$value->tags->getTagIds($value->id, 'com_content.article');
+			$value->metadata['tags'] = $value->tags;
 		}
 
 		return $value;
@@ -138,5 +152,26 @@ class ContentModelForm extends ContentModelArticle
 	public function getReturnPage()
 	{
 		return base64_encode($this->getState('return_page'));
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.2
+	 */
+	public function save($data)
+	{
+		// Prevent deleting multilang associations
+		$app = JFactory::getApplication();
+		$assoc = $app->item_associations;
+		$app->item_associations = 0;
+		$result = parent::save($data);
+		$app->item_associations = $assoc;
+
+		return $result;
 	}
 }

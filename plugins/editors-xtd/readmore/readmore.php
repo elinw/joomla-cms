@@ -19,18 +19,12 @@ defined('_JEXEC') or die;
 class PlgButtonReadmore extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * readmore button
@@ -62,6 +56,7 @@ class PlgButtonReadmore extends JPlugin
 
 		$button = new JObject;
 		$button->modal = false;
+		$button->class = 'btn';
 		$button->onclick = 'insertReadmore(\''.$name.'\');return false;';
 		$button->text = JText::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name = 'arrow-down';

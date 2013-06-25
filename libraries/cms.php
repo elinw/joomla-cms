@@ -20,7 +20,11 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
 
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms');
@@ -45,3 +49,12 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 // @deprecated  4.0
 JLoader::register('JToolBar', JPATH_PLATFORM . '/cms/toolbar/toolbar.php');
 JLoader::register('JButton',  JPATH_PLATFORM . '/cms/toolbar/button.php');
+JLoader::register('JInstallerComponent',  JPATH_PLATFORM . '/cms/installer/adapter/component.php');
+JLoader::register('JInstallerFile',  JPATH_PLATFORM . '/cms/installer/adapter/file.php');
+JLoader::register('JInstallerLanguage',  JPATH_PLATFORM . '/cms/installer/adapter/language.php');
+JLoader::register('JInstallerLibrary',  JPATH_PLATFORM . '/cms/installer/adapter/library.php');
+JLoader::register('JInstallerModule',  JPATH_PLATFORM . '/cms/installer/adapter/module.php');
+JLoader::register('JInstallerPackage',  JPATH_PLATFORM . '/cms/installer/adapter/package.php');
+JLoader::register('JInstallerPlugin',  JPATH_PLATFORM . '/cms/installer/adapter/plugin.php');
+JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapter/template.php');
+JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');

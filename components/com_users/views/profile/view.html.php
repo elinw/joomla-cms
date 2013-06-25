@@ -54,6 +54,9 @@ class UsersViewProfile extends JViewLegacy
 			return false;
 		}
 
+		$this->data->tags = new JHelperTags;
+		$this->data->tags->getItemTags('com_users.user.', $this->data->id);
+
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
 		if (isset($active->query['layout']))
@@ -79,7 +82,6 @@ class UsersViewProfile extends JViewLegacy
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
 		$user		= JFactory::getUser();
-		$login		= $user->get('guest') ? true : false;
 		$title 		= null;
 
 		// Because the application sets a default page title,

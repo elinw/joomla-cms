@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -44,7 +44,7 @@ $user = JFactory::getUser();
 // Logo file
 if ($params->get('logoFile'))
 {
-	$logo = JURI::root() . $params->get('logoFile');
+	$logo = JUri::root() . $params->get('logoFile');
 }
 else
 {
@@ -59,6 +59,16 @@ else
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="language" content="<?php echo $this->language; ?>" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+
+	<?php
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if ((defined('JDEBUG') && JDEBUG) || $debug)
+		{
+	?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+	<?php
+		}
+	?>
 	<?php
 	// If Right-to-Left
 	if ($this->direction == 'rtl')
