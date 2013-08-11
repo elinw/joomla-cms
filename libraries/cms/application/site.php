@@ -796,4 +796,5 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
  	}
+
 }

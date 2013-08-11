@@ -31,7 +31,7 @@ class PlgSystemRemember extends JPlugin
 		$user = JFactory::getUser();
 		if ($user->get('guest'))
 		{
-			$hash = JApplication::getHash('JLOGIN_REMEMBER');
+			$hash = JApplicationHelper::getHash('JLOGIN_REMEMBER');
 
 			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))
 			{
@@ -40,7 +40,7 @@ class PlgSystemRemember extends JPlugin
 
 				// Create the encryption key, apply extra hardening using the user agent string.
 				// Since we're decoding, no UA validity check is required.
-				$privateKey = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+				$privateKey = JApplicationHelper::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
 				$key = new JCryptKey('simple', $privateKey, $privateKey);
 				$crypt = new JCrypt(new JCryptCipherSimple, $key);
@@ -96,7 +96,7 @@ class PlgSystemRemember extends JPlugin
 					$cookie_path = $config->get('cookie_path', '/');
 					// Clear the remember me cookie
 					setcookie(
-						JApplication::getHash('JLOGIN_REMEMBER'), false, time() - 86400,
+						JApplicationHelper::getHash('JLOGIN_REMEMBER'), false, time() - 86400,
 						$cookie_path, $cookie_domain
 					);
 					JLog::add('A remember me cookie was unset for the following reason: ' . $e->getMessage(), JLog::WARNING, 'security');

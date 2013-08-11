@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
- * @since       13.1
+ * @since       3.2
  */
 class JGithubMeta extends JGithubObject
 {
@@ -23,7 +23,7 @@ class JGithubMeta extends JGithubObject
 	 *
 	 * @return  array  Authorized IP addresses
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 * @throws  DomainException
 	 */
 	public function getMeta()

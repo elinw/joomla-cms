@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       13.1
+ * @since       3.2
  */
 class JDatabaseIteratorPostgresql extends JDatabaseIterator
 {
@@ -23,7 +23,7 @@ class JDatabaseIteratorPostgresql extends JDatabaseIterator
 	 *
 	 * @return  integer  The number of rows in the result set.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 * @see     Countable::count()
 	 */
 	public function count()
@@ -36,7 +36,7 @@ class JDatabaseIteratorPostgresql extends JDatabaseIterator
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	protected function fetchObject()
 	{
@@ -48,7 +48,7 @@ class JDatabaseIteratorPostgresql extends JDatabaseIterator
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	protected function freeResult()
 	{

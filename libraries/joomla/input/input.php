@@ -102,34 +102,39 @@ class JInput implements Serializable, Countable
 	 *
 	 * @param   mixed  $name  Name of the input object to retrieve.
 	 *
-	 * @return  JInput  The request input object
+	 * @return  Input  The request input object
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function __get($name)
 	{
+		$name = strtolower($name);
+
+		// We only need one instance of the child objects.
 		if (isset($this->inputs[$name]))
 		{
 			return $this->inputs[$name];
 		}
 
-		$className = 'JInput' . ucfirst($name);
+		$className = __NAMESPACE__ . '\\' . ucfirst($name);
 		if (class_exists($className))
 		{
-			$this->inputs[$name] = new $className(null, $this->options);
+			$this->inputs[$name] = new $className($this->provider);
+
 			return $this->inputs[$name];
 		}
 
 		$superGlobal = '_' . strtoupper($name);
 		if (isset($GLOBALS[$superGlobal]))
 		{
-			$this->inputs[$name] = new JInput($GLOBALS[$superGlobal], $this->options);
+			$this->inputs[$name] = new JInput($this->provider, $GLOBALS[$superGlobal]);
+
 			return $this->inputs[$name];
 		}
 
-		// TODO throw an exception
+		throw new UnexpectedValueException(sprintf('Unable to locate an input class or data source for `%s`.', $name));
 	}
-
 	/**
 	 * Get the number of variables.
 	 *
@@ -156,9 +161,12 @@ class JInput implements Serializable, Countable
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
-		if (isset($this->data[$name]))
+		if (is_array($this->data))
 		{
-			return $this->filter->clean($this->data[$name], $filter);
+			if (isset($this->data[$name]))
+			{
+				return $this->filter->clean($this->data[$name], $filter);
+			}
 		}
 
 		return $default;

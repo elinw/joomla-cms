@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.router');
+//jimport('joomla.application.router');
 
 /**
  * Class to create and parse routes for the site application
@@ -32,7 +32,8 @@ class JRouterSite extends JRouter
 		$vars = array();
 
 		// Get the application
-		$app = JApplication::getInstance('site');
+		$app = JApplicationCms::getInstance('site');
+		//$app = new JApplicationCmsSite;
 
 		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
 		{
@@ -143,19 +144,19 @@ class JRouterSite extends JRouter
 	protected function _parseRawRoute(&$uri)
 	{
 		$vars = array();
-		$app  = JApplication::getInstance('site');
+		$app  = JApplicationCms::getInstance('site');
 		$menu = $app->getMenu(true);
 
 		// Handle an empty URL (special case)
 		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
 		{
-			$item = $menu->getDefault(JFactory::getLanguage()->getTag());
+			/*$item = $menu->getDefault(JApplication::getLanguage()->getTag());
 			if (!is_object($item))
 			{
 				// No default item set
 				return $vars;
 			}
-
+			*/
 			// Set the information in the request
 			$vars = $item->query;
 

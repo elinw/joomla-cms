@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2
  */
 class JOpenstreetmapOauth extends JOAuth1Client
 {
@@ -22,7 +22,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 * Options for the JOpenstreetmapOauth object.
 	 *
 	 * @var    JRegistry
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $options;
 
@@ -33,7 +33,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 * @param   JHttp      $client   The HTTP client object.
 	 * @param   JInput     $input    The input object
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
@@ -58,7 +58,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 *
 	 * @return  boolean  Returns true if the access token is valid and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function verifyCredentials()
 	{
@@ -73,7 +73,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 * @throws  DomainException
 	 */
 	public function validateResponse($url, $response)

@@ -40,7 +40,7 @@ class PlgSystemLogout extends JPlugin
 		parent::__construct($subject, $config);
 
 		$input = JFactory::getApplication()->input;
-		$hash  = JApplication::getHash('PlgSystemLogout');
+		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
 		if (JFactory::getApplication()->isSite() && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie
@@ -68,7 +68,7 @@ class PlgSystemLogout extends JPlugin
 		if (JFactory::getApplication()->isSite())
 		{
 			// Create the cookie
-			$hash = JApplication::getHash('PlgSystemLogout');
+			$hash = JApplicationHelper::getHash('PlgSystemLogout');
 			$conf = JFactory::getConfig();
 			$cookie_domain 	= $conf->get('config.cookie_domain', '');
 			$cookie_path 	= $conf->get('config.cookie_path', '/');

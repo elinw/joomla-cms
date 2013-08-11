@@ -382,7 +382,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public static function loadByPsr0($class)
 	{

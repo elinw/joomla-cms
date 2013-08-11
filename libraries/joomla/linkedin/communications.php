@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Linkedin
- * @since       13.1
+ * @since       3.2
  */
 class JLinkedinCommunications extends JLinkedinObject
 {
@@ -30,7 +30,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function inviteByEmail($email, $first_name, $last_name, $subject, $body, $connection = 'friend')
 	{
@@ -89,7 +89,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function inviteById($id, $first_name, $last_name, $subject, $body, $connection = 'friend')
 	{
@@ -175,7 +175,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function sendMessage($recipient, $subject, $body)
 	{

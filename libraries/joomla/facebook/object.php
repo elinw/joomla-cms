@@ -17,25 +17,25 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @since       13.1
+ * @since       3.2
  */
 abstract class JFacebookObject
 {
 	/**
 	 * @var    JRegistry  Options for the Facebook object.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookOAuth  The OAuth client.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $oauth;
 
@@ -46,7 +46,7 @@ abstract class JFacebookObject
 	 * @param   JHttp           $client   The HTTP client object.
 	 * @param   JFacebookOAuth  $oauth    The OAuth client.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function __construct(JRegistry $options = null, JHttp $client = null, JFacebookOAuth $oauth = null)
 	{
@@ -68,7 +68,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  string  The request URL.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	protected function fetchUrl($path, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -111,7 +111,7 @@ abstract class JFacebookObject
 	 *
 	 * @return   mixed  The request response.
 	 *
-	 * @since    13.1
+	 * @since    3.2
 	 * @throws   DomainException
 	 */
 	public function sendRequest($path, $data = '', array $headers = null, $limit = 0, $offset = 0, $until = null, $since = null)
@@ -137,7 +137,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function get($object)
 	{
@@ -172,7 +172,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getConnection($object, $connection = null, $extra_fields = '', $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -213,7 +213,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createConnection($object, $connection = null, $parameters = null, array $headers = null)
 	{
@@ -249,7 +249,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteConnection($object, $connection = null, $extra_fields = '')
 	{
@@ -283,7 +283,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  JFacebookObject  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function setOAuth($oauth)
 	{
@@ -297,7 +297,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  JFacebookOAuth  The OAuth client
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getOAuth()
 	{

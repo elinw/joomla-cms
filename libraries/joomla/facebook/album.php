@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Facebook
  *
  * @see         http://developers.facebook.com/docs/reference/api/album/
- * @since       13.1
+ * @since       3.2
  */
 class JFacebookAlbum extends JFacebookObject
 {
@@ -29,7 +29,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getAlbum($album)
 	{
@@ -47,7 +47,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getPhotos($album, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -63,7 +63,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createPhoto($album, $source, $message = null)
 	{
@@ -90,7 +90,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getComments($album, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -105,7 +105,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createComment($album, $message)
 	{
@@ -123,7 +123,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteComment($comment)
 	{
@@ -141,7 +141,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getLikes($album, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -155,7 +155,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createLike($album)
 	{
@@ -169,7 +169,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteLike($album)
 	{
@@ -185,7 +185,7 @@ class JFacebookAlbum extends JFacebookObject
 	 *
 	 * @return  string  URL of the picture.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getPicture($album, $redirect = true)
 	{

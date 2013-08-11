@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2
 */
 class JOpenstreetmapInfo extends JOpenstreetmapObject
 {
@@ -23,7 +23,7 @@ class JOpenstreetmapInfo extends JOpenstreetmapObject
 	 *
 	 * @return	array  The XML response
 	 *
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	public function getCapabilities()
 	{
@@ -51,7 +51,7 @@ class JOpenstreetmapInfo extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function retrieveMapData($left, $bottom, $right, $top)
 	{
@@ -74,7 +74,7 @@ class JOpenstreetmapInfo extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function retrievePermissions()
 	{

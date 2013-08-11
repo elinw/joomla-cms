@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Facebook
  *
  * @see         http://developers.facebook.com/docs/reference/api/link/
- * @since       13.1
+ * @since       3.2
  */
 class JFacebookLink extends JFacebookObject
 {
@@ -29,7 +29,7 @@ class JFacebookLink extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getLink($link)
 	{
@@ -47,7 +47,7 @@ class JFacebookLink extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getComments($link, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -62,7 +62,7 @@ class JFacebookLink extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createComment($link, $message)
 	{
@@ -80,7 +80,7 @@ class JFacebookLink extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteComment($comment)
 	{
@@ -98,7 +98,7 @@ class JFacebookLink extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getLikes($link, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -112,7 +112,7 @@ class JFacebookLink extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createLike($link)
 	{
@@ -126,7 +126,7 @@ class JFacebookLink extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteLike($link)
 	{

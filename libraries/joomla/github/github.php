@@ -111,7 +111,7 @@ class JGithub
 
 	/**
 	 * @var    JGithubMeta  GitHub API object for meta.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $meta;
 

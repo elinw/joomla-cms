@@ -12440,7 +12440,7 @@ class SimplePie_Net_IPv6
 	 * RFC 2373 allows you to note the last two parts of an IPv6 address as
 	 * an IPv4 compatible address
 	 *
-	 * Example:	 0:0:0:0:0:0:13.1.68.3
+	 * Example:	 0:0:0:0:0:0:3.2.68.3
 	 *			 0:0:0:0:0:FFFF:129.144.52.38
 	 *
 	 * @access public

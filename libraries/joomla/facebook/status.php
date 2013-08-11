@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Facebook
  *
  * @see         http://developers.facebook.com/docs/reference/api/status/
- * @since       13.1
+ * @since       3.2
  */
 class JFacebookStatus extends JFacebookObject
 {
@@ -29,7 +29,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getStatus($status)
 	{
@@ -47,7 +47,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getComments($status, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -62,7 +62,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createComment($status, $message)
 	{
@@ -79,7 +79,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteComment($comment)
 	{
@@ -97,7 +97,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getLikes($status, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -111,7 +111,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createLike($status)
 	{
@@ -125,7 +125,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteLike($status)
 	{

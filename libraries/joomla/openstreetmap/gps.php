@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2
  */
 class JOpenstreetmapGps extends JOpenstreetmapObject
 {
@@ -29,7 +29,7 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 	 *
 	 * @return	array  The XML response containing GPS points
 	 *
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	public function retrieveGps($left, $bottom, $right, $top, $page = 0)
 	{
@@ -60,7 +60,7 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 	 *
 	 * @return  JHttpResponse  The response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function uploadTrace($file, $description, $tags, $public, $visibility, $username, $password)
 	{
@@ -99,7 +99,7 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function downloadTraceMetadetails($id, $username, $password)
 	{
@@ -124,7 +124,7 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function downloadTraceMetadata($id, $username, $password)
 	{

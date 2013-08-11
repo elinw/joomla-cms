@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2
  */
 class JOpenstreetmapChangesets extends JOpenstreetmapObject
 {
@@ -25,7 +25,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createChangeset($changesets=array())
 	{
@@ -83,7 +83,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response about a changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function readChangeset($id)
 	{
@@ -107,7 +107,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of updated changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function updateChangeset($id, $tags = array())
 	{
@@ -159,7 +159,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function closeChangeset($id)
 	{
@@ -189,7 +189,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of requested changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function downloadChangeset($id)
 	{
@@ -213,7 +213,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of changed changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function expandBBoxChangeset($id, $nodes)
 	{
@@ -265,7 +265,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function queryChangeset($param)
 	{
@@ -289,7 +289,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of result
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function diffUploadChangeset($xml, $id)
 	{

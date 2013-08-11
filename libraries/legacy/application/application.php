@@ -23,7 +23,7 @@ jimport('joomla.environment.response');
  * @since       11.1
  * @deprecated  4.0  Use JApplicationCms instead unless specified otherwise
  */
-class JApplication extends JApplicationBase
+class JApplicationWebold extends JApplicationBase
 {
 	/**
 	 * The client identifier.

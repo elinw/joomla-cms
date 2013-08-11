@@ -275,7 +275,7 @@ abstract class JDatabaseQuery
 
 	/**
 	 * @var    JDatabaseQueryElement  The unionAll element.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $unionAll = null;
 
@@ -1795,7 +1795,7 @@ abstract class JDatabaseQuery
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
@@ -1817,7 +1817,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function unionAll($query, $distinct = false, $glue = '')
 	{

@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Facebook
  *
  * @see         http://developers.facebook.com/docs/reference/api/event/
- * @since       13.1
+ * @since       3.2
  */
 class JFacebookEvent extends JFacebookObject
 {
@@ -28,7 +28,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getEvent($event)
 	{
@@ -46,7 +46,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getFeed($event, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -62,7 +62,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createLink($event, $link, $message = null)
 	{
@@ -81,7 +81,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteLink($link)
 	{
@@ -102,7 +102,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createPost($event, $message = null, $link = null, $picture = null, $name = null, $caption = null,
 		$description = null, $actions = null)
@@ -128,7 +128,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deletePost($post)
 	{
@@ -143,7 +143,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createStatus($event, $message)
 	{
@@ -162,7 +162,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteStatus($status)
 	{
@@ -178,7 +178,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getInvited($event, $limit = 0, $offset = 0)
 	{
@@ -193,7 +193,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function isInvited($event, $user)
 	{
@@ -208,7 +208,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createInvite($event, $users)
 	{
@@ -228,7 +228,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteInvite($event, $user)
 	{
@@ -244,7 +244,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getAttending($event, $limit = 0, $offset = 0)
 	{
@@ -259,7 +259,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function isAttending($event, $user)
 	{
@@ -273,7 +273,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createAttending($event)
 	{
@@ -289,7 +289,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getMaybe($event, $limit = 0, $offset = 0)
 	{
@@ -304,7 +304,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function isMaybe($event, $user)
 	{
@@ -318,7 +318,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createMaybe($event)
 	{
@@ -334,7 +334,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getDeclined($event, $limit = 0, $offset = 0)
 	{
@@ -349,7 +349,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function isDeclined($event, $user)
 	{
@@ -363,7 +363,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createDeclined($event)
 	{
@@ -379,7 +379,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getNoreply($event, $limit = 0, $offset = 0)
 	{
@@ -394,7 +394,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function isNoreply($event, $user)
 	{
@@ -410,7 +410,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  string   The URL to the event's profile picture.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getPicture($event, $redirect = true, $type = null)
 	{
@@ -440,7 +440,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getPhotos($event, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -456,7 +456,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createPhoto($event, $source, $message = null)
 	{
@@ -483,7 +483,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getVideos($event, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -500,7 +500,7 @@ class JFacebookEvent extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createVideo($event, $source, $title = null, $description = null)
 	{

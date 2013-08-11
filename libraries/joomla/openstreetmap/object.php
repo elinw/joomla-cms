@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2
  */
 abstract class JOpenstreetmapObject
 {
@@ -22,7 +22,7 @@ abstract class JOpenstreetmapObject
 	 * Options for the Openstreetmap object.
 	 *
 	 * @var    JRegistry
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $options;
 
@@ -30,7 +30,7 @@ abstract class JOpenstreetmapObject
 	 * The HTTP client object to use in sending HTTP requests.
 	 *
 	 * @var    JHttp
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $client;
 
@@ -38,7 +38,7 @@ abstract class JOpenstreetmapObject
 	 * The OAuth client.
 	 *
 	 * @var    JOpenstreetmapOauth
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $oauth;
 
@@ -49,7 +49,7 @@ abstract class JOpenstreetmapObject
 	 * @param   JHttp                $client    The HTTP client object.
 	 * @param   JOpenstreetmapOauth  $oauth     Openstreetmap oauth client
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function __construct(JRegistry &$options = null, JHttp $client = null, JOpenstreetmapOauth $oauth = null)
 	{
@@ -65,7 +65,7 @@ abstract class JOpenstreetmapObject
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getOption($key)
 	{
@@ -80,7 +80,7 @@ abstract class JOpenstreetmapObject
 	 *
 	 * @return  JOpenstreetmapObject  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function setOption($key, $value)
 	{
@@ -99,7 +99,7 @@ abstract class JOpenstreetmapObject
 	 *
 	 * @return  SimpleXMLElement  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 * @throws  DomainException
 	 */
 	public function sendRequest($path, $method = 'GET', $headers = array(), $data = '')

@@ -16,13 +16,13 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @since       13.1
+ * @since       3.2
  */
 class JFacebookOAuth extends JOAuth2Client
 {
 	/**
 	 * @var JRegistry Options for the JFacebookOAuth object.
-	 * @since 13.1
+	 * @since 3.2
 	 */
 	protected $options;
 
@@ -33,7 +33,7 @@ class JFacebookOAuth extends JOAuth2Client
 	 * @param   JHttp      $client   The HTTP client object.
 	 * @param   JInput     $input    The input object.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
@@ -54,7 +54,7 @@ class JFacebookOAuth extends JOAuth2Client
 	 *
 	 * @return  JFacebookOauth  This object for method chaining
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function setScope($scope)
 	{
@@ -68,7 +68,7 @@ class JFacebookOAuth extends JOAuth2Client
 	 *
 	 * @return  string Comma separated list of permissions.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getScope()
 	{

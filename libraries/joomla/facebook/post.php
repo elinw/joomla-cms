@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Facebook
  *
  * @see         http://developers.facebook.com/docs/reference/api/post/
- * @since       13.1
+ * @since       3.2
  */
 class JFacebookPost extends JFacebookObject
 {
@@ -29,7 +29,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getPost($post)
 	{
@@ -43,7 +43,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deletePost($post)
 	{
@@ -61,7 +61,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getComments($post, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -76,7 +76,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createComment($post, $message)
 	{
@@ -93,7 +93,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteComment($comment)
 	{
@@ -111,7 +111,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getLikes($post, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -125,7 +125,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function createLike($post)
 	{
@@ -139,7 +139,7 @@ class JFacebookPost extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function deleteLike($post)
 	{

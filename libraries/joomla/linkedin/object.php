@@ -14,25 +14,25 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Linkedin
- * @since       13.1
+ * @since       3.2
  */
 abstract class JLinkedinObject
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $client;
 
 	/**
 	 * @var   JLinkedinOAuth The OAuth client.
-	 * @since  13.1
+	 * @since  3.2
 	 */
 	protected $oauth;
 
@@ -43,7 +43,7 @@ abstract class JLinkedinObject
 	 * @param   JHttp           $client   The HTTP client object.
 	 * @param   JLinkedinOAuth  $oauth    The OAuth client.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function __construct(JRegistry $options = null, JHttp $client = null, JLinkedinOAuth $oauth = null)
 	{
@@ -59,7 +59,7 @@ abstract class JLinkedinObject
 	 *
 	 * @return  string  String with the converted boolean.
 	 *
-	 * @since 13.1
+	 * @since 3.2
 	 */
 	public function booleanToString($bool)
 	{
@@ -80,7 +80,7 @@ abstract class JLinkedinObject
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function getOption($key)
 	{
@@ -95,7 +95,7 @@ abstract class JLinkedinObject
 	 *
 	 * @return  JLinkedinObject  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	public function setOption($key, $value)
 	{
