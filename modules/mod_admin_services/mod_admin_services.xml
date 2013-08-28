@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
-	<name>Admin Services</name>
+	<name>mod_admin_services</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2013</creationDate>
 	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights
@@ -32,6 +32,14 @@
 				<field name="config_visible" type="radio" class="btn-group"
 					default="1" label="MOD_ADMIN_SERVICES_FIELD_CONFIG_VISIBLE_LABEL"
 					description="MOD_ADMIN_SERVICES_FIELD_CONFIG_VISIBLE_DESCRIPTION">
+					<option value="1">JYES
+					</option>
+					<option value="0">JNO
+					</option>
+				</field>
+				<field name="templates_visible" type="radio" class="btn-group"
+					default="1" label="MOD_ADMIN_SERVICES_FIELD_TEMPLATES_VISIBLE_LABEL"
+					description="MOD_ADMIN_SERVICES_FIELD_TEMPLATES_VISIBLE_DESCRIPTION">
 					<option value="1">JYES
 					</option>
 					<option value="0">JNO
