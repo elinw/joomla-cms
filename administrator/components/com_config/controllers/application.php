@@ -81,6 +81,7 @@ class ConfigControllerApplication extends JControllerLegacy
 		$controller = new ConfigControllerApplicationRefreshhelp;
 
 		$controller->execute();
+
 	}
 
 	/**
