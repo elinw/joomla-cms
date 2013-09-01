@@ -1,0 +1,123 @@
+<?php
+/**
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+/**
+ * Test class for JModelCms.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @since       12.3
+ */
+class JModelCmsTest extends TestCase
+{
+	/**
+	 * Test JModelCms::checkin
+	 *
+	 * @todo    Implement testCheckin().
+	 *
+	 * @return  void
+	 */
+	public function testCheckin()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test JModelCms::checkout
+	 *
+	 * @todo    Implement testCheckout().
+	 *
+	 * @return  void
+	 */
+	public function testCheckout()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test JModelCms::delete
+	 *
+	 * @todo    Implement testDelete().
+	 *
+	 * @return  void
+	 */
+	public function testDelete()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test JModelCms::getItem
+	 *
+	 * @todo    Implement testGetItem().
+	 *
+	 * @return  void
+	 */
+	public function testGetItem()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test JModelCms::delete
+	 *
+	 * @todo    Implement testDelete().
+	 *
+	 * @return  void
+	 */
+	public function testPublish()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test JModelCms::reorder
+	 *
+	 * @todo    Implement testReorder().
+	 *
+	 * @return  void
+	 */
+	public function testReorder()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test JModelCms::save
+	 *
+	 * @todo    Implement testSave().
+	 *
+	 * @return  void
+	 */
+	public function testSave()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test JModelCms::saveOrder
+	 *
+	 * @todo    Implement testSaveorder().
+	 *
+	 * @return  void
+	 */
+	public function testSaveorder()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+}

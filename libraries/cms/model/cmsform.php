@@ -141,7 +141,7 @@ abstract class JModelCmsform extends JModelCms
 	 * @since   3.2
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
-	{
+	{var_dump($this->state);
 		// Handle the optional arguments.
 		$options['control'] = JArrayHelper::getValue($options, 'control', false);
 
@@ -165,14 +165,14 @@ abstract class JModelCmsform extends JModelCms
 		$paths->insert(JPATH_COMPONENT . '/models/forms', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/fields', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
-		
+
 		// test -- prob with previous -- tempory solution
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		JForm::addFormPath(JPATH_COMPONENT . '/model/form');
 		JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 		// test
-		
+
 
 		try
 		{

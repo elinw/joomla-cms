@@ -41,7 +41,7 @@ abstract class JModelCms extends JModelDatabase
 	 * @since  3.2
 	 */
 	protected $text_prefix = null;
-	
+
 	/**
 	 * Indicates if the internal state has been set
 	 *
@@ -166,7 +166,7 @@ abstract class JModelCms extends JModelDatabase
 		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
-		
+
 			// Set the model state set flag to true.
 			$this->__state_set = true;
 		}
@@ -241,14 +241,14 @@ abstract class JModelCms extends JModelDatabase
 	{
 		$conf = JFactory::getConfig();
 		$dispatcher = JEventDispatcher::getInstance();
-	
+
 		$options = array(
 				'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
 				'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
-	
+
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
-	
+
 		// Trigger the onContentCleanCache event.
 		$dispatcher->trigger($this->event_clean_cache, $options);
 	}
@@ -268,4 +268,6 @@ abstract class JModelCms extends JModelDatabase
 	protected function populateState()
 	{
 	}
+
+
 }
