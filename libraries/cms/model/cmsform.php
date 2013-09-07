@@ -141,7 +141,7 @@ abstract class JModelCmsform extends JModelCms
 	 * @since   3.2
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
-	{var_dump($this->state);
+	{
 		// Handle the optional arguments.
 		$options['control'] = JArrayHelper::getValue($options, 'control', false);
 
