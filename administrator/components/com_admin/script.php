@@ -30,6 +30,7 @@ class JoomlaInstallerScript
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
+		$this->updateAssets();
 	}
 
 	protected function updateDatabase()
@@ -998,5 +999,42 @@ class JoomlaInstallerScript
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
 		}
+	}
+
+	public function updateAssets()
+	{
+		// List all components added since 1.6
+		$newComponents = array(
+				com_finder,
+				com_joomlaupdate,
+				com_tags,
+				com_contenthistory,
+				com_ajax,
+			);
+
+		foreach($newComponents as $component)
+		{
+
+			$asset = JTable::getInstance('Asset');
+
+			if (!$asset->loadAssetByName($component))
+			{
+				$asset->name = $component;
+				$asset->parent_id = 1;
+				$asset->rules = '{}';
+				$asset->title = $component;
+				$asset->setLocation(1, 'last-child');
+
+				if (!$asset->store())
+				{
+					// Install failed, roll back changes
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }
