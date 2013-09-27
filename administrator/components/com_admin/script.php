@@ -1049,12 +1049,12 @@ class JoomlaInstallerScript
 	{
 		// List all components added since 1.6
 		$newComponents = array(
-				com_finder,
-				com_joomlaupdate,
-				com_tags,
-				com_contenthistory,
-				com_ajax,
-				com_postinstall
+				'com_finder',
+				'com_joomlaupdate',
+				'com_tags',
+				'com_contenthistory',
+				'com_ajax',
+				'com_postinstall'
 		);
 
 		foreach($newComponents as $component)
@@ -1062,7 +1062,7 @@ class JoomlaInstallerScript
 
 			$asset = JTable::getInstance('Asset');
 
-			if (!$asset->loadAssetByName($component))
+			if (!$asset->loadByName($component))
 			{
 				$asset->name = $component;
 				$asset->parent_id = 1;
