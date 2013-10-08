@@ -172,7 +172,7 @@ abstract class JModelAdmin extends JModelForm
 		$this->tableClassName = get_class($this->table);
 		$this->contentType = new JUcmType();
 		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->type === false?:$typeAlias = $this->type->type_alias;
+		$this->type === false ? : $typeAlias = $this->type->type_alias;
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
 		if (!empty($commands['category_id']))
@@ -267,7 +267,7 @@ abstract class JModelAdmin extends JModelForm
 
 				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
@@ -346,12 +346,12 @@ abstract class JModelAdmin extends JModelForm
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$table->reset();
+			$this->table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -366,41 +366,44 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-			$table->title = $data['0'];
-			$table->alias = $data['1'];
+			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->title);
+			$this->table->title = $data['0'];
+			$this->table->alias = $data['1'];
 
 			// Reset the ID because we are making a copy
-			$table->id = 0;
+			$this->table->id = 0;
 
 			// New category ID
-			$table->catid = $categoryId;
+			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $this->table->ordering	= 1;
 
 			// Check the row.
-			if (!$table->check())
+			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
-			if (!empty($tagsObserver) && !empty($type))
+			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
+			if (!empty($this->tagsObserver) && !empty($this->type))
 			{
-				$table->tagsHelper = new JHelperTags();
-				$table->tagsHelper->typeAlias = $typeAlias;
-				$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
+				$this->table->tagsHelper = new JHelperTags();
+				$this->table->tagsHelper->typeAlias = $typeAlias;
+				$this->table->tagsHelper->tags = explode(',', $this->table->tagsHelper->getTagIds($pk, $typeAlias));
 			}
+			
 			// Store the row.
-			if (!$table->store())
+			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $table->get('id');
+			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i]	= $newId;

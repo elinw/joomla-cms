@@ -49,7 +49,6 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
-		$table = $this->getTable();
 		$i = 0;
 
 		// Check that the category exists
@@ -81,6 +80,7 @@ class ContentModelArticle extends JModelAdmin
 		// Check that the user has create permission for the component
 		$extension = JFactory::getApplication()->input->get('option', '');
 		$user = JFactory::getUser();
+		
 		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
@@ -93,12 +93,12 @@ class ContentModelArticle extends JModelAdmin
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$table->reset();
+			$this->table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -113,38 +113,47 @@ class ContentModelArticle extends JModelAdmin
 			}
 
 			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-			$table->title = $data['0'];
-			$table->alias = $data['1'];
+			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->title);
+			$this->table->title = $data['0'];
+			$this->table->alias = $data['1'];
 
 			// Reset the ID because we are making a copy
-			$table->id = 0;
+			$this->table->id = 0;
 
 			// New category ID
-			$table->catid = $categoryId;
+			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			//$this->table->ordering	= 1;
 
 			// Get the featured state
-			$featured = $table->featured;
+			$featured = $this->table->featured;
 
 			// Check the row.
-			if (!$table->check())
+			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
-			// Store the row.
-			if (!$table->store())
+			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
+			if (!empty($this->tagsObserver) && !empty($this->type))
 			{
-				$this->setError($table->getError());
+				$this->table->tagsHelper = new JHelperTags();
+				$this->table->tagsHelper->typeAlias = $this->typeAlias;
+				$this->table->tagsHelper->tags = explode(',', $this->table->tagsHelper->getTagIds($pk, $this->typeAlias));
+			}
+			
+			// Store the row.
+			if (!$this->table->store())
+			{
+				$this->setError($this->table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $table->get('id');
+			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i] = $newId;
