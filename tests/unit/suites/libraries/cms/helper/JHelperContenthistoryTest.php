@@ -51,21 +51,60 @@ class JHelperContenthistoryTest extends TestCaseDatabase
 
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
 		$dataSet->addTable('jos_content', JPATH_TEST_DATABASE . '/jos_content.csv');
-		//$dataSet->addTable('jos_ucm_base', JPATH_TEST_DATABASE . '/jos_ucm_history.csv');
+		$dataSet->addTable('jos_ucm_base', JPATH_TEST_DATABASE . '/jos_ucm_history.csv');
 
 		return $dataSet;
 	}
+
+	/**
+	 * deleteHistory data
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+	 */
+	public function deleteHistoryProvider()
+	{
+		return array(
+				array('Exists' => 1, true),
+				array('Does not exist' => 500, false),
+		);
+	}
+
 	/**
 	 * Tests the deleteHistory() method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @dataProvider  deleteHistoryProvider
 	 */
-	public function testDeleteHistory()
+	public function testDeleteHistory($pk, $expected)
 	{
-		$this->markTestSkipped('Test not implemented.');
+		$table = JTable::getInstance(Content,JTable);
+		$table->load($pk);
+		$deleteResult = $this->object->deleteHistory($table);
+		$this->assertEquals($deleteResult, $expected);
 	}
+
+
+	/**
+	 * getHistory data
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+	 */
+	public function getHistoryProvider()
+	{
+		return array(
+				// pk, typeid, result, count of objectlist
+				array('One version' => 19, 6, 1, 6),
+				array('Multiple versions' => 1,1, 3, 9),
+				array('Does not exist' => 500, 1, false, null),
+		);
+	}
+
 
 	/**
 	 * Tests the getHistory method
@@ -74,9 +113,14 @@ class JHelperContenthistoryTest extends TestCaseDatabase
 	 *
 	 * @since   3.2
 	 */
-	public function getHistory()
+	public function getHistory($pk, $typeId, $count, $firstRowId)
 	{
-		$this->markTestSkipped('Test not implemented.');
+		$return = $this->object->getHistory($typeId, $pk);
+		$this->assertEquals(count($return), $count);
+
+		$table = JTable::getInstance('Contenthistory', 'JTable');
+		$firstRowHash = $table->load($firstRowId)->sha1_hash;
+		$this->assertEquals($return[0]->sha1_hash, $firstRowHash);
 	}
 
 	/**
