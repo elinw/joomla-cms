@@ -359,29 +359,6 @@ CREATE TABLE `jos_modules_menu` (
   `menuid` INTEGER NOT NULL DEFAULT '0',
   CONSTRAINT `idx_modules_menu` PRIMARY KEY (`moduleid`,`menuid`)
 );
--- --------------------------------------------------------
---
--- Table structure for table `jos_postinstal_messages`
---
-
-CREATE TABLE `jos_postinstall_messages` (
-  `postinstall_message_id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `extension_id` INTEGER NOT NULL DEFAULT 700,
-  `title_key` TEXT NOT NULL DEFAULT '',
-  `description_key` TEXT NOT NULL DEFAULT '',
-  `action_key` TEXT NOT NULL DEFAULT '',
-  `language_extension` TEXT NOT NULL DEFAULT 'com_postinstall',
-  `language_client_id` INTEGER NOT NULL DEFAULT '1',
-  `type` TEXT NOT NULL DEFAULT 'link',
-  `action_file` TEXT NOT NULL DEFAULT '',
-  `action` TEXT NOT NULL DEFAULT '',
-  `condition_file` TEXT NOT NULL DEFAULT '',
-  `condition_method` TEXT NOT NULL DEFAULT NULL,
-  `version_introduced` TEXT NOT NULL DEFAULT '3.2.0',
-  `enabled` INTEGER NOT NULL DEFAULT 1,)
-)
--- --------------------------------------------------------
-
 --
 -- Table structure for table `jos_schemas`
 --
