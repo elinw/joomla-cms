@@ -355,7 +355,7 @@ CREATE INDEX `idx_modules_language` ON `jos_modules` (`language`);
 -- Table structure for table `jos_postinstal_messages`
 --
 
-CREATE TABLE `#__postinstall_messages` (
+CREATE TABLE `jos_postinstall_messages` (
   `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `extension_id` bigint(20) NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
   `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
