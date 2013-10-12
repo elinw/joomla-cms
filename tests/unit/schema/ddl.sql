@@ -534,19 +534,7 @@ CREATE INDEX `idx_ucm_content_core_type_id` ON `jos_ucm_content` (`core_type_id`
 --
 
 CREATE TABLE `jos_ucm_history` (
-  `version_id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `ucm_item_id` INTEGER NOT NULL,
-  `ucm_type_id` INTEGER NOT NULL,
-  `version_note` TEXT NOT NULL DEFAULT '',
-  `save_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `editor_user_id` INTEGER NOT NULL DEFAULT '0',
-  `character_count` INTEGER NOT NULL DEFAULT '0',
-  `sha1_hash` TEXT NOT NULL DEFAULT '',
-  `version_data` TEXT NOT NULL COMMENT,
   `keep_forever` INTEGER NOT NULL DEFAULT '0'
-
-/*  KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
-  KEY `idx_save_date` (`save_date`)*/
 )
 -- --------------------------------------------------------
 
@@ -597,25 +585,6 @@ CREATE TABLE `jos_update_sites_extensions` (
   CONSTRAINT  `idx_update_sites_extensions` PRIMARY KEY (`update_site_id`,`extension_id`)
 );
 
--- --------------------------------------------------------
---
--- Table structure for table `#__user_keys`
---
-
-CREATE TABLE IF NOT EXISTS `#__user_keys` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `series` varchar(255) NOT NULL,
-  `invalid` tinyint(4) NOT NULL,
-  `time` varchar(200) NOT NULL,
-  `uastring` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `series` (`series`),
-  UNIQUE KEY `series_2` (`series`),
-  UNIQUE KEY `series_3` (`series`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
