@@ -533,9 +533,6 @@ CREATE INDEX `idx_ucm_content_core_type_id` ON `jos_ucm_content` (`core_type_id`
 -- Table structure for table `jos_ucm_history`
 --
 
-CREATE TABLE `jos_ucm_history` (
-  `keep_forever` INTEGER NOT NULL DEFAULT '0'
-)
 -- --------------------------------------------------------
 
 --
