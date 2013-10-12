@@ -534,6 +534,8 @@ CREATE INDEX `idx_ucm_content_core_type_id` ON `jos_ucm_content` (`core_type_id`
 --
 
 -- --------------------------------------------------------
+CREATE TABLE `jos_ucm_history` (
+)
 
 --
 -- Table structure for table `jos_updates`
