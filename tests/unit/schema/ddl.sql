@@ -533,7 +533,7 @@ CREATE INDEX `idx_ucm_content_core_type_id` ON `jos_ucm_content` (`core_type_id`
 -- Table structure for table `jos_ucm_history`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_ucm_history` (
+CREATE TABLE `jos_ucm_history` (
   `version_id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `ucm_item_id` INTEGER NOT NULL,
   `ucm_type_id` INTEGER NOT NULL,
