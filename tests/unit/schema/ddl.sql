@@ -534,7 +534,7 @@ CREATE INDEX `idx_ucm_content_core_type_id` ON `jos_ucm_content` (`core_type_id`
 --
 
 CREATE TABLE IF NOT EXISTS `jos_ucm_history` (
-  `version_id` INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT,
+  `version_id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `ucm_item_id` INTEGER NOT NULL,
   `ucm_type_id` INTEGER NOT NULL,
   `version_note` TEXT NOT NULL DEFAULT '',
@@ -543,7 +543,7 @@ CREATE TABLE IF NOT EXISTS `jos_ucm_history` (
   `character_count` INTEGER NOT NULL DEFAULT '0',
   `sha1_hash` TEXT NOT NULL DEFAULT '',
   `version_data` TEXT NOT NULL COMMENT,
-  `keep_forever` INTEGER NOT NULL DEFAULT '0',
+  `keep_forever` INTEGER NOT NULL DEFAULT '0'
 
 /*  KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
   KEY `idx_save_date` (`save_date`)*/
