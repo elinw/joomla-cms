@@ -351,28 +351,6 @@ CREATE INDEX `idx_modules_language` ON `jos_modules` (`language`);
 
 -- --------------------------------------------------------
 --
--- Table structure for table `jos_postinstal_messages`
---
-
-CREATE TABLE `jos_postinstall_messages` (
-  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `extension_id` bigint(20) NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
-  `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
-  `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
-  `action_key` varchar(255) NOT NULL DEFAULT '',
-  `language_extension` varchar(255) NOT NULL DEFAULT 'com_postinstall' COMMENT 'Extension holding lang keys',
-  `language_client_id` tinyint(3) NOT NULL DEFAULT '1',
-  `type` varchar(10) NOT NULL DEFAULT 'link' COMMENT 'Message type - message, link, action',
-  `action_file` varchar(255) DEFAULT '' COMMENT 'RAD URI to the PHP file containing action method',
-  `action` varchar(255) DEFAULT '' COMMENT 'Action method name or URL',
-  `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
-  `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
-  `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
-  `enabled` tinyint(3) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`postinstall_message_id`)
-) DEFAULT CHARSET=utf8;
--- --------------------------------------------------------
---
 -- Table structure for table `jos_modules_menu`
 --
 
@@ -381,7 +359,28 @@ CREATE TABLE `jos_modules_menu` (
   `menuid` INTEGER NOT NULL DEFAULT '0',
   CONSTRAINT `idx_modules_menu` PRIMARY KEY (`moduleid`,`menuid`)
 );
+-- --------------------------------------------------------
+--
+-- Table structure for table `jos_postinstal_messages`
+--
 
+CREATE TABLE `jos_postinstall_messages` (
+  `postinstall_message_id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `extension_id` INTEGER NOT NULL DEFAULT 700,
+  `title_key` TEXT NOT NULL DEFAULT '',
+  `description_key` TEXT NOT NULL DEFAULT '',
+  `action_key` TEXT NOT NULL DEFAULT '',
+  `language_extension` TEXT NOT NULL DEFAULT 'com_postinstall',
+  `language_client_id` INTEGER NOT NULL DEFAULT '1',
+  `type` TEXT NOT NULL DEFAULT 'link',
+  `action_file` TEXT NOT NULL DEFAULT '',
+  `action` TEXT NOT NULL DEFAULT '',
+  `condition_file` TEXT NOT NULL DEFAULT '',
+  `condition_method` TEXT NOT NULL DEFAULT NULL,
+  `version_introduced` TEXT NOT NULL DEFAULT '3.2.0',
+  `enabled` INTEGER NOT NULL DEFAULT 1,
+  PRIMARY KEY (`postinstall_message_id`)
+)
 -- --------------------------------------------------------
 
 --
@@ -559,20 +558,20 @@ CREATE INDEX `idx_ucm_content_core_type_id` ON `jos_ucm_content` (`core_type_id`
 --
 
 CREATE TABLE IF NOT EXISTS `jos_ucm_history` (
-  `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ucm_item_id` int(10) unsigned NOT NULL,
-  `ucm_type_id` int(10) unsigned NOT NULL,
-  `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
+  `version_id` INTEGER unsigned NOT NULL AUTO_INCREMENT,
+  `ucm_item_id` INTEGER unsigned NOT NULL,
+  `ucm_type_id` INTEGER unsigned NOT NULL,
+  `version_note` TEXT NOT NULL DEFAULT '',
   `save_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `editor_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `character_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of characters in this version.',
-  `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
-  `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
-  `keep_forever` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=auto delete; 1=keep',
+  `editor_user_id` INTEGER unsigned NOT NULL DEFAULT '0',
+  `character_count` INTEGER unsigned NOT NULL DEFAULT '0',
+  `sha1_hash` TEXT NOT NULL DEFAULT '',
+  `version_data` TEXT NOT NULL COMMENT,
+  `keep_forever` INTEGER NOT NULL DEFAULT '0',
   PRIMARY KEY (`version_id`),
   KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
   KEY `idx_save_date` (`save_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
 -- --------------------------------------------------------
 
 --
@@ -621,6 +620,26 @@ CREATE TABLE `jos_update_sites_extensions` (
   `extension_id` INTEGER NOT NULL DEFAULT '0',
   CONSTRAINT  `idx_update_sites_extensions` PRIMARY KEY (`update_site_id`,`extension_id`)
 );
+
+-- --------------------------------------------------------
+--
+-- Table structure for table `#__user_keys`
+--
+
+CREATE TABLE IF NOT EXISTS `#__user_keys` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `series` varchar(255) NOT NULL,
+  `invalid` tinyint(4) NOT NULL,
+  `time` varchar(200) NOT NULL,
+  `uastring` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `series` (`series`),
+  UNIQUE KEY `series_2` (`series`),
+  UNIQUE KEY `series_3` (`series`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
