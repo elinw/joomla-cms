@@ -52,8 +52,8 @@ class JHelperTagsTest extends TestCaseDatabase
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
 		$dataSet->addTable('jos_content', JPATH_TEST_DATABASE . '/jos_content.csv');
 		$dataSet->addTable('jos_content_types', JPATH_TEST_DATABASE . '/jos_content_types.csv');
-		$dataSet->addTable('jos_ucm_content', JPATH_TEST_DATABASE . '/jos_ucm_content.csv');
-		$dataSet->addTable('jos_ucm_base', JPATH_TEST_DATABASE . '/jos_ucm_base.csv');
+		//$dataSet->addTable('jos_ucm_content', JPATH_TEST_DATABASE . '/jos_ucm_content.csv');
+		//$dataSet->addTable('jos_ucm_base', JPATH_TEST_DATABASE . '/jos_ucm_base.csv');
 
 		return $dataSet;
 	}
