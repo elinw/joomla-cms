@@ -385,6 +385,7 @@ abstract class JUserHelper
 				{
 					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
 				}
+
 				for ($i = $length; $i > 0; $i >>= 1)
 				{
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
@@ -400,10 +401,12 @@ abstract class JUserHelper
 					{
 						$new .= $salt;
 					}
+
 					if ($i % 7)
 					{
 						$new .= $plaintext;
 					}
+
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
 					$binary = self::_bin(md5($new));
 				}
@@ -419,6 +422,7 @@ abstract class JUserHelper
 					{
 						$j = 5;
 					}
+
 					$p[] = self::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
@@ -444,10 +448,9 @@ abstract class JUserHelper
 					if (!$encrypted)
 					{
 						// Something went wrong fall back to sha256.
-						$salt = JUserHelper::genRandomPassword(32);
+						$salt = self::genRandomPassword(32);
 
 						return static::getCryptedPassword($plaintext, $salt, 'sha256', false);
-
 					}
 
 					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
@@ -455,7 +458,7 @@ abstract class JUserHelper
 				else
 				{
 					// BCrypt isn't available but we want strong passwords, fall back to sha256.
-					$salt = JUserHelper::genRandomPassword(32);
+					$salt = self::genRandomPassword(32);
 
 					return static::getCryptedPassword($plaintext, $salt, 'sha256', false);
 				}
@@ -648,6 +651,7 @@ abstract class JUserHelper
 			$aprmd5 .= $APRMD5[$value & 0x3f];
 			$value >>= 6;
 		}
+
 		return $aprmd5;
 	}
 
@@ -670,6 +674,7 @@ abstract class JUserHelper
 			$tmp = sscanf(substr($hex, $i, 2), '%x');
 			$bin .= chr(array_shift($tmp));
 		}
+
 		return $bin;
 	}
 
