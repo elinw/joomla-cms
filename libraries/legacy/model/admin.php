@@ -184,11 +184,12 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$type = new JUcmType;
 			$this->type = $type->getTypeByAlias($this->typeAlias);
-			$typeAlias = $this->type->type_alias;
+
 		}
-		else
+
+		if (!isset($this->typeAlias))
 		{
-			$typeAlias = $this->type->type_alias;
+			$this->typeAlias = $this->type->type_alias;
 		}
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
@@ -282,6 +283,10 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
+		if (!isset($this->typeAlias))
+		{
+			$this->typeAlias = $this->type->type_alias;
+		}
 		foreach ($pks as $pk)
 		{
 			if ($this->user->authorise('core.edit', $contexts[$pk]))
@@ -336,6 +341,10 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
+		if (!isset($this->typeAlias))
+		{
+			$this->typeAlias = $this->type->type_alias;
+		}
 		$i = 0;
 
 		$categoryId = $value;
@@ -437,6 +446,10 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
+		if (!isset($this->typeAlias))
+		{
+			$this->typeAlias = $this->type->type_alias;
+		}
 		foreach ($pks as $pk)
 		{
 			if ($this->user->authorise('core.edit', $contexts[$pk]))
@@ -491,6 +504,10 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
+		if (!isset($this->typeAlias))
+		{
+			$this->typeAlias = $this->type->type_alias;
+		}
 		$categoryId = (int) $value;
 
 		if (!static::checkCategoryId($categoryId))
@@ -1165,7 +1182,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->ordering = $order[$i];
 
-				$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
+				static::createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
 
 				if (!$table->store())
 				{
