@@ -322,9 +322,9 @@ class JCrypt
 				$test = crypt("password", $hash);
 				$pass = ($test == $hash);
 
-				// Test to allow for for Debian backport of bcrypt the 5.3.7 fix.
-				// See https://github.com/ircmaxell/password_compat/pull/34#issuecomment-26648055
-				if(crypt('éàèç', '$2a$05$0123456789012345678901$') === crypt('éàèç', '$2x$05$0123456789012345678901$'))
+				// Test to allow for unusal situations where pre PHP 5.3.7.
+				// See https://github.com/ircmaxell/password_compat/pull/3
+				if ($pass === true && substr(password_hash('password', PASSWORD_BCRYPT), 0, 4) == '$2a$')
 				{
 					// $2a$ is insecure.
 					$pass = false;
