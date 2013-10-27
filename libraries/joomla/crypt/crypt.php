@@ -310,7 +310,7 @@ class JCrypt
 		if (is_null($pass))
 		{
 			// Check to see whether crypt() is supported.
-			if (version_compare(PHP_VERSION, '5.3.6', '>'))
+			if (version_compare(PHP_VERSION, '5.3.7', '>='))
 			{
 				// We have safe PHP version.
 				$pass = true;
@@ -321,14 +321,6 @@ class JCrypt
 				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
 				$test = crypt("password", $hash);
 				$pass = ($test == $hash);
-
-				// Test to allow for unusal situations where pre PHP 5.3.7.
-				// See https://github.com/ircmaxell/password_compat/pull/3
-				if ($pass === true && substr(password_hash('password', PASSWORD_BCRYPT), 0, 4) == '$2a$')
-				{
-					// $2a$ is insecure.
-					$pass = false;
-				}
 			}
 
 			if ($pass && !defined('PASSWORD_DEFAULT'))
