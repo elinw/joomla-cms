@@ -260,6 +260,7 @@ class UsersModelReset extends JModelForm
 
 		$parts = explode(':', $user->activation);
 		$crypt = $parts[0];
+
 		if (!isset($parts[1]))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
@@ -267,6 +268,9 @@ class UsersModelReset extends JModelForm
 		}
 		$salt = $parts[1];
 		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt, 'md5-hex');
+
+		// Make sure you comparison is without any appended salt since some encryption methods do append and some do not.
+		$testcrypt = strstr($testcrypt, ':', true);
 
 		// Verify the token
 		if (!($crypt == $testcrypt))
