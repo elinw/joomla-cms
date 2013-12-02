@@ -134,7 +134,16 @@ class CategoriesControllerCategory extends JControllerForm
 		// Preset the redirect
 		$this->setRedirect('index.php?option=com_categories&view=categories&extension=' . $this->extension);
 
-		return parent::batch($model);
+		try
+		{
+			return parent::batch($model);
+		}
+		catch (UnexpectedValueException $e)
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JTEXT_('COM_CATEGORIES_ERROR_COPY'), 'error');
+		}
+
 	}
 
 	/**

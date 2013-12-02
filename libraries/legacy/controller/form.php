@@ -253,6 +253,7 @@ class JControllerForm extends JControllerLegacy
 
 		// Build an array of item contexts to check
 		$contexts = array();
+
 		foreach ($cid as $id)
 		{
 			// If we're coming from com_categories, we need to use extension vs. option
@@ -264,6 +265,7 @@ class JControllerForm extends JControllerLegacy
 			{
 				$option = $this->option;
 			}
+
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
 		}
 

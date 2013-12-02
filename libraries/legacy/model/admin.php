@@ -171,7 +171,19 @@ abstract class JModelAdmin extends JModelForm
 		$this->table = $this->getTable();
 		$this->tableClassName = get_class($this->table);
 		$this->contentType = new JUcmType;
-		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+
+		if ($this->tableClassName != 'JTableCategory')
+		{
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
+		else
+		{
+			$extension = JFactory::getApplication()->input->getString('extension');
+			$this->typeAlias = $extension . '.category';
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+
+		}
+
 		$this->batchSet = true;
 
 		if ($this->type == false)
@@ -180,6 +192,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $type->getTypeByAlias($this->typeAlias);
 
 		}
+
 		if ($this->type === false)
 		{
 			$type = new JUcmType;
@@ -198,16 +211,33 @@ abstract class JModelAdmin extends JModelForm
 
 			if ($cmd == 'c')
 			{
+				$oldpks = $pks;
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
 
 				if (is_array($result))
 				{
 					$pks = $result;
+
+					// Because we have created new rows we need to create new contexts to match.
+					$newcontexts = array();
+
+					foreach ($oldpks as $i => $pk)
+					{
+						$newcontexts[$pks[$i]] = $contexts[$oldpks[$i]];
+
+						if (strstr($newcontexts[$pks[$i]], $contexts[$oldpks[$i]]))
+						{
+							$newcontexts[$pks[$i]] = str_replace($oldpks[$i], $pks[$i], $contexts[$oldpks[$i]]);
+						}
+					}
+
+					$contexts = $newcontexts;
 				}
 				else
 				{
 					return false;
 				}
+
 			}
 			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
 			{
@@ -272,7 +302,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
@@ -326,7 +356,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
@@ -427,7 +457,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
-		if (!$this->batchSet)
+		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
 			$this->user = JFactory::getUser();
@@ -447,9 +477,19 @@ abstract class JModelAdmin extends JModelForm
 
 				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
-				if (!$this->table->store())
+				if ($this->table->tableClassName == 'JTableCategory')
 				{
-					$this->setError($this->table->getError());
+					$this->table->setLocation($parentId, 'last-child');
+				}
+
+				try
+				{
+					$this->table->store();
+				}
+				catch (RuntimeException $e)
+				{
+					$app = JFactory::getApplication();
+					$app->enqueueMessage(JTEXT_('JLIB_STORE_ERROR'), 'error');
 
 					return false;
 				}
@@ -999,9 +1039,14 @@ abstract class JModelAdmin extends JModelForm
 
 				$where = $this->getReorderConditions($table);
 
-				if (!$table->move($delta, $where))
+				try
 				{
-					$this->setError($table->getError());
+					$table->move($delta, $where);
+				}
+				catch (RuntimeException $e)
+				{
+					$app = JFactory::getApplication();
+					$app->enqueueMessage(JTEXT_('COM_CATEGORIES_ERROR_COPY'), 'error');
 					unset($pks[$i]);
 					$result = false;
 				}
