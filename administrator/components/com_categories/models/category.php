@@ -765,6 +765,7 @@ class CategoriesModelCategory extends JModelAdmin
 					$parentId = 0;
 				}
 			}
+
 			// Check that user has create permission for parent category
 			$canCreate = ($parentId == $this->table->getRootId()) ? $this->user->authorise('core.create', $extension) : $this->user->authorise('core.create', $extension . '.category.' . $parentId);
 
@@ -799,12 +800,13 @@ class CategoriesModelCategory extends JModelAdmin
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
-			->from($db->quoteName('#__categories'));
+			->from($db->quoteName('#__categories'))
+			->where($db->quoteName('extension') . ' = ' . $db->quote($extension));
 		$db->setQuery($query);
 
 		try
 		{
-			$count = $db->loadResult();
+			$count = (int) $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
@@ -839,20 +841,25 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
-			$query->clear()
-				->select('id')
-				->from($db->quoteName('#__categories'))
-				->where('lft > ' . (int) $this->table->lft)
-				->where('rgt < ' . (int) $this->table->rgt);
-			$db->setQuery($query);
-			$childIds = $db->loadColumn();
-
-			// Add child ID's to the array only if they aren't already there.
-			foreach ($childIds as $childId)
+			// Only do this if there are children
+			if ($this->table->lft + 1 < $this->table->rgt)
 			{
-				if (!in_array($childId, $pks))
+				$query->clear()
+					->select('id')
+					->from($db->quoteName('#__categories'))
+					->where('lft > ' . (int) $this->table->lft)
+					->where('rgt < ' . (int) $this->table->rgt)
+					->where('extension = ' . $db->quote($extension) );
+				$db->setQuery($query);
+				$childIds = $db->loadColumn();
+
+				// Add child ID's to the array only if they aren't already there.
+				foreach ($childIds as $childId)
 				{
-					array_push($pks, $childId);
+					if (!in_array($childId, $pks))
+					{
+						array_push($pks, $childId);
+					}
 				}
 			}
 
@@ -870,8 +877,6 @@ class CategoriesModelCategory extends JModelAdmin
 			// Set the new location in the tree for the node.
 			$this->table->setLocation($this->table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
 			$this->table->level = null;
 			$this->table->asset_id = null;
 			$this->table->lft = null;
@@ -884,11 +889,14 @@ class CategoriesModelCategory extends JModelAdmin
 
 			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
-			// Store the row.
-			if (!$this->table->store())
+			try
+			{echo 'before store';
+				$this->table->store();echo 'after store';
+			}
+			catch (UnexpectedValueException $e)
 			{
-				$this->setError($this->table->getError());
-				return false;
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JTEXT_('COM_CATEGORIES_ERROR_COPY'), 'error');
 			}
 
 			// Get the new item ID
@@ -1007,9 +1015,6 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 
-			// Set the new location in the tree for the node.
-			$this->table->setLocation($parentId, 'last-child');
-
 			// Check if we are moving to a different parent
 			if ($parentId != $this->table->parent_id)
 			{
@@ -1037,6 +1042,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (!$this->table->store())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 

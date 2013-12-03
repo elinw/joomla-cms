@@ -213,7 +213,6 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$oldpks = $pks;
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
-
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -322,12 +321,18 @@ abstract class JModelAdmin extends JModelForm
 
 				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
-				if (!$this->table->store())
+				try
 				{
-					$this->setError($table->getError());
+					$this->table->store();echo 'after store';
+				}
+				catch (RuntimeException $e)
+				{
+					$app = JFactory::getApplication();
+					$app->enqueueMessage(JTEXT_('JLIB_STORE_ERROR'), 'error');
 
 					return false;
 				}
+
 			}
 			else
 			{
@@ -473,14 +478,15 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$this->table->reset();
 				$this->table->load($pk);
+
+				if (!empty($this->table->parent_id))
+				{
+					$this->table->setLocation($this->table->parent_id, 'last-child');
+				}
+
 				$this->table->language = $value;
 
 				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-
-				if ($this->table->tableClassName == 'JTableCategory')
-				{
-					$this->table->setLocation($parentId, 'last-child');
-				}
 
 				try
 				{
