@@ -13,7 +13,7 @@
 			size="40"
 			required="true" />
 
-		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL" 
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox" size="40" />
