@@ -3,7 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
+<<<<<<< HEAD:administrator/components/com_checkin/view/checkin/html.php
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+=======
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+>>>>>>> b9f513b1c7745770b053684f07e13887e791781c:administrator/components/com_checkin/views/checkin/view.html.php
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
