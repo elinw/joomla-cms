@@ -31,25 +31,20 @@ class TagsController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/tags.php';
+		// Set the default view name and format from the Request.
+		$vName = $this->input->get('view', 'tags');
 
-		$view   = $this->input->get('view', 'tags');
-		$layout = $this->input->get('layout', 'default');
-		$id     = $this->input->getInt('id');
+		JLog::add('TagsController is deprecated. Use JControllerDisplay or JControllerDisplayform instead.', JLog::WARNING, 'deprecated');
 
-		// Check for edit form.
-		if ($view == 'tag' && $layout == 'edit' && !$this->checkEditId('com_tags.edit.tag', $id))
+		if (ucfirst($vName) == 'Tags')
 		{
-			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_tags&view=tags', false));
-
-			return false;
+			$controller = new JControllerDisplay;
 		}
-		parent::display();
+		elseif (ucfirst($vName) == 'Tag')
+		{
+			$controller = new JControllerDisplayform;
+		}
 
-		return $this;
-
+		return $controller->execute();
 	}
 }

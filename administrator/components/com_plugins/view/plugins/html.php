@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,5 +92,4 @@ class PluginsViewPluginsHtml extends JViewHtmlCmslist
 				'extension_id' => JText::_('JGRID_HEADING_ID')
 		);
 	}
-
 }

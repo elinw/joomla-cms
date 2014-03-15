@@ -121,7 +121,9 @@ class JModelCmslist extends JModelCmsitem
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage());
+			$app = JFactory::getApplication();
+			$app->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 

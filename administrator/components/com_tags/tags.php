@@ -10,15 +10,33 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 
-$input = JFactory::getApplication()->input;
+//$input = JFactory::getApplication()->input;
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_tags'))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$task = $input->get('task');
+// Load classes
+JLoader::registerPrefix('Tags', JPATH_COMPONENT_ADMINISTRATOR);
 
-$controller	= JControllerLegacy::getInstance('Tags');
-$controller->execute($input->get('task'));
-$controller->redirect();
+// Tell the browser not to cache this page.
+JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+
+// Application
+$app = JFactory::getApplication();
+
+// Set a fallback view
+if (!$app->input->get('view'))
+{
+	$app->input->set('view', 'tags');
+}
+
+// Create the controller
+$controllerHelper = new JControllerHelper();
+$controller = $controllerHelper->parseController($app);
+
+$controller->prefix = 'Tags';
+
+// Perform the Request task
+$controller->execute();

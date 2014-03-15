@@ -23,9 +23,9 @@ if (empty($fieldSets))
 	return;
 }
 
-$ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
-$ignoreFields = $displayData->get('ignore_fields') ?: array();
-$extraFields = $displayData->get('extra_fields') ?: array();
+$ignoreFieldsets =  method_exists($displayData, 'get') &&  $displayData->get('ignore_fieldsets') ?: array();
+$ignoreFields =  method_exists($displayData, 'get') && $displayData->get('ignore_fields') ?: array();
+$extraFields =  method_exists($displayData, 'get') && $displayData->get('extra_fields') ?: array();
 
 if (!empty($displayData->hiddenFieldsets))
 {
@@ -39,7 +39,7 @@ if (!empty($displayData->configFieldsets))
 	$configFieldsets = $displayData->configFieldsets ?: array();
 }
 
-if ($displayData->get('show_options', 1))
+if ( method_exists($displayData, 'get') && $displayData->get('show_options', 1))
 {
 	foreach ($fieldSets as $name => $fieldSet)
 	{
@@ -84,7 +84,7 @@ else
 			continue;
 		}
 
-		if (in_array($name, $hiddenFieldsets))
+		if (!empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets))
 		{
 			foreach ($form->getFieldset($name) as $field)
 			{

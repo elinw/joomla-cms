@@ -227,9 +227,11 @@ class PluginsModelPlugin extends JModelCmsitem
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db = JFactory::getDbo();
-		$query = 'SELECT element' .
-				' FROM #__extensions' .
-				' WHERE (type =' .$db->quote('plugin'). 'AND folder='. $db->quote($folder) . ')';
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('element'))
+				->from('#__extensions')
+				->where($db->quoteName('type')  . ' = ' . $db->quote('plugin')
+					. ' AND ' . $db->quoteName('folder') . ' = '. $db->quote($folder));
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 

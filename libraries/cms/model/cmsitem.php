@@ -182,15 +182,23 @@ class JModelCmsitem extends JModelCmsform
 	{
 		if ($this->item === null)
 		{
-			$this->item = false;
+			$table = $this->getTable();
+			$tableClassName = get_class($table);
 
+			$this->item = false;
+			$contentType = new JUcmType;
+			$type = $contentType->getTypeByTable($tableClassName);
+			// deal with examples where thre is no row in type table?
 			if (empty($id))
 			{
-				$id = $this->getState($type . 'id');
+				$id = $this->getState($type, 'id');
 			}
-
+			$prefix = $this->getState($table, 'prefix');
+			$typeTable = $type->table;
+				$typeTable = json_decode($typeTable);
+			// Check to see if special exists .. if it doesn't use common
 			// Get a level row instance.
-			$table = JTable::getInstance($type, $prefix);
+			$table = JTable::getInstance($typeTable->special->type, $typeTable->special->prefix);
 
 			// Attempt to load the row.
 			if ($table->load($id))

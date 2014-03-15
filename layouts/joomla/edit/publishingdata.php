@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $form = $displayData->getForm();
 
-$fields = $displayData->get('fields') ?: array(
+$fields =  method_exists($displayData, 'get') &&  $displayData->get('fields') ?: array(
 	'publish_up',
 	'publish_down',
 	array('created', 'created_time'),
@@ -25,7 +25,7 @@ $fields = $displayData->get('fields') ?: array(
 	'id'
 );
 
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields =  method_exists($displayData, 'get') && $displayData->get('hidden_fields') ?: array();
 
 foreach ($fields as $field)
 {

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Save Controller for global configuration
+ * Save Controller for plugins
  *
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
