@@ -34,7 +34,15 @@ if (!$app->input->get('view'))
 $controllerHelper = new JControllerHelper();
 $controller = $controllerHelper->parseController($app);
 
-$controller->prefix = 'Plugins';
+try{
+	$controller->prefix = 'Plugins';
+}
+catch (RuntimeException $e)
+{
+	$this->setError($e->getMessage());
+
+	return false;
+}
 
 // Perform the Request task
 $controller->execute();

@@ -73,14 +73,14 @@ class JControllerDisplayform extends JControllerDisplay
 		{
 			$model = new $modelClass;
 			$idName = $model->getTable()->get('_tbl_key');
-			$id = $this->input->get($idName);
+			$this->id = $this->input->get($idName);
 
-			if (empty($id))
+			if (empty($this->id))
 			{
 				$ids = $this->input->get('cid', array(), 'array');
 
 				// This base  controller always displays a single form.
-				$id = $ids[0];
+				$this->id = $ids[0];
 			}
 
 			// Access check.
@@ -110,7 +110,7 @@ class JControllerDisplayform extends JControllerDisplay
 
 		}
 
-		$app->redirect('index.php?option=' . $componentFolder . '&view=' . $this->viewName . '&layout=edit' . '&' . $idName .  '=' .  $id);
+		$app->redirect('index.php?option=' . $componentFolder . '&view=' . $this->viewName . '&layout=edit' . '&' . $idName .  '=' .  $this->id);
 
 		return true;
 	}

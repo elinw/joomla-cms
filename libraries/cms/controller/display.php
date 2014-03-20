@@ -47,7 +47,8 @@ class JControllerDisplay extends JControllerCmsbase
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', 'normal');
+		$jpath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', 'normal');
 
 		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
 		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);

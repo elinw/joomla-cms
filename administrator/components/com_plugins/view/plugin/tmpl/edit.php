@@ -15,7 +15,7 @@ $this->form->fieldsets = $this->form->getFieldsets('params');
 
 $script = "Joomla.submitbutton = function(task)
         {
-                        if (task == 'plugins.cancel.plugin' || document.formvalidator.isValid(document.id('plugin-form'))) {";
+                        if (task == 'j.cancel' || document.formvalidator.isValid(document.id('plugin-form'))) {";
 
 $script .= "        Joomla.submitform(task, document.getElementById('plugin-form'));
                         }

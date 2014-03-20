@@ -65,9 +65,14 @@ class JControllerHelper
 			{
 				$tasks = explode('/', $task);
 			}
-			else
+			elseif (!empty($task))
 			{
 				$tasks = explode('.', $task);
+			}
+			else
+			{
+				// In the absence of a named controller default to display.
+				$tasks = array('j', 'display');
 			}
 		}
 
@@ -104,7 +109,9 @@ class JControllerHelper
 
 		if (!class_exists($controllerName))
 		{
-			return false;
+			// Log here? Or should it 404?
+			$controllerName = 'JControllerDisplay';
+			//return false;
 		}
 
 		$controller = new $controllerName;

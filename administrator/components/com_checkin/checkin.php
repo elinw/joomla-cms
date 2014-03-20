@@ -32,7 +32,16 @@ if (!$app->input->get('view'))
 $controllerHelper = new JControllerHelper();
 $controller = $controllerHelper->parseController($app);
 
-$controller->prefix = 'Checkin';
+try {
+	$controller->prefix = 'Checkin';
+}
+catch (RuntimeException $e)
+{
+	$this->setError($e->getMessage());
+
+	return false;
+}
+
 
 // Perform the Request task
 $controller->execute();

@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerUpdatestatelist extends JControllerCmsbase
 {
+
 	/*
 	 * Prefix for the view and model classes
 	 *
