@@ -10,11 +10,9 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 
-//$input = JFactory::getApplication()->input;
-
 if (!JFactory::getUser()->authorise('core.manage', 'com_tags'))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
 // Load classes
@@ -35,8 +33,15 @@ if (!$app->input->get('view'))
 // Create the controller
 $controllerHelper = new JControllerHelper();
 $controller = $controllerHelper->parseController($app);
+try {
+	$controller->prefix = 'Tags';
+}
+catch (RuntimeException $e)
+{
+	$this->setError($e->getMessage());
 
-$controller->prefix = 'Tags';
+	return false;
+}
 
 // Perform the Request task
 $controller->execute();
