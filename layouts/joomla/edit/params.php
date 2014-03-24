@@ -23,10 +23,19 @@ if (empty($fieldSets))
 	return;
 }
 
-$ignoreFieldsets =  method_exists($displayData, 'get') &&  $displayData->get('ignore_fieldsets') ?: array();
-$ignoreFields =  method_exists($displayData, 'get') && $displayData->get('ignore_fields') ?: array();
-$extraFields =  method_exists($displayData, 'get') && $displayData->get('extra_fields') ?: array();
-
+if (method_exists($displayData, 'get'))
+{
+	$ignoreFieldsets = $displayData->get('ignore_fieldsets') ? : array();
+	$ignoreFields = $displayData->get('ignore_fields') ? : array();
+	$extraFields = $displayData->get('extra_fields') ? : array();
+}
+else
+{
+	// Deal with the passing of this in new MVC objects
+	$ignoreFieldsets = array();
+	$ignoreFields = array();
+	$extraFields = array();
+}
 if (!empty($displayData->hiddenFieldsets))
 {
 	// These are required to preserve data on save when fields are not displayed.

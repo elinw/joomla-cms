@@ -43,6 +43,15 @@ class JModelCmslist extends JModelCmsitem
 	protected $query = array();
 
 	/**
+	 * The data type of the key that defines the list, usually integer, array, or string.
+	 *
+	 * @var    string
+	 * @since  3.3
+	 */
+	public $idSchema;
+
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -76,7 +85,7 @@ class JModelCmslist extends JModelCmsitem
 	 *
 	 * @since   3.2
 	 */
-	protected function getListQuery()
+	protected function _getListQuery()
 	{
 		// Capture the last store id used.
 		static $lastStoreId;
@@ -93,6 +102,22 @@ class JModelCmslist extends JModelCmsitem
 
 		return $this->query;
 	}
+
+	/**
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 *
+	 * @since   12.2
+	 */
+	protected function getListQuery()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		return $query;
+	}
+
 
 	/**
 	 * Method to get an array of data items.
@@ -211,7 +236,9 @@ class JModelCmslist extends JModelCmsitem
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage());
+			$app = JFactory::getApplication();
+			$app->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 
@@ -350,6 +377,7 @@ class JModelCmslist extends JModelCmsitem
 
 		return $new_state;
 	}
+
 	/**
 	 * Gets an array of objects from the results of database query.
 	 *
@@ -364,8 +392,8 @@ class JModelCmslist extends JModelCmsitem
 	 */
 	protected function getList($query, $limitstart = 0, $limit = 0)
 	{
-		$this->_db->setQuery($query, $limitstart, $limit);
-		$result = $this->_db->loadObjectList();
+		$this->db->setQuery($query, $limitstart, $limit);
+		$result = $this->db->loadObjectList();
 
 		return $result;
 	}

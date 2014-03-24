@@ -430,6 +430,7 @@ class JModelCmsitem extends JModelCms
 		{
 			$app = JFactory::getApplication();
 			$app->setHeader('status', '204 Deleted');
+
 			return true;
 		}
 		elseif ($result)

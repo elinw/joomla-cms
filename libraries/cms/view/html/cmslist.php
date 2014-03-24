@@ -35,8 +35,26 @@ class JViewHtmlCmslist extends JViewHtmlCms
 		$this->items = $this->model->getItems();
 		$this->pagination = $this->model->getPagination();
 
-		$this->addToolbar();
-		$this->addSubmenu();
+		$app = JFactory::getApplication();
+
+		if ($app->isAdmin())
+		{
+			$this->addToolbar();
+			$this->addSubmenu();
+		}
+
+		// Restrict to safe values.
+		if (in_array($this->model->idSchema, array('integer', 'int', 'array', 'string', '', null)))
+		{
+			$item = $app->input->get('id',0, $this->model->idSchema, 'integer');
+		}
+
+		if (isset($item))
+		{
+			$this->item = $this->model->getItem($item);
+		}
+
+		$this->item[0]->singleItem = (count($this->item) == 1);
 
 		return parent::render();
 	}

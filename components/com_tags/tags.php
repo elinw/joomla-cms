@@ -9,8 +9,38 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/helpers/route.php';
+// Load classes
+JLoader::registerPrefix('Tags', JPATH_COMPONENT_ADMINISTRATOR);
+JLoader::registerPrefix('Tagssite', JPATH_COMPONENT_SITE);
 
-$controller	= JControllerLegacy::getInstance('Tags');
-$controller->execute(JFactory::getApplication()->input->get('task'));
-$controller->redirect();
+// Tell the browser not to cache this page.
+JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+
+// Application
+$app = JFactory::getApplication();
+
+// Set a fallback view
+if (!$app->input->get('view'))
+{
+	$app->input->set('view', 'tags');
+}
+
+// Create the controller
+$controllerHelper = new JControllerHelper();
+
+$controller = $controllerHelper->parseController($app);
+
+if ($controller !== false)
+{
+	$controller->prefix = 'Tagssite';
+}
+
+try
+{
+	// Perform the Request task
+	$controller->execute();
+}
+catch (RuntimeException $e)
+{
+	$app->enqueueMessage($e->getMessage(), 'error');
+}

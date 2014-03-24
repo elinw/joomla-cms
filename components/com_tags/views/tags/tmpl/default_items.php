@@ -39,7 +39,7 @@ $n = count($this->items);
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
+	<?php if ($this->state->get('params')->get('filter_field') || $this->state->get('params')->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field')) : ?>
 			<div class="btn-group">

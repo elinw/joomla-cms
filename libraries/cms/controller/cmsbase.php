@@ -37,7 +37,7 @@ class JControllerCmsbase extends JControllerBase
 	*
 	* @var  string
 	*/
-	public $permission = 'core.admin';
+	public $permission = '';
 
 	/**
 	 * @return  mixed  A rendered view or true

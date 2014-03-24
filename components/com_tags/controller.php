@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
  */
 class TagsController extends JControllerLegacy
 {
+
 	/**
 	 * Method to display a view.
 	 *
@@ -30,27 +31,21 @@ class TagsController extends JControllerLegacy
 	 */
 	public function display($cachable = true, $urlparams = false)
 	{
-		$user		= JFactory::getUser();
-
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'tags');
-		$this->input->set('view', $vName);
 
-		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'tags'))
+		JLog::add('TagsController is deprecated. Use JControllerDisplay or JControllerDisplayform instead.', JLog::WARNING, 'deprecated');
+
+		if (ucfirst($vName) == 'Tags')
 		{
-			$cachable = false;
+			$controller = new JControllerDisplaylist;
+		}
+		elseif (ucfirst($vName) == 'Tag')
+		{
+			$controller = new JControllerDisplaylist;
 		}
 
-		$safeurlparams = array(
-			'id'				=> 'ARRAY',
-			'type'				=> 'ARRAY',
-			'limit'				=> 'UINT',
-			'limitstart'		=> 'UINT',
-			'filter_order'		=> 'CMD',
-			'filter_order_Dir'	=> 'CMD',
-			'lang'				=> 'CMD'
-		);
+		return $controller->execute();
 
-		return parent::display($cachable, $safeurlparams);
 	}
 }

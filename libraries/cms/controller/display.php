@@ -25,6 +25,20 @@ class JControllerDisplay extends JControllerCmsbase
 	 */
 	public $prefix = 'Content';
 
+	/*
+	 * @var boolean  If true, the view output will be cached
+	 */
+
+	public $cacheable = false;
+
+	/*
+	 * An array of safe url parameters and their variable types
+	 *
+	 * @var  array
+	 * @note  Ror valid values see JFilterInput::clean().
+	 */
+	public $urlparams = array();
+
 	/**
 	 * @return  mixed  A rendered view or true
 	 *
@@ -49,7 +63,6 @@ class JControllerDisplay extends JControllerCmsbase
 		$paths = new SplPriorityQueue;
 		$jpath = $app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		$paths->insert($jpath . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', 'normal');
-
 		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
 		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
 
@@ -66,7 +79,7 @@ class JControllerDisplay extends JControllerCmsbase
 			}
 
 			$view = new $viewClass($model, $paths);
-
+//var_dump($view);
 			$view->setLayout($layoutName);
 
 			// Push document object into the view.

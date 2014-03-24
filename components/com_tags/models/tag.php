@@ -73,7 +73,7 @@ class TagsModelTag extends JModelList
 	}
 
 	/**
-	 * Method to get a list of items for a list of tags.
+	 * Method to get a list of items for creating a list of tags.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
