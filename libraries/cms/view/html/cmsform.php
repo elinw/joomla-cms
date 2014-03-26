@@ -58,8 +58,11 @@ class JViewHtmlCmsform extends JViewHtmlCms
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		$this->addToolbar();
-		$this->addSubmenu();
+		if ($app->isAdmin())
+		{
+			$this->addToolbar();
+			$this->addSubmenu();
+		}
 
 		return parent::render();
 	}

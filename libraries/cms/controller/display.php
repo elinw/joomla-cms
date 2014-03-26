@@ -79,7 +79,7 @@ class JControllerDisplay extends JControllerCmsbase
 			}
 
 			$view = new $viewClass($model, $paths);
-//var_dump($view);
+
 			$view->setLayout($layoutName);
 
 			// Push document object into the view.
