@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -300,20 +300,29 @@ class JModelCmsitem extends JModelCms
 
 			$this->item = false;
 			$contentType = new JUcmType;
-			$type = $contentType->getTypeByTable($tableClassName);
 
-			// Deal with examples where thre is no row in type table?
-			if (empty($id))
+			if ($tableClassName != 'JTableCorecontent')
 			{
-				$id = $this->getState($type, 'id');
+				$type = $contentType->getTypeByTable($tableClassName);
+			}
+			elseif (!empty($id))
+			{
+				$table->load($id);
+				$type = $contentType->getType($table->core_type_id);
+
+			}
+			elseif (empty($id))
+			// Deal with examples where there is no row in type table?
+			{
+				$id = $this->state->get('id');
 			}
 
-			$prefix = $this->getState($table, 'prefix');
+			$prefix = $this->state->get($table, 'prefix');
 			$typeTable = $type->table;
 			$typeTable = json_decode($typeTable);
 
 			// Check to see if special exists .. if it doesn't use common
-			if (!empty($typeTable->special))
+			if (!empty($typeTable->special) && $tableClassName != 'JTableCorecontent')
 			{
 				$table = JTable::getInstance($typeTable->special->type, $typeTable->special->prefix);
 			}
@@ -325,6 +334,7 @@ class JModelCmsitem extends JModelCms
 					return;
 				}
 				$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
+				// Get the special field mapping here
 			}
 
 			// Attempt to load the row.
@@ -524,6 +534,7 @@ class JModelCmsitem extends JModelCms
 			if (!$table->store())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -542,6 +553,7 @@ class JModelCmsitem extends JModelCms
 
 		return true;
 	}
+
 	/**
 	 * Method to get a form object.
 	 *

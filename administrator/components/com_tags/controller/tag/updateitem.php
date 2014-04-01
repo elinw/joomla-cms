@@ -38,7 +38,7 @@ class TagsControllerTagUpdateitem extends JControllerUpdate
 	public $options;
 
 	/**
-	 * Method to save global configuration.
+	 * Method to save tags.
 	 *
 	 * @return  mixed  Calls $app->redirect() for all cases except JSON
 	 *

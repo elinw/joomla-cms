@@ -46,15 +46,19 @@ class JViewHtmlCmslist extends JViewHtmlCms
 		// Restrict to safe values.
 		if (in_array($this->model->idSchema, array('integer', 'int', 'array', 'string', '', null)))
 		{
-			$item = $app->input->get('id',0, $this->model->idSchema, 'integer');
+			$item = $app->input->get('id', 0, $this->model->idSchema, 'integer');
 		}
 
-		if (isset($item))
+		if (!empty($item))
 		{
 			$this->item = $this->model->getItem($item);
-		}
 
-		$this->item[0]->singleItem = (count($this->item) == 1);
+			if (!isset($this->item[0]))
+			{
+				$this->item[0] = new stdClass();
+			}
+			$this->item[0]->singleItem = (count($this->item) == 1);
+		}
 
 		return parent::render();
 	}

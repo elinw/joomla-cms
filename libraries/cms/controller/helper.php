@@ -26,10 +26,10 @@ class JControllerHelper
 	/*
 	 * Method to parse a controller from a url
 	 * Defaults to the base controllers and passes an array of options.
-	 *      $options[0] is the location of the controller which defaults to the core libraries (referenced as 'j'
+	 *      $options[CONTROLLER_PREFIX] is the location of the controller which defaults to the core libraries (referenced as 'j'
 	 *      and then the named folder within the component entry point file.
-	 *      $options[1] is the name of the controller file,
-	 *      $options[2] is the name of the folder found in the component controller folder for controllers
+	 *      $options[CONTROLLER_ACTIVITY] is the name of the controller file,
+	 *      $options[CONTROLLER_VIEW_FOLDER] is the name of the folder found in the component controller folder for controllers
 	 *      not prefixed with J.
 	 *      Additional options maybe added to parameterise the controller.
 	 *
@@ -42,6 +42,7 @@ class JControllerHelper
 
 	public function parseController($app)
 	{
+
 		if ($controllerTask = $app->input->get('controller'))
 		{
 			// Temporary solution
@@ -83,6 +84,10 @@ class JControllerHelper
 		else
 		{
 			$location = ucfirst(strtolower($tasks[self::CONTROLLER_PREFIX]));
+
+			// Load classes
+			JLoader::registerPrefix($location, JPATH_COMPONENT_ADMINISTRATOR);
+			JLoader::registerPrefix($location . 'site', JPATH_COMPONENT);
 		}
 
 		if (empty($tasks[self::CONTROLLER_ACTIVITY]))
