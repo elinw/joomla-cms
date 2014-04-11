@@ -61,7 +61,6 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__][$type] = true;
 
@@ -121,14 +120,11 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
-		// Include jQuery Framework
-		JHtml::_('jquery.framework');
-
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
+
+		// Include MooTools More framework
+		static::framework('more');
 
 		JHtml::_('script', 'system/punycode.js', false, true);
 		JHtml::_('script', 'system/validate.js', false, true);
@@ -244,21 +240,18 @@ abstract class JHtmlBehavior
 
 		$options = JHtml::getJSObject($opt);
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(function($) {
-			 $('$selector').each(function() {
-				var title = $(this).attr('title');
+			"window.addEvent('domready', function() {
+			$$('$selector').each(function(el) {
+				var title = el.get('title');
 				if (title) {
 					var parts = title.split('::', 2);
-					$(this).get(0).store('tip:title', parts[0]); // Depends on Mootools store which requires for Tips
-					$(this).get(0).store('tip:text', parts[1]);  // Depends on Mootools store which requires for Tips
+					el.store('tip:title', parts[0]);
+					el.store('tip:text', parts[1]);
 				}
 			});
-			var JTooltips = new Tips($('$selector').get(), $options);
+			var JTooltips = new Tips($$('$selector'), $options);
 		});"
 		);
 
@@ -330,12 +323,9 @@ abstract class JHtmlBehavior
 		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
 		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
 		{
-			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
+			$opt['size']      = array('x' => '\\window.getSize().x-80', 'y' => '\\window.getSize().y-80');
 		}
 
 		$options = JHtml::getJSObject($opt);
@@ -344,9 +334,10 @@ abstract class JHtmlBehavior
 		$document
 			->addScriptDeclaration(
 			"
-		jQuery(function($) {
+		window.addEvent('domready', function() {
+
 			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($('" . $selector . "').get(), {
+			SqueezeBox.assign($$('" . $selector . "'), {
 				parse: 'rel'
 			});
 		});"
@@ -417,9 +408,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
 		// Setup options object
 		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
 		$opt['mode']  = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
@@ -446,7 +434,7 @@ abstract class JHtmlBehavior
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
-		$js = '		jQuery(function(){
+		$js = '		window.addEvent(\'domready\', function(){
 			tree' . $treeName . ' = new MooTreeControl(' . $options . ',' . $rootNode . ');
 			tree' . $treeName . '.adopt(\'' . $id . '\');})';
 
@@ -573,9 +561,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
@@ -589,13 +574,13 @@ abstract class JHtmlBehavior
 		}
 
 		$document = JFactory::getDocument();
-		$script = '';
-		$script .= 'function keepAlive() {';
-		$script .= '	jQuery.get("index.php");';
-		$script .= '}';
-		$script .= 'jQuery(function($)';
-		$script .= '{ setInterval(keepAlive, ' . $refreshTime . '); }';
-		$script .= ');';
+		$script = 'window.setInterval(function(){';
+		$script .= 'var r;';
+		$script .= 'try{';
+		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
+		$script .= '}catch(e){}';
+		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
+		$script .= '},' . $refreshTime . ');';
 
 		$document->addScriptDeclaration($script);
 		static::$loaded[__METHOD__] = true;
@@ -677,16 +662,13 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
+		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
-		JFactory::getApplication()->setHeader('X-Frames-Options', 'SAMEORIGIN');
+		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
 	}
