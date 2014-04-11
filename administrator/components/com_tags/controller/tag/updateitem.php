@@ -89,11 +89,11 @@ class TagsControllerTagUpdateitem extends JControllerUpdate
 					$this->postSaveHook($this->model, $this->model->table);
 					if ($data[id] != 0)
 					{
-						$this->app->redirect(JRoute::_('index.php?option=com_tags&view=tag&layout=edit&id='.$this->input->getInt('id'), false));
+						$this->app->redirect(JRoute::_('index.php?option=com_tags&view=tag&controller=j.displayform&layout=edit&id='.$this->input->getInt('id'), false));
 					}
 					else
 					{
-						$this->app->redirect(JRoute::_('index.php?option=com_tags&view=tag&layout=edit&id=' . $this->model->table->id, false));
+						$this->app->redirect(JRoute::_('index.php?option=com_tags&view=tag&controller=j.displayform&layout=edit&id=' . $this->model->table->id, false));
 					}
 
 					break;
@@ -152,8 +152,8 @@ class TagsControllerTagUpdateitem extends JControllerUpdate
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
+	 * @param   JModel  $model      The data model object.
+	 * @param   array   $validData  The validated data.
 	 *
 	 * @return  void
 	 *

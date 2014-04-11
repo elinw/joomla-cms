@@ -278,4 +278,5 @@ class PluginsModelPlugins extends JModelCmslist
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
+
 }

@@ -32,7 +32,7 @@ try {
 }
 catch (RuntimeException $e)
 {
-	$this->setError($e->getMessage());
+	$app->enqueueMessage($e->getMessage());
 
 	return false;
 }

@@ -104,9 +104,9 @@ class TagsModelTags extends JModelCmslist
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->state->get('filter.search');
+		$id .= ':' . $this->state->get('filter.published');
+		$id .= ':' . $this->state->get('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -314,4 +314,5 @@ class TagsModelTags extends JModelCmslist
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
+
 }

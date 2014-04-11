@@ -30,11 +30,11 @@ class JControllerDisplayform extends JControllerDisplay
 	*/
 	public $options;
 
-	/*
+	/**
 	 * Permission needed for the action
-	*
-	* @var  string
-	*/
+	 *
+	 * @var  string
+	 */
 	public $permission = 'core.edit';
 
 	/**
@@ -51,6 +51,12 @@ class JControllerDisplayform extends JControllerDisplay
 		$document = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
+
+		if (empty($this->options))
+		{
+			$option = $this->input->getString('controller');
+			$this->options = explode('.', $option);
+		}
 
 		if (empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
@@ -101,6 +107,8 @@ class JControllerDisplayform extends JControllerDisplay
 			// Push document object into the view.
 			$view->document = $document;
 
+			$this->getModelData($view, $model);
+
 			// Reply for service requests
 			if ($viewFormat == 'json')
 			{
@@ -108,9 +116,10 @@ class JControllerDisplayform extends JControllerDisplay
 				return $view->render();
 			}
 
-		}
+			// Render view.
+			echo $view->render();
 
-		$app->redirect('index.php?option=' . $componentFolder . '&view=' . $this->viewName . '&layout=edit' . '&' . $idName .  '=' .  $this->id);
+		}
 
 		return true;
 	}
@@ -206,5 +215,20 @@ class JControllerDisplayform extends JControllerDisplay
 		$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 'normal');
 
 		return $paths;
+	}
+
+	/**
+	 * Method to get appropriate data from the model. This should be overridden based
+	 * on needs of the display.
+	 *
+	 * @param JView $view  The view object to be rendered
+	 */
+	protected function getModelData($view, $model)
+	{
+		// Defaults to a single item form
+		$view->state = $model->getState();
+		$view->item = $model->getItem();
+		$view->form = $model->getForm();
+
 	}
 }

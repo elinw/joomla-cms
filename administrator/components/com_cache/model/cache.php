@@ -157,23 +157,6 @@ class CacheModelCache extends JModelCmslist
 	}
 
 	/**
-	 * Method to get a pagination object for the cache
-	 *
-	 * @return  integer
-	 *
-	 * @since  3.2
-	 */
-	public function getPagination()
-	{
-		if (empty($this->pagination))
-		{
-			$this->pagination = new JPagination($this->getTotal(), $this->state->get('list.start'), $this->state->get('list.limit'));
-		}
-
-		return $this->pagination;
-	}
-
-	/**
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
@@ -223,4 +206,5 @@ class CacheModelCache extends JModelCmslist
 
 		return $cache->gc();
 	}
+
 }

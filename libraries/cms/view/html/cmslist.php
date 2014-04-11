@@ -31,9 +31,6 @@ class JViewHtmlCmslist extends JViewHtmlCms
 	public function render()
 	{
 		$lang = JFactory::getLanguage();
-		$this->state = $this->model->getState();
-		$this->items = $this->model->getItems();
-		$this->pagination = $this->model->getPagination();
 
 		$app = JFactory::getApplication();
 

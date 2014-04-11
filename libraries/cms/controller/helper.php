@@ -22,6 +22,7 @@ class JControllerHelper
 	const CONTROLLER_PREFIX = 0;
 	const CONTROLLER_ACTIVITY = 1;
 	const CONTROLLER_VIEW_FOLDER = 2;
+	const CONTROLLER_LAYOUT = 3;
 
 	/*
 	 * Method to parse a controller from a url
@@ -73,7 +74,7 @@ class JControllerHelper
 			else
 			{
 				// In the absence of a named controller default to display.
-				$tasks = array('j', 'display');
+				$tasks = array('j', 'displaylist');
 			}
 		}
 
@@ -92,7 +93,7 @@ class JControllerHelper
 
 		if (empty($tasks[self::CONTROLLER_ACTIVITY]))
 		{
-			$activity = 'Display';
+			$activity = 'Displaylist';
 		}
 		else
 		{

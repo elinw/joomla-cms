@@ -85,6 +85,8 @@ class JControllerDisplay extends JControllerCmsbase
 			// Push document object into the view.
 			$view->document = $document;
 
+			$this->getModelData($view, $model);
+
 			// Reply for service requests
 			if ($viewFormat == 'json')
 			{
@@ -97,5 +99,18 @@ class JControllerDisplay extends JControllerCmsbase
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to get appropriate data from the model. This should be overridden based
+	 * on needs of the display.
+	 *
+	 * @param JView $view  The view object to be rendered
+	 */
+	protected function getModelData($view, $model)
+	{
+		// Defaults to a single item
+		$view->state = $model->getState();
+		$view->item = $model->getItem();
 	}
 }

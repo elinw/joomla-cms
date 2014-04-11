@@ -94,7 +94,7 @@ class TagsModelTag extends JModelCmsitem
 	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
-	protected function loadFormData()
+	public function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_tags.edit.tag.data', array());
@@ -219,7 +219,7 @@ class TagsModelTag extends JModelCmsitem
 	 *
 	 * @since   3.1
 	 */
-	public function save($data)
+	public function save(&$data)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();

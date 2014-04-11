@@ -14,7 +14,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $fieldset = $this->form->getFieldsets();
 $params = $this->state->get('params');
 $saveHistory = $params->get('save_history');
-//$params = $params->toArray();
 
 $script = "Joomla.submitbutton = function(task)
         {

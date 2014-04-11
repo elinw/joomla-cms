@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-$this->form->fieldsets = $this->form->getFieldsets('params');
 
 $script = "Joomla.submitbutton = function(task)
         {

@@ -105,7 +105,7 @@ class PluginsModelPlugin extends JModelCmsitem
 	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
-	protected function loadFormData()
+	public function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
@@ -129,7 +129,8 @@ class PluginsModelPlugin extends JModelCmsitem
 	 */
 	public function getItem($pk = null)
 	{
-		$pk = (!empty($pk)) ? $pk : (int) $this->state->get('plugin.id');
+		$app = JFactory::getApplication();
+		$pk = (!empty($pk)) ? $pk : (int) $pk = $app->input->getInt('extension_id');
 
 		if (!isset($this->cache[$pk]))
 		{
@@ -201,10 +202,6 @@ class PluginsModelPlugin extends JModelCmsitem
 		parent::populateState();
 
 		$app = JFactory::getApplication('administrator');
-
-		// Load the User state.
-		$pk = $app->input->getInt('extension_id');
-		$this->state->set('plugin.id', $pk);
 	}
 
 	/**
@@ -327,7 +324,7 @@ class PluginsModelPlugin extends JModelCmsitem
 	 *
 	 * @since   3.2
 	 */
-	public function save($data)
+	public function save(&$data)
 	{
 		// Load the extension plugin group.
 		JPluginHelper::importPlugin('extension');

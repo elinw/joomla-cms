@@ -213,4 +213,5 @@ class CheckinModelCheckin extends JModelCmslist
 
 		return $this->items;
 	}
+
 }

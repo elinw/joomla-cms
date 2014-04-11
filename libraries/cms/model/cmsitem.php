@@ -293,7 +293,7 @@ class JModelCmsitem extends JModelCms
 	 */
 	public function getItem($id = null)
 	{
-		if (empty($this->item))
+		if (empty($this->item) && $this->getTable())
 		{
 			$table = $this->getTable();
 			$tableClassName = get_class($table);
@@ -314,27 +314,30 @@ class JModelCmsitem extends JModelCms
 			elseif (empty($id))
 			// Deal with examples where there is no row in type table?
 			{
-				$id = $this->state->get('id');
+				$type = null;
 			}
 
-			$prefix = $this->state->get($table, 'prefix');
-			$typeTable = $type->table;
-			$typeTable = json_decode($typeTable);
+			if (!empty($type))
+			{
+				$prefix = $this->state->get($table, 'prefix');
+				$typeTable = $type->table;
+				$typeTable = json_decode($typeTable);
 
-			// Check to see if special exists .. if it doesn't use common
-			if (!empty($typeTable->special) && $tableClassName != 'JTableCorecontent')
-			{
-				$table = JTable::getInstance($typeTable->special->type, $typeTable->special->prefix);
-			}
-			else
-			{
-				if (empty($typeTable->common))
+				// Check to see if special exists .. if it doesn't use common
+				if (!empty($typeTable->special) && $tableClassName != 'JTableCorecontent')
 				{
-					// Should there be an exception here?
-					return;
+					$table = JTable::getInstance($typeTable->special->type, $typeTable->special->prefix);
 				}
-				$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
-				// Get the special field mapping here
+				else
+				{
+					if (empty($typeTable->common))
+					{
+						// Should there be an exception here? or should we load ucm_content?
+						return;
+					}
+					$table = JTable::getInstance($typeTable->common->type, $typeTable->common->prefix);
+					// Get the special field mapping here
+				}
 			}
 
 			// Attempt to load the row.
@@ -644,7 +647,7 @@ class JModelCmsitem extends JModelCms
 	 *
 	 * @since   3.2
 	 */
-	protected function loadFormData()
+	public function loadFormData()
 	{
 		return array();
 	}

@@ -26,7 +26,7 @@ class PluginsControllerPluginUpdateitem extends JControllerUpdate
 	protected $app;
 
 	/**
-	 * Method to save global configuration.
+	 * Method to save item.
 	 *
 	 * @return  mixed  Calls $app->redirect() for all cases except JSON
 	 *
@@ -69,7 +69,7 @@ class PluginsControllerPluginUpdateitem extends JControllerUpdate
 			$this->app->setUserState('com_plugins.plugin.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(JRoute::_('index.php?option=com_plugins&controller=j.display.plugin&extension_id='. $this->data['extension_id'], false));
+			$this->app->redirect(JRoute::_('index.php?option=com_plugins&controller=j.displayform.plugin&extension_id='. $this->data['extension_id'], false));
 		}
 
 		// Set the success message.
@@ -88,12 +88,12 @@ class PluginsControllerPluginUpdateitem extends JControllerUpdate
 		switch ($options[parent::CONTROLLER_OPTION])
 		{
 			case 'apply':
-				$this->app->redirect(JRoute::_('index.php?option=com_plugins&view=plugin&layout=edit&extension_id='. $this->data['extension_id'], false));
+				$this->app->redirect(JRoute::_('index.php?option=com_plugins&view=plugin&controller=j.displayform.plugin.edit&layout=edit&extension_id='. $this->data['extension_id'], false));
 				break;
 
 			case 'save':
 			default:
-				$this->app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
+				$this->app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins&controller=j.displayform.plugin.edit', false));
 				break;
 		}
 	}
