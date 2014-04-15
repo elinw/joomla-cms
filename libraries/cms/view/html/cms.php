@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Prototype admin view.
  *
  * @package     Joomla.Libraries
- * @subpackage  Model
+ * @subpackage  View
  * @since       3.2
  */
 abstract class JViewHtmlCms extends JViewHtml

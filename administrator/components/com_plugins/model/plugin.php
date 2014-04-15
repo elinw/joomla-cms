@@ -151,7 +151,7 @@ class PluginsModelPlugin extends JModelCmsitem
 
 			// Convert to the JObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->cache[$pk] = JArrayHelper::toObject($properties);
 
 			// Convert the params field to an array.
 			$registry = new JRegistry;

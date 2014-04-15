@@ -43,9 +43,12 @@ class JControllerHelper
 
 	public function parseController($app)
 	{
+		$controllerTask = $app->input->get('task');
+		$controllerTask = !empty($controllerTask)? $controllerTask :$app->input->get('controller');
 
-		if ($controllerTask = $app->input->get('controller'))
+		if (!empty($controllerTask))
 		{
+
 			// Temporary solution
 			if (strpos($controllerTask, '/') !== false)
 			{
@@ -58,24 +61,8 @@ class JControllerHelper
 		}
 		else
 		{
-			// Checking for old MVC task
-			$task = $app->input->get('task');
-
-			// Toolbar expects old style but we are using new style
-			// Remove when toolbar can handle either directly
-			if (strpos($task, '/') !== false)
-			{
-				$tasks = explode('/', $task);
-			}
-			elseif (!empty($task))
-			{
-				$tasks = explode('.', $task);
-			}
-			else
-			{
 				// In the absence of a named controller default to display.
 				$tasks = array('j', 'displaylist');
-			}
 		}
 
 		if (empty($tasks[self::CONTROLLER_PREFIX]) || $tasks[self::CONTROLLER_PREFIX] == 'j')

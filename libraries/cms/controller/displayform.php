@@ -79,18 +79,23 @@ class JControllerDisplayform extends JControllerDisplay
 		{
 			$model = new $modelClass;
 			$idName = $model->getTable()->get('_tbl_key');
-			$this->id = $this->input->get($idName);
+			$model->id = $this->input->get($idName);
 
-			if (empty($this->id))
+			if (empty($model->id))
 			{
 				$ids = $this->input->get('cid', array(), 'array');
 
 				// This base  controller always displays a single form.
-				$this->id = $ids[0];
+				if (!empty($ids[0]))
+				{
+					$model->id = $ids[0];
+				}
 			}
 
+			$model->typeAlias = $this->input->get('type');
+
 			// Access check.
-			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+			if (!JFactory::getUser()->authorise($this->permission, $this->input->getString('option')))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
@@ -227,8 +232,8 @@ class JControllerDisplayform extends JControllerDisplay
 	{
 		// Defaults to a single item form
 		$view->state = $model->getState();
-		$view->item = $model->getItem();
 		$view->form = $model->getForm();
+		$view->fieldsets = $view->form->getFieldsets();
 
 	}
 }

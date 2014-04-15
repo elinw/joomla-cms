@@ -87,7 +87,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					</div>
 				<?php endif; ?>
 				<!-- Plugin metadata -->
-				<?php if ($this->item->get('xml')) : ?>
+				<?php if ($this->item->xml) : ?>
 					<?php if ($text = trim($this->item->xml->description)) : ?>
 						<div class="control-group">
 							<label id="jform_extdescription-lbl" class="control-label">
