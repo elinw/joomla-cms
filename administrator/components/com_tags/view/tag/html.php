@@ -28,7 +28,7 @@ class TagsViewTagHtml extends JViewHtmlCmsform
 	{
 		$app = JFactory::getApplication();
 		$app->input->set('hidemainmenu', true);
-		$this->id = $app->input->getInt('id', 0);
+		$this->id = $app->input->getInt('id');
 
 		$canDo = JHelperContent::getActions(0, 0, 'com_tags');
 

@@ -101,7 +101,7 @@ class TagsModelTag extends JModelCmsitem
 
 		if (empty($data))
 		{
-			$data = $this->getItem();
+			$data = $this->getItem($this->id);
 		}
 
 		$this->preprocessData('com_tags.tag', $data);

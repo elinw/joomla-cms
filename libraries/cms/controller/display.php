@@ -110,7 +110,7 @@ class JControllerDisplay extends JControllerCmsbase
 	protected function getModelData($view, $model)
 	{
 		// Defaults to a single item
-		$view->state = $model->getState();
+		$view->state = $model->state;
 		$view->item = $model->getItem();
 	}
 }

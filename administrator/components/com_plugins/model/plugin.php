@@ -112,7 +112,7 @@ class PluginsModelPlugin extends JModelCmsitem
 
 		if (empty($data))
 		{
-			$data = $this->getItem();
+			$data = $this->getItem($this->id);
 		}
 
 		$this->preprocessData('com_plugins.plugin', $data);
@@ -201,7 +201,14 @@ class PluginsModelPlugin extends JModelCmsitem
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = JFactory::getApplication('administrator');
+		$app = JFactory::getApplication();
+
+		if (empty($this->id))
+		{
+			$this->id = $app->input->getInt('extension_id');
+		}
+		$this->state->set('id', $this->id);
+
 	}
 
 	/**
@@ -243,7 +250,8 @@ class PluginsModelPlugin extends JModelCmsitem
 		if (empty($folder) || empty($element))
 		{
 			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
+			return parent::preprocessForm($form, $data, $group);
+			//$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
 		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
